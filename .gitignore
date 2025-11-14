@@ -148,7 +148,6 @@ postgres_data/
 # ==========================================
 # Local documentation and scripts
 ROUTER_SETUP.md
-STATUS.md
 start-with-consoles.bat
 status.bat
 stop-all.bat

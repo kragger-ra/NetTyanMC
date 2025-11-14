@@ -46,13 +46,12 @@ cd NetTyanMC
 
 | Документ | Описание |
 |----------|----------|
-| **[POST_CLONE_SETUP.md](POST_CLONE_SETUP.md)** | Полная инструкция развертывания после клонирования |
+| **[POST_CLONE_SETUP.md](POST_CLONE_SETUP.md)** | ⭐ Полная инструкция развертывания после клонирования |
+| [STATUS.md](STATUS.md) | Текущий статус проекта и выполненные задачи |
 | [DEPLOYMENT_GUIDE.md](DEPLOYMENT_GUIDE.md) | Детальное руководство по развертыванию |
-| [LOBBY_SETUP.md](LOBBY_SETUP.md) | Настройка Lobby сервера (NPC, голограммы) |
-| [AI_RESEARCH_SETUP.md](AI_RESEARCH_SETUP.md) | Настройка AI Research сервера |
-| [LUCKPERMS_SETUP.md](LUCKPERMS_SETUP.md) | Система ролей и прав |
+| [LUCKPERMS_SETUP.md](LUCKPERMS_SETUP.md) | Система ролей и прав (команды для настройки) |
 | [HTTPS_SETUP.md](HTTPS_SETUP.md) | Настройка HTTPS с Let's Encrypt |
-| [STATUS.md](STATUS.md) | Текущий статус проекта |
+| [QUICK_START_HTTPS.md](QUICK_START_HTTPS.md) | Быстрая настройка HTTPS |
 
 ---
 
