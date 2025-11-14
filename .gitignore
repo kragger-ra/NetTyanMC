@@ -142,3 +142,20 @@ dist/
 # ==========================================
 # Docker volumes (data is persisted in Docker)
 postgres_data/
+
+# ==========================================
+# LOCAL FILES (not for Git)
+# ==========================================
+# Local documentation and scripts
+ROUTER_SETUP.md
+STATUS.md
+start-with-consoles.bat
+status.bat
+stop-all.bat
+reset-database.bat
+readme_OLD.md
+ГитРекомендации.txt
+Дополнительные идеи.txt
+Инструкции.txt
+AI_RESEARCH_SETUP.md
+LOBBY_SETUP.md
