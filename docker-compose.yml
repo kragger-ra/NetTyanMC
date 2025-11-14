@@ -1,0 +1,169 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: minecraft_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-minecraft_server}
+      POSTGRES_USER: ${POSTGRES_USER:-mcserver}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-StrongPass123!}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./postgres/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    networks:
+      - minecraft_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-mcserver} -d ${POSTGRES_DB:-minecraft_server}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  velocity:
+    build: ./velocity
+    container_name: minecraft_velocity
+    restart: unless-stopped
+    ports:
+      - "25565:25565"  # Minecraft standard port
+      - "25566:25566"  # Query port
+    volumes:
+      - ./velocity:/server
+    networks:
+      - minecraft_network
+    depends_on:
+      postgres:
+        condition: service_healthy
+      survival:
+        condition: service_started
+      airesearch:
+        condition: service_started
+    stdin_open: true
+    tty: true
+
+  survival:
+    build: ./survival
+    container_name: minecraft_survival
+    restart: unless-stopped
+    expose:
+      - "25571"  # Internal port
+    volumes:
+      - ./survival:/server
+    networks:
+      - minecraft_network
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      JAVA_MEMORY: ${SURVIVAL_MEMORY:-10G}
+    stdin_open: true
+    tty: true
+
+  airesearch:
+    build: ./ai_research
+    container_name: minecraft_airesearch
+    restart: unless-stopped
+    ports:
+      - "25570:25570"  # Direct access for AI Research
+    volumes:
+      - ./ai_research:/server
+    networks:
+      - minecraft_network
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      JAVA_MEMORY: ${AI_RESEARCH_MEMORY:-10G}
+    stdin_open: true
+    tty: true
+
+  lobby:
+    build: ./lobby
+    container_name: minecraft_lobby
+    restart: unless-stopped
+    expose:
+      - "25569"  # Internal port
+    volumes:
+      - ./lobby:/server
+    networks:
+      - minecraft_network
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      JAVA_MEMORY: ${LOBBY_MEMORY:-2G}
+    stdin_open: true
+    tty: true
+
+  backend:
+    build: ./backend
+    container_name: agicraft_backend
+    restart: unless-stopped
+    expose:
+      - "3000"  # Internal port (accessible via Caddy)
+    volumes:
+      - ./backend/src:/app/src
+    networks:
+      - minecraft_network
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: ${POSTGRES_DB:-minecraft_server}
+      POSTGRES_USER: ${POSTGRES_USER:-mcserver}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-StrongPass123!}
+      JWT_SECRET: ${JWT_SECRET:-change_this_secret_key}
+      PORT: 3000
+      NODE_ENV: ${NODE_ENV:-production}
+      FRONTEND_URL: ${FRONTEND_URL:-http://localhost}
+      YOOKASSA_SHOP_ID: ${YOOKASSA_SHOP_ID}
+      YOOKASSA_SECRET_KEY: ${YOOKASSA_SECRET_KEY}
+      YOOKASSA_RETURN_URL: ${YOOKASSA_RETURN_URL:-http://localhost/payment/success}
+      YOOKASSA_WEBHOOK_URL: ${YOOKASSA_WEBHOOK_URL:-http://localhost/api/payment/webhook}
+      MINECRAFT_HOST: airesearch
+      MINECRAFT_PORT: 25570
+      MINECRAFT_VERSION: 1.21.1
+
+  frontend:
+    build: ./frontend
+    container_name: agicraft_frontend
+    restart: unless-stopped
+    expose:
+      - "80"  # Internal port (accessible via Caddy)
+    networks:
+      - minecraft_network
+    depends_on:
+      - backend
+    environment:
+      VITE_API_URL: ${VITE_API_URL:-/api}
+
+  caddy:
+    image: caddy:2-alpine
+    container_name: agicraft_caddy
+    restart: unless-stopped
+    ports:
+      - "80:80"      # HTTP
+      - "443:443"    # HTTPS
+      - "8080:8080"  # HTTP альтернативный (опционально)
+    volumes:
+      - ./caddy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - ./caddy/data:/data
+      - ./caddy/config:/config
+      - ./caddy/logs:/var/log/caddy
+    networks:
+      - minecraft_network
+    depends_on:
+      - frontend
+      - backend
+    environment:
+      DOMAIN: ${DOMAIN:-localhost}
+      EMAIL: ${LETSENCRYPT_EMAIL:-admin@example.com}
+
+networks:
+  minecraft_network:
+    driver: bridge
+
+volumes:
+  postgres_data:

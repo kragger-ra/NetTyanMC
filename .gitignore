@@ -1,0 +1,144 @@
+# ==========================================
+# MINECRAFT WORLDS & GAME DATA
+# ==========================================
+# Game worlds
+**/world/
+**/world_nether/
+**/world_the_end/
+**/world_ai/
+**/world_ai_nether/
+**/world_ai_the_end/
+**/crash-reports/
+**/stats/
+**/region/
+*.mca
+
+# EULA files
+**/eula.txt
+
+# ==========================================
+# MINECRAFT PLUGIN DATA
+# ==========================================
+# Player data & user databases
+**/plugins/*/userdata/
+**/plugins/*/playerdata/
+**/plugins/Essentials/userdata-npc-backup/
+**/plugins/Essentials/warps/
+**/plugins/TAB/users.yml
+**/plugins/TAB/playerdata.yml
+**/plugins/TAB/skincache.yml
+**/plugins/FancyNpcs/npcs.yml
+**/plugins/AuthMe/playerdata/
+**/plugins/*/cache/
+**/plugins/*/data/
+**/plugins/**/user*
+
+# Paper remapping (temporary build artifacts)
+**/plugins/.paper-remapped/
+**/plugins/.paper-plugins/
+
+# Plugin temporary files
+**/plugins/spark/tmp-client/
+**/plugins/WorldEdit/.archive-unpack/
+**/plugins/*/lang/
+**/plugins/*/*.log
+
+# ==========================================
+# JAVA BUILD ARTIFACTS & LIBRARIES
+# ==========================================
+# JAR files (plugins, server cores, libraries)
+*.jar
+*.zip
+
+# Raw plugins directory (717+ MB, не должно быть в Git!)
+Plugins_raw/
+Plugins Raw/
+
+# Libraries
+**/libraries/
+**/cache/
+**/versions/
+
+# ==========================================
+# DATABASE & AUTHENTICATION
+# ==========================================
+# Sensitive data that should be in .env
+**/.env
+!**/.env.example
+
+# PostgreSQL runtime data (use Docker volumes)
+postgres_data/
+**/data/postgresql/
+
+# ==========================================
+# LOGS & TEMPORARY FILES
+# ==========================================
+# Server logs
+**/logs/
+*.log
+latest.log
+**/plugins/**/*.log
+**/plugins/**/logs/
+
+# Crash reports
+crash-reports/
+
+# Temporary files
+*.tmp
+*.lock
+*.swp
+*.swo
+nul
+
+# ==========================================
+# NODE.JS / FRONTEND & BACKEND
+# ==========================================
+# Dependencies
+node_modules/
+**/node_modules/
+
+# Frontend build artifacts
+dist/
+build/
+out/
+
+# IDE files
+.vscode/
+.idea/
+.DS_Store
+*.suo
+*.sln
+
+# ==========================================
+# WEB SERVER & REVERSE PROXY
+# ==========================================
+# Caddy reverse proxy
+caddy/data/
+caddy/config/
+caddy/logs/
+caddy/certs/
+
+# ==========================================
+# OS & SYSTEM FILES
+# ==========================================
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+.env.local
+.env.*.local
+
+# ==========================================
+# BUILD & DEPLOYMENT
+# ==========================================
+.gradle/
+target/
+build/
+dist/
+.parcel-cache/
+
+# ==========================================
+# DOCKER
+# ==========================================
+# Docker volumes (data is persisted in Docker)
+postgres_data/

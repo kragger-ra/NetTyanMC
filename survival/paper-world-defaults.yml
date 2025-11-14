@@ -1,0 +1,7 @@
+spawn:
+  keep-spawn-loaded: true
+  keep-spawn-loaded-range: 8
+environment:
+  disable-explosion-knockback: false
+  treasure-maps:
+    enabled: true

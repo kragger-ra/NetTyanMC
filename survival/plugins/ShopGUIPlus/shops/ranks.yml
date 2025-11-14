@@ -1,0 +1,377 @@
+# Магазин донатных рангов
+
+shop-name: "&6&lМагазин рангов"
+shop-rows: 5
+
+items:
+  # === 2 месяца ===
+
+  new_2m:
+    type: command
+    item:
+      material: WHITE_WOOL
+      name: "&f&lNEW &7(2 месяца)"
+      lore:
+        - "&7✦ Белый префикс &f[NEW]"
+        - "&7✦ Автосортировка инвентаря"
+        - "&7✦ 4 дома (/sethome)"
+        - ""
+        - "&eЦена: 35 ⚡"
+        - "&7Твой баланс: %playerpoints_points% ⚡"
+        - ""
+        - "&aНажми, чтобы купить"
+    buy-price: 35
+    commands:
+      - "lp user %player% parent addtemp new 60d"
+      - "tellraw %player% {\"text\":\"✓ Ранг NEW выдан на 2 месяца!\",\"color\":\"green\"}"
+    slot: 10
+
+  helper_2m:
+    type: command
+    item:
+      material: YELLOW_WOOL
+      name: "&e&lHELPER &7(2 месяца)"
+      lore:
+        - "&7✦ Желтый префикс &e[HELPER]"
+        - "&7✦ Флай 5 мин/час"
+        - "&7✦ 6 домов"
+        - "&7✦ /heal раз в час"
+        - "&7✦ Переименование (/nick)"
+        - ""
+        - "&eЦена: 99 ⚡"
+        - "&7Твой баланс: %playerpoints_points% ⚡"
+    buy-price: 99
+    commands:
+      - "lp user %player% parent addtemp helper 60d"
+      - "tellraw %player% {\"text\":\"✓ Ранг HELPER выдан на 2 месяца!\",\"color\":\"green\"}"
+    slot: 11
+
+  starter_2m:
+    type: command
+    item:
+      material: LIME_WOOL
+      name: "&a&lSTARTER &7(2 месяца)"
+      lore:
+        - "&7✦ Зеленый префикс &a[STARTER]"
+        - "&7✦ Флай 10 мин/час"
+        - "&7✦ 8 домов"
+        - "&7✦ /heal каждые 30 минут"
+        - "&7✦ /feed раз в час"
+        - "&7✦ Доступ к /enderchest"
+        - ""
+        - "&eЦена: 199 ⚡"
+    buy-price: 199
+    commands:
+      - "lp user %player% parent addtemp starter 60d"
+      - "tellraw %player% {\"text\":\"✓ Ранг STARTER выдан на 2 месяца!\",\"color\":\"green\"}"
+    slot: 12
+
+  vip_2m:
+    type: command
+    item:
+      material: CYAN_WOOL
+      name: "&b&lVIP &7(2 месяца)"
+      lore:
+        - "&7✦ Голубой префикс &b[VIP]"
+        - "&7✦ Флай 20 мин/час"
+        - "&7✦ 10 домов"
+        - "&7✦ /heal и /feed без кулдауна"
+        - "&7✦ /hat (предмет на голову)"
+        - "&7✦ /workbench (верстак везде)"
+        - "&7✦ Цветные знаки"
+        - ""
+        - "&eЦена: 399 ⚡"
+    buy-price: 399
+    commands:
+      - "lp user %player% parent addtemp vip 60d"
+      - "tellraw %player% {\"text\":\"✓ Ранг VIP выдан на 2 месяца!\",\"color\":\"green\"}"
+    slot: 13
+
+  premium_2m:
+    type: command
+    item:
+      material: PINK_WOOL
+      name: "&d&lPREMIUM &7(2 месяца)"
+      lore:
+        - "&7✦ Розовый префикс &d[PREMIUM]"
+        - "&7✦ Флай без лимита"
+        - "&7✦ 15 домов"
+        - "&7✦ /repair и /fix"
+        - "&7✦ Наковальня без ограничений"
+        - "&7✦ /tp к игрокам"
+        - ""
+        - "&eЦена: 699 ⚡"
+    buy-price: 699
+    commands:
+      - "lp user %player% parent addtemp premium 60d"
+      - "tellraw %player% {\"text\":\"✓ Ранг PREMIUM выдан на 2 месяца!\",\"color\":\"green\"}"
+    slot: 14
+
+  elite_2m:
+    type: command
+    item:
+      material: PURPLE_WOOL
+      name: "&5&lELITE &7(2 месяца)"
+      lore:
+        - "&7✦ Фиолетовый префикс &5[ELITE]"
+        - "&7✦ 20 домов"
+        - "&7✦ /back после смерти"
+        - "&7✦ Кит раз в день"
+        - "&7✦ Обход лимита зачарований"
+        - ""
+        - "&eЦена: 1199 ⚡"
+    buy-price: 1199
+    commands:
+      - "lp user %player% parent addtemp elite 60d"
+      - "tellraw %player% {\"text\":\"✓ Ранг ELITE выдан на 2 месяца!\",\"color\":\"green\"}"
+    slot: 15
+
+  legend_2m:
+    type: command
+    item:
+      material: ORANGE_WOOL
+      name: "&6&lLEGEND &7(2 месяца)"
+      lore:
+        - "&7✦ Золотой префикс &6[LEGEND]"
+        - "&7✦ 30 домов"
+        - "&7✦ /tppos (телепорт по координатам)"
+        - "&7✦ /speed (скорость полета)"
+        - "&7✦ Постоянные эффекты"
+        - "&7✦ Цветные сообщения в чате"
+        - ""
+        - "&eЦена: 1999 ⚡"
+    buy-price: 1999
+    commands:
+      - "lp user %player% parent addtemp legend 60d"
+      - "tellraw %player% {\"text\":\"✓ Ранг LEGEND выдан на 2 месяца!\",\"color\":\"green\"}"
+    slot: 16
+
+  # === 6 месяцев (скидка 15%) ===
+
+  new_6m:
+    type: command
+    item:
+      material: WHITE_CONCRETE
+      name: "&f&lNEW &7(6 месяцев) &a-15%"
+      lore:
+        - "&7Все преимущества ранга NEW"
+        - ""
+        - "&7Обычная цена: &c105 ⚡"
+        - "&eСо скидкой: 90 ⚡"
+        - "&aЭкономия: 15 ⚡"
+    buy-price: 90
+    commands:
+      - "lp user %player% parent addtemp new 180d"
+      - "tellraw %player% {\"text\":\"✓ Ранг NEW выдан на 6 месяцев!\",\"color\":\"green\"}"
+    slot: 19
+
+  helper_6m:
+    type: command
+    item:
+      material: YELLOW_CONCRETE
+      name: "&e&lHELPER &7(6 месяцев) &a-15%"
+      lore:
+        - "&7Все преимущества ранга HELPER"
+        - ""
+        - "&7Обычная цена: &c297 ⚡"
+        - "&eСо скидкой: 252 ⚡"
+    buy-price: 252
+    commands:
+      - "lp user %player% parent addtemp helper 180d"
+      - "tellraw %player% {\"text\":\"✓ Ранг HELPER выдан на 6 месяцев!\",\"color\":\"green\"}"
+    slot: 20
+
+  starter_6m:
+    type: command
+    item:
+      material: LIME_CONCRETE
+      name: "&a&lSTARTER &7(6 месяцев) &a-15%"
+      lore:
+        - "&7Все преимущества ранга STARTER"
+        - ""
+        - "&7Обычная цена: &c597 ⚡"
+        - "&eСо скидкой: 507 ⚡"
+    buy-price: 507
+    commands:
+      - "lp user %player% parent addtemp starter 180d"
+      - "tellraw %player% {\"text\":\"✓ Ранг STARTER выдан на 6 месяцев!\",\"color\":\"green\"}"
+    slot: 21
+
+  vip_6m:
+    type: command
+    item:
+      material: CYAN_CONCRETE
+      name: "&b&lVIP &7(6 месяцев) &a-15%"
+      lore:
+        - "&7Все преимущества ранга VIP"
+        - ""
+        - "&7Обычная цена: &c1197 ⚡"
+        - "&eСо скидкой: 1017 ⚡"
+    buy-price: 1017
+    commands:
+      - "lp user %player% parent addtemp vip 180d"
+      - "tellraw %player% {\"text\":\"✓ Ранг VIP выдан на 6 месяцев!\",\"color\":\"green\"}"
+    slot: 22
+
+  premium_6m:
+    type: command
+    item:
+      material: PINK_CONCRETE
+      name: "&d&lPREMIUM &7(6 месяцев) &a-15%"
+      lore:
+        - "&7Все преимущества ранга PREMIUM"
+        - ""
+        - "&7Обычная цена: &c2097 ⚡"
+        - "&eСо скидкой: 1782 ⚡"
+    buy-price: 1782
+    commands:
+      - "lp user %player% parent addtemp premium 180d"
+      - "tellraw %player% {\"text\":\"✓ Ранг PREMIUM выдан на 6 месяцев!\",\"color\":\"green\"}"
+    slot: 23
+
+  elite_6m:
+    type: command
+    item:
+      material: PURPLE_CONCRETE
+      name: "&5&lELITE &7(6 месяцев) &a-15%"
+      lore:
+        - "&7Все преимущества ранга ELITE"
+        - ""
+        - "&7Обычная цена: &c3597 ⚡"
+        - "&eСо скидкой: 3057 ⚡"
+    buy-price: 3057
+    commands:
+      - "lp user %player% parent addtemp elite 180d"
+      - "tellraw %player% {\"text\":\"✓ Ранг ELITE выдан на 6 месяцев!\",\"color\":\"green\"}"
+    slot: 24
+
+  legend_6m:
+    type: command
+    item:
+      material: ORANGE_CONCRETE
+      name: "&6&lLEGEND &7(6 месяцев) &a-15%"
+      lore:
+        - "&7Все преимущества ранга LEGEND"
+        - ""
+        - "&7Обычная цена: &c5997 ⚡"
+        - "&eСо скидкой: 5097 ⚡"
+    buy-price: 5097
+    commands:
+      - "lp user %player% parent addtemp legend 180d"
+      - "tellraw %player% {\"text\":\"✓ Ранг LEGEND выдан на 6 месяцев!\",\"color\":\"green\"}"
+    slot: 25
+
+  # === 12 месяцев (скидка 20%) ===
+
+  new_12m:
+    type: command
+    item:
+      material: WHITE_GLAZED_TERRACOTTA
+      name: "&f&lNEW &7(12 месяцев) &a-20%"
+      lore:
+        - "&7Все преимущества ранга NEW"
+        - ""
+        - "&7Обычная цена: &c210 ⚡"
+        - "&eСо скидкой: 168 ⚡"
+        - "&aЭкономия: 42 ⚡"
+    buy-price: 168
+    commands:
+      - "lp user %player% parent addtemp new 365d"
+      - "tellraw %player% {\"text\":\"✓ Ранг NEW выдан на 12 месяцев!\",\"color\":\"green\"}"
+    slot: 28
+
+  helper_12m:
+    type: command
+    item:
+      material: YELLOW_GLAZED_TERRACOTTA
+      name: "&e&lHELPER &7(12 месяцев) &a-20%"
+      lore:
+        - "&7Все преимущества ранга HELPER"
+        - ""
+        - "&7Обычная цена: &c594 ⚡"
+        - "&eСо скидкой: 475 ⚡"
+    buy-price: 475
+    commands:
+      - "lp user %player% parent addtemp helper 365d"
+      - "tellraw %player% {\"text\":\"✓ Ранг HELPER выдан на 12 месяцев!\",\"color\":\"green\"}"
+    slot: 29
+
+  starter_12m:
+    type: command
+    item:
+      material: LIME_GLAZED_TERRACOTTA
+      name: "&a&lSTARTER &7(12 месяцев) &a-20%"
+      lore:
+        - "&7Все преимущества ранга STARTER"
+        - ""
+        - "&7Обычная цена: &c1194 ⚡"
+        - "&eСо скидкой: 955 ⚡"
+    buy-price: 955
+    commands:
+      - "lp user %player% parent addtemp starter 365d"
+      - "tellraw %player% {\"text\":\"✓ Ранг STARTER выдан на 12 месяцев!\",\"color\":\"green\"}"
+    slot: 30
+
+  vip_12m:
+    type: command
+    item:
+      material: CYAN_GLAZED_TERRACOTTA
+      name: "&b&lVIP &7(12 месяцев) &a-20%"
+      lore:
+        - "&7Все преимущества ранга VIP"
+        - ""
+        - "&7Обычная цена: &c2394 ⚡"
+        - "&eСо скидкой: 1915 ⚡"
+    buy-price: 1915
+    commands:
+      - "lp user %player% parent addtemp vip 365d"
+      - "tellraw %player% {\"text\":\"✓ Ранг VIP выдан на 12 месяцев!\",\"color\":\"green\"}"
+    slot: 31
+
+  premium_12m:
+    type: command
+    item:
+      material: PINK_GLAZED_TERRACOTTA
+      name: "&d&lPREMIUM &7(12 месяцев) &a-20%"
+      lore:
+        - "&7Все преимущества ранга PREMIUM"
+        - ""
+        - "&7Обычная цена: &c4194 ⚡"
+        - "&eСо скидкой: 3355 ⚡"
+    buy-price: 3355
+    commands:
+      - "lp user %player% parent addtemp premium 365d"
+      - "tellraw %player% {\"text\":\"✓ Ранг PREMIUM выдан на 12 месяцев!\",\"color\":\"green\"}"
+    slot: 32
+
+  elite_12m:
+    type: command
+    item:
+      material: PURPLE_GLAZED_TERRACOTTA
+      name: "&5&lELITE &7(12 месяцев) &a-20%"
+      lore:
+        - "&7Все преимущества ранга ELITE"
+        - ""
+        - "&7Обычная цена: &c7194 ⚡"
+        - "&eСо скидкой: 5755 ⚡"
+    buy-price: 5755
+    commands:
+      - "lp user %player% parent addtemp elite 365d"
+      - "tellraw %player% {\"text\":\"✓ Ранг ELITE выдан на 12 месяцев!\",\"color\":\"green\"}"
+    slot: 33
+
+  legend_12m:
+    type: command
+    item:
+      material: ORANGE_GLAZED_TERRACOTTA
+      name: "&6&lLEGEND &7(12 месяцев) &a-20%"
+      lore:
+        - "&7Все преимущества ранга LEGEND"
+        - ""
+        - "&7Обычная цена: &c11994 ⚡"
+        - "&eСо скидкой: 9595 ⚡"
+    buy-price: 9595
+    commands:
+      - "lp user %player% parent addtemp legend 365d"
+      - "tellraw %player% {\"text\":\"✓ Ранг LEGEND выдан на 12 месяцев!\",\"color\":\"green\"}"
+    slot: 34

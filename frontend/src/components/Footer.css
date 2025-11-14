@@ -1,0 +1,28 @@
+.footer {
+  background-color: var(--bg-dark);
+  border-top: 2px solid var(--primary-color);
+  padding: 30px 0;
+  text-align: center;
+  color: var(--text-gray);
+}
+
+.footer p {
+  margin: 5px 0;
+}
+
+.footer-links {
+  margin-top: 15px;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.footer-links a {
+  color: var(--primary-color);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.footer-links a:hover {
+  color: #d97706;
+}

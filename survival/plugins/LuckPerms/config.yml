@@ -1,0 +1,10 @@
+storage-method: postgresql
+data:
+  address: postgres:5432
+  database: minecraft_server
+  username: mcserver
+  password: StrongPass123!
+  table-prefix: 'luckperms_'
+
+messaging-service: sql
+auto-op: false

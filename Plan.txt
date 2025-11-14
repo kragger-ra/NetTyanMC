@@ -1,0 +1,631 @@
+## ИНСТРУКЦИЯ ДЛЯ CLAUDE CODE
+
+---
+
+# MINECRAFT MVP SERVER - DEPLOYMENT GUIDE
+
+## ТЕХНИЧЕСКИЕ ПАРАМЕТРЫ
+
+**Версия:** Minecraft 1.21.1 (Paper)
+**Java:** 21+
+**ОС:** Windows 10/11 (production: Linux)
+**RAM выделение:**
+- Survival: 10GB
+- AI_Research: 10GB  
+- Velocity: 1GB
+**Radmin VPN IP:** 26.151.146.93
+**База данных:** MySQL 8.0 (синхронизация прав между серверами)
+
+---
+
+## АРХИТЕКТУРА
+
+```
+Velocity Proxy (26.151.146.93:25577)
+    ├─> Survival (127.0.0.1:25565)
+    │   ├─> world (main, lobby_spawn at 0,150,0)
+    │   ├─> world_nether
+    │   ├─> world_the_end
+    │   └─> void_auth (регистрация)
+    └─> AI_Research (127.0.0.1:25566)
+        └─> world_ai (анархия + защищенные зоны)
+```
+
+**Логика входа:**
+1. Обычный игрок → void_auth → AuthMe → lobby_spawn (0,150,0) → `/rtp` в мир
+2. AI_Person → AI_Research напрямую (bypass авторизации)
+
+---
+
+## СТРУКТУРА ДИРЕКТОРИЙ
+
+```
+minecraft-project/
+├── Plugins Raw/               # исходники плагинов (уже скачаны)
+├── mysql/
+│   └── init.sql              # создать
+├── velocity/
+│   ├── velocity.jar          # скачать
+│   ├── velocity.toml         # создать
+│   └── plugins/
+│       └── luckperms-velocity.jar
+├── survival/
+│   ├── paper.jar             # скачать Paper 1.21.1
+│   ├── server.properties     # создать
+│   ├── spigot.yml            # создать
+│   ├── bukkit.yml            # создать
+│   ├── paper-world-defaults.yml  # создать
+│   ├── eula.txt              # eula=true
+│   └── plugins/
+│       ├── LuckPerms/
+│       ├── Vault/
+│       ├── EssentialsX/
+│       ├── EssentialsXSpawn/
+│       ├── WorldGuard/
+│       ├── WorldEdit/
+│       ├── Multiverse-Core/
+│       ├── AuthMe/
+│       └── configs/
+├── ai_research/
+│   ├── paper.jar
+│   ├── server.properties
+│   ├── eula.txt
+│   └── plugins/
+│       ├── LuckPerms/
+│       ├── WorldGuard/
+│       ├── WorldEdit/
+│       └── EssentialsX/
+├── start-all.bat             # создать
+├── start-all.sh              # создать (для Linux)
+└── README.md                 # создать
+```
+
+---
+
+## MYSQL НАСТРОЙКА
+
+**init.sql:**
+```sql
+CREATE DATABASE IF NOT EXISTS minecraft_luckperms CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE USER IF NOT EXISTS 'mcserver'@'localhost' IDENTIFIED BY 'StrongPass123!';
+GRANT ALL PRIVILEGES ON minecraft_luckperms.* TO 'mcserver'@'localhost';
+FLUSH PRIVILEGES;
+```
+
+Выполнить: `mysql -u root -p < mysql/init.sql`
+
+---
+
+## VELOCITY КОНФИГУРАЦИЯ
+
+**velocity.toml:**
+```toml
+config-version = "2.7"
+bind = "26.151.146.93:25577"
+motd = "&6&lMVP Network &8| &7Survival + AI Research"
+show-max-players = 100
+online-mode = false
+force-key-authentication = false
+
+[servers]
+survival = "127.0.0.1:25565"
+ai_research = "127.0.0.1:25566"
+
+try = ["survival"]
+
+[forced-hosts]
+
+[advanced]
+compression-threshold = 256
+compression-level = -1
+login-ratelimit = 3000
+connection-timeout = 5000
+
+[query]
+enabled = false
+```
+
+**velocity/plugins/luckperms/config.yml:**
+```yaml
+storage-method: mysql
+data:
+  address: 127.0.0.1:3306
+  database: minecraft_luckperms
+  username: mcserver
+  password: StrongPass123!
+  
+messaging-service: sql
+```
+
+---
+
+## SURVIVAL КОНФИГУРАЦИЯ
+
+**server.properties:**
+```properties
+server-port=25565
+server-ip=127.0.0.1
+online-mode=false
+spawn-protection=0
+max-players=100
+level-name=world
+gamemode=survival
+difficulty=normal
+pvp=true
+view-distance=10
+simulation-distance=8
+allow-flight=true
+enable-command-block=true
+motd=Survival World
+```
+
+**spigot.yml (критичные секции):**
+```yaml
+settings:
+  bungeecord: true
+  
+world-settings:
+  default:
+    verbose: false
+```
+
+**bukkit.yml:**
+```yaml
+settings:
+  allow-end: true
+  shutdown-message: Server restarting
+spawn-limits:
+  monsters: 70
+  animals: 10
+  water-animals: 5
+  ambient: 15
+```
+
+**paper-world-defaults.yml:**
+```yaml
+spawn:
+  keep-spawn-loaded: true
+  keep-spawn-loaded-range: 8
+environment:
+  disable-explosion-knockback: false
+  treasure-maps:
+    enabled: true
+```
+
+**plugins/LuckPerms/config.yml:**
+```yaml
+storage-method: mysql
+data:
+  address: 127.0.0.1:3306
+  database: minecraft_luckperms
+  username: mcserver
+  password: StrongPass123!
+  table-prefix: 'luckperms_'
+
+messaging-service: sql
+auto-op: false
+```
+
+**plugins/Multiverse-Core/config.yml:**
+```yaml
+enforceaccess: true
+teleportintercept: true
+firstspawnoverride: true
+firstspawnworld: void_auth
+```
+
+**plugins/AuthMe/config.yml:**
+```yaml
+settings:
+  isEnabled: true
+  forceSpawnLocOnJoin: true
+  saveQuitLocation: false
+  
+DataSource:
+  backend: MYSQL
+  mySQLHost: '127.0.0.1'
+  mySQLPort: '3306'
+  mySQLDatabase: 'minecraft_luckperms'
+  mySQLUsername: 'mcserver'
+  mySQLPassword: 'StrongPass123!'
+  mySQLTablename: 'authme'
+
+Email:
+  mailSMTP: 'smtp.gmail.com'
+  mailPort: 587
+  mailAccount: ''
+  
+Security:
+  passwordHash: BCRYPT
+  minPasswordLength: 5
+  
+spawn:
+  teleportUnauthedToSpawn: true
+  
+commands:
+  onLogin:
+    - 'mvtp world'
+```
+
+**plugins/Essentials/config.yml:**
+```yaml
+spawn-on-join: false
+newbies:
+  kit: false
+  spawnpoint: world
+
+teleport-cooldown: 0
+teleport-delay: 0
+```
+
+**plugins/WorldGuard/config.yml:**
+```yaml
+regions:
+  use-scheduler: true
+  enable: true
+```
+
+---
+
+## AI_RESEARCH КОНФИГУРАЦИЯ
+
+**server.properties:**
+```properties
+server-port=25566
+server-ip=127.0.0.1
+online-mode=false
+spawn-protection=0
+max-players=50
+level-name=world_ai
+gamemode=survival
+difficulty=hard
+pvp=true
+view-distance=10
+allow-flight=true
+enable-command-block=true
+motd=AI Research - Anarchy Testing
+```
+
+**spigot.yml:**
+```yaml
+settings:
+  bungeecord: true
+```
+
+**plugins/LuckPerms/config.yml:**
+```yaml
+storage-method: mysql
+data:
+  address: 127.0.0.1:3306
+  database: minecraft_luckperms
+  username: mcserver
+  password: StrongPass123!
+
+messaging-service: sql
+```
+
+---
+
+## СКРИПТЫ ЗАПУСКА
+
+**start-all.bat (Windows):**
+```batch
+@echo off
+echo Starting Minecraft Network...
+echo.
+
+echo [1/3] Starting Survival server...
+start "Survival" cmd /k "cd survival && java -Xms10G -Xmx10G -XX:+UseG1GC -XX:+ParallelRefProcEnabled -XX:MaxGCPauseMillis=200 -XX:+UnlockExperimentalVMOptions -XX:+DisableExplicitGC -XX:G1NewSizePercent=30 -XX:G1MaxNewSizePercent=40 -XX:G1HeapRegionSize=8M -XX:G1ReservePercent=20 -XX:G1HeapWastePercent=5 -XX:G1MixedGCCountTarget=4 -XX:InitiatingHeapOccupancyPercent=15 -XX:G1MixedGCLiveThresholdPercent=90 -XX:SurvivorRatio=32 -XX:+PerfDisableSharedMem -XX:MaxTenuringThreshold=1 -Dusing.aikars.flags=https://mcflags.emc.gs -Daikars.new.flags=true -jar paper.jar nogui"
+
+timeout /t 30 /nobreak
+
+echo [2/3] Starting AI_Research server...
+start "AI_Research" cmd /k "cd ai_research && java -Xms10G -Xmx10G -XX:+UseG1GC -XX:+ParallelRefProcEnabled -XX:MaxGCPauseMillis=200 -XX:+UnlockExperimentalVMOptions -XX:+DisableExplicitGC -XX:G1NewSizePercent=30 -XX:G1MaxNewSizePercent=40 -XX:G1HeapRegionSize=8M -XX:G1ReservePercent=20 -XX:G1HeapWastePercent=5 -XX:G1MixedGCCountTarget=4 -XX:InitiatingHeapOccupancyPercent=15 -XX:G1MixedGCLiveThresholdPercent=90 -XX:SurvivorRatio=32 -XX:+PerfDisableSharedMem -XX:MaxTenuringThreshold=1 -Dusing.aikars.flags=https://mcflags.emc.gs -Daikars.new.flags=true -jar paper.jar nogui"
+
+timeout /t 30 /nobreak
+
+echo [3/3] Starting Velocity proxy...
+start "Velocity" cmd /k "cd velocity && java -Xms1G -Xmx1G -XX:+UseG1GC -XX:G1HeapRegionSize=4M -XX:+UnlockExperimentalVMOptions -XX:+ParallelRefProcEnabled -XX:+AlwaysPreTouch -jar velocity.jar"
+
+echo.
+echo All servers starting. Wait 60 seconds for full initialization.
+pause
+```
+
+**start-all.sh (Linux):**
+```bash
+#!/bin/bash
+
+echo "Starting Minecraft Network..."
+echo
+
+echo "[1/3] Starting Survival server..."
+cd survival
+screen -dmS survival java -Xms10G -Xmx10G -XX:+UseG1GC -XX:+ParallelRefProcEnabled -XX:MaxGCPauseMillis=200 -XX:+UnlockExperimentalVMOptions -XX:+DisableExplicitGC -XX:G1NewSizePercent=30 -XX:G1MaxNewSizePercent=40 -XX:G1HeapRegionSize=8M -XX:G1ReservePercent=20 -XX:G1HeapWastePercent=5 -XX:G1MixedGCCountTarget=4 -XX:InitiatingHeapOccupancyPercent=15 -XX:G1MixedGCLiveThresholdPercent=90 -XX:SurvivorRatio=32 -XX:+PerfDisableSharedMem -XX:MaxTenuringThreshold=1 -Dusing.aikars.flags=https://mcflags.emc.gs -Daikars.new.flags=true -jar paper.jar nogui
+cd ..
+
+sleep 30
+
+echo "[2/3] Starting AI_Research server..."
+cd ai_research
+screen -dmS ai_research java -Xms10G -Xmx10G -XX:+UseG1GC -XX:+ParallelRefProcEnabled -XX:MaxGCPauseMillis=200 -XX:+UnlockExperimentalVMOptions -XX:+DisableExplicitGC -XX:G1NewSizePercent=30 -XX:G1MaxNewSizePercent=40 -XX:G1HeapRegionSize=8M -XX:G1ReservePercent=20 -XX:G1HeapWastePercent=5 -XX:G1MixedGCCountTarget=4 -XX:InitiatingHeapOccupancyPercent=15 -XX:G1MixedGCLiveThresholdPercent=90 -XX:SurvivorRatio=32 -XX:+PerfDisableSharedMem -XX:MaxTenuringThreshold=1 -Dusing.aikars.flags=https://mcflags.emc.gs -Daikars.new.flags=true -jar paper.jar nogui
+cd ..
+
+sleep 30
+
+echo "[3/3] Starting Velocity proxy..."
+cd velocity
+screen -dmS velocity java -Xms1G -Xmx1G -XX:+UseG1GC -XX:G1HeapRegionSize=4M -XX:+UnlockExperimentalVMOptions -XX:+ParallelRefProcEnabled -XX:+AlwaysPreTouch -jar velocity.jar
+cd ..
+
+echo
+echo "All servers started in screen sessions."
+echo "Use 'screen -r survival/ai_research/velocity' to attach."
+```
+
+---
+
+## ПОСЛЕДОВАТЕЛЬНОСТЬ РАЗВЕРТЫВАНИЯ
+
+**1. Установка зависимостей:**
+```bash
+# Windows: установить MySQL Server 8.0
+# Проверить Java: java -version (должна быть 21+)
+```
+
+**2. Скачивание ядер:**
+```bash
+# Paper 1.21.1: https://papermc.io/downloads/paper
+# Velocity: https://papermc.io/downloads/velocity
+# Положить в survival/, ai_research/, velocity/
+```
+
+**3. Копирование плагинов:**
+```bash
+# Из "Plugins Raw/" скопировать в survival/plugins/:
+- LuckPerms-Bukkit.jar
+- Vault.jar
+- EssentialsX-2.20.1.jar
+- EssentialsXSpawn-2.20.1.jar
+- WorldGuard-7.0.9.jar
+- WorldEdit-7.3.0.jar
+- Multiverse-Core-4.3.1.jar
+- AuthMe-5.6.0-beta2.jar
+
+# В ai_research/plugins/:
+- LuckPerms-Bukkit.jar
+- WorldGuard-7.0.9.jar
+- WorldEdit-7.3.0.jar
+- EssentialsX-2.20.1.jar
+
+# В velocity/plugins/:
+- LuckPerms-Velocity.jar
+```
+
+**4. Создание конфигов:**
+Применить все конфиги из разделов выше.
+
+**5. Инициализация БД:**
+```bash
+mysql -u root -p < mysql/init.sql
+```
+
+**6. Первый запуск:**
+```bash
+# Windows:
+start-all.bat
+
+# Linux:
+chmod +x start-all.sh
+./start-all.sh
+```
+
+**7. Ожидание загрузки:**
+60 секунд. Серверы создадут недостающие файлы.
+
+---
+
+## КОМАНДЫ ПЕРВОЙ НАСТРОЙКИ
+
+**Зайти на Survival консоль:**
+
+```bash
+# Создать void мир для авторизации
+mv create void_auth NORMAL -g VoidGenerator
+mv modify set generator void_auth VoidGenerator
+mvtp void_auth
+# В игре построить платформу 10x10 на Y=100, из барьеров окружить
+
+# Защита платформы авторизации
+rg define auth_platform -5 95 -5 5 105 5
+rg flag auth_platform passthrough deny
+rg flag auth_platform pvp deny
+rg flag auth_platform block-break deny
+rg flag auth_platform block-place deny
+rg flag auth_platform mob-spawning deny
+
+# Вернуться в основной мир
+mvtp world
+tp 0 150 0
+# Построить платформу lobby 10x10 на Y=150, окружить барьерами
+
+# Защита lobby_spawn
+rg define lobby_spawn -5 145 -5 5 155 5
+rg flag lobby_spawn passthrough deny
+rg flag lobby_spawn pvp deny
+rg flag lobby_spawn block-break deny
+rg flag lobby_spawn block-place deny
+rg flag lobby_spawn mob-spawning deny
+rg flag lobby_spawn entry allow
+rg flag lobby_spawn exit allow
+
+# Установка спавна
+setworldspawn 0 150 0
+essentials:setspawn
+```
+
+**Зайти на AI_Research консоль:**
+
+```bash
+# Защита спавна 500x500
+rg define spawn -250 0 -250 250 320 250
+rg flag spawn pvp deny
+rg flag spawn block-break deny
+rg flag spawn block-place deny
+rg flag spawn tnt deny
+rg flag spawn creeper-explosion deny
+rg flag spawn wither-damage deny
+rg flag spawn ghast-fireball deny
+rg flag spawn entry allow
+rg flag spawn exit allow
+
+# Тестовый полигон 500x500
+rg define test_polygon_1 1000 64 1000 1500 120 1500
+rg flag test_polygon_1 pvp deny
+rg flag test_polygon_1 block-break deny
+rg flag test_polygon_1 block-place deny
+rg addmember test_polygon_1 g:ai_research
+
+setworldspawn 0 65 0
+```
+
+**Velocity консоль (или любой сервер с LuckPerms):**
+
+```bash
+# Создание групп
+lp creategroup new
+lp creategroup helper
+lp creategroup starter
+lp creategroup vip
+lp creategroup premium
+lp creategroup elite
+lp creategroup legend
+lp creategroup ai_research
+lp creategroup ai_person
+lp creategroup ai_father
+
+# Весовые значения
+lp group new setweight 1
+lp group helper setweight 2
+lp group starter setweight 3
+lp group vip setweight 4
+lp group premium setweight 5
+lp group elite setweight 6
+lp group legend setweight 7
+lp group ai_research setweight 100
+lp group ai_person setweight 50
+lp group ai_father setweight 200
+
+# Права для AI групп
+lp group ai_research permission set velocity.command.server true
+lp group ai_research permission set essentials.tp true
+lp group ai_research permission set worldguard.region.bypass.* true
+
+lp group ai_person permission set authme.bypass.register true
+lp group ai_person permission set authme.bypass.login true
+lp group ai_person meta set velocity.default-server ai_research
+
+lp group ai_father parent add ai_research
+lp group ai_father permission set * true
+
+# Права донатных групп (базовые примеры)
+lp group vip permission set essentials.sethome.multiple.3 true
+lp group premium permission set essentials.sethome.multiple.5 true
+lp group elite permission set essentials.sethome.multiple.10 true
+lp group legend permission set essentials.sethome.multiple.unlimited true
+```
+
+---
+
+## ПРОВЕРКА MVP
+
+**Тест 1: Обычный игрок**
+1. Подключиться к 26.151.146.93:25577
+2. Должен попасть в void_auth мир
+3. `/register password password`
+4. Телепорт на lobby_spawn (0,150,0) в world
+5. `/rtp` - случайная телепортация в survival мир
+
+**Тест 2: AI_Person**
+1. Создать тестового игрока: `lp user TestBot parent set ai_person`
+2. Подключиться к 26.151.146.93:25577
+3. Должен попасть напрямую на AI_Research сервер
+4. Авторизация не требуется
+
+**Тест 3: Переключение серверов**
+1. Игрок с группой ai_research на Survival
+2. `/server ai_research` - телепорт на AI сервер
+3. Обычный игрок без прав - команда недоступна
+
+**Тест 4: Защищенные зоны**
+1. AI_Research: попытка сломать блок в регионе spawn - запрещено
+2. За пределами регионов - полная анархия
+3. Survival: lobby_spawn защищен
+
+---
+
+## ДОПОЛНИТЕЛЬНЫЕ ФАЙЛЫ
+
+**README.md:**
+```markdown
+# Minecraft MVP Network
+
+## Требования
+- Java 21+
+- MySQL 8.0
+- 24GB RAM minimum
+- Windows 10/11 (или Linux)
+
+## Быстрый старт
+1. Установить MySQL, создать БД: `mysql -u root -p < mysql/init.sql`
+2. Проверить Java: `java -version`
+3. Скачать Paper 1.21.1 и Velocity
+4. Скопировать плагины из "Plugins Raw/"
+5. Запустить: `start-all.bat`
+6. Подождать 60 секунд
+7. Выполнить команды настройки из DEPLOYMENT_GUIDE.md
+
+## Структура
+- Velocity: 26.151.146.93:25577 (вход)
+- Survival: localhost:25565 (основной мир)
+- AI_Research: localhost:25566 (тестовая анархия)
+
+## Группы
+- Донатные: new → helper → starter → vip → premium → elite → legend
+- Специальные: ai_research, ai_person, ai_father
+
+## Поддержка
+Документация: DEPLOYMENT_GUIDE.md
+```
+
+---
+
+## ССЫЛКИ НА ЗАГРУЗКУ
+
+**Обязательные:**
+- Paper 1.21.1: https://papermc.io/downloads/paper
+- Velocity 3.3.0: https://papermc.io/downloads/velocity
+- MySQL 8.0: https://dev.mysql.com/downloads/mysql/
+
+**Плагины (если отсутствуют в Plugins Raw/):**
+- LuckPerms: https://luckperms.net/download
+- Vault: https://www.spigotmc.org/resources/vault.34315/
+- EssentialsX: https://essentialsx.net/downloads.html
+- WorldGuard: https://dev.bukkit.org/projects/worldguard
+- WorldEdit: https://dev.bukkit.org/projects/worldedit
+- Multiverse-Core: https://dev.bukkit.org/projects/multiverse-core
+- AuthMe: https://www.spigotmc.org/resources/authmereloaded.6269/
+
+---
+
+## ФИНАЛЬНЫЕ ИНСТРУКЦИИ
+
+1. Создать все файлы из структуры директорий
+2. Применить все конфигурации
+3. Скопировать плагины
+4. Запустить MySQL и создать БД
+5. Запустить start-all.bat
+6. Через 60 секунд выполнить команды настройки
+7. Протестировать по чек-листу MVP
+
+После успешного MVP добавлять остальные 24 плагина постепенно с настройкой каждого.
