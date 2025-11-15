@@ -15,8 +15,12 @@ Velocity Proxy (25565)
 
 PostgreSQL (5432) - Единая БД
 Backend API (3000) - REST API
-Frontend (80/443) - Веб-сайт
+Frontend (80) - Веб-сайт
+Caddy (nettyanweb) - HTTPS Reverse Proxy
 ```
+
+**⚠️ Интеграция с nettyanweb:**
+Проект использует Caddy из репозитория [nettyanweb](https://github.com/kragger-ra/nettyanweb) для HTTPS и reverse proxy. Backend и frontend подключаются к сети `nettyan_ssl`.
 
 ---
 
@@ -35,10 +39,11 @@ cd NetTyanMC
 
 Кратко:
 1. Скачать Java 21+ и Docker
-2. Скачать Paper/Velocity JAR файлы
+2. **Не нужно** скачивать Paper/Velocity JAR - автоматически через itzg/minecraft-server
 3. Скачать плагины (список в POST_CLONE_SETUP.md)
 4. Создать `.env` из `.env.example`
-5. Запустить: `docker-compose up -d`
+5. Убедиться что nettyanweb развернут и сеть `nettyan_ssl` создана
+6. Запустить: `docker-compose up -d`
 
 ---
 
@@ -58,8 +63,9 @@ cd NetTyanMC
 ## 🔧 Технологии
 
 ### Minecraft инфраструктура
-- **Paper 1.21.1** - серверное ядро
-- **Velocity** - прокси-сервер
+- **itzg/minecraft-server** - Docker образ для Minecraft серверов
+- **Paper 1.21.1** - серверное ядро (автозагрузка)
+- **Velocity** - прокси-сервер (автозагрузка)
 - **PostgreSQL 16** - база данных
 - **Docker** - контейнеризация
 
@@ -75,7 +81,7 @@ cd NetTyanMC
 ### Веб-платформа
 - **Backend:** Node.js, Express, JWT, YooKassa API
 - **Frontend:** React, Vite, Zustand
-- **Reverse Proxy:** Caddy (авто SSL)
+- **Reverse Proxy:** Caddy из nettyanweb (авто SSL через Let's Encrypt)
 
 ---
 
@@ -83,18 +89,14 @@ cd NetTyanMC
 
 ```
 NetTyanMC/
-├── lobby/               # Lobby сервер (авторизация)
-│   ├── plugins/         # Конфиги плагинов (AuthMe, LuckPerms, и т.д.)
-│   └── Dockerfile
-├── survival/            # Survival сервер
-│   ├── plugins/         # Конфиги плагинов
-│   └── Dockerfile
-├── ai_research/         # AI Research сервер
-│   ├── plugins/
-│   └── Dockerfile
-├── velocity/            # Velocity прокси
-│   ├── velocity.toml
-│   └── Dockerfile
+├── lobby/               # Lobby сервер (itzg/minecraft-server)
+│   └── plugins/         # Конфиги плагинов (AuthMe, LuckPerms, и т.д.)
+├── survival/            # Survival сервер (itzg/minecraft-server)
+│   └── plugins/         # Конфиги плагинов
+├── ai_research/         # AI Research сервер (itzg/minecraft-server)
+│   └── plugins/
+├── velocity/            # Velocity прокси (itzg/minecraft-server)
+│   └── velocity.toml
 ├── backend/             # Backend API
 │   ├── src/
 │   └── package.json
@@ -103,13 +105,12 @@ NetTyanMC/
 │   └── package.json
 ├── postgres/            # PostgreSQL схемы
 │   └── init.sql
-├── caddy/               # Caddy reverse proxy
-│   └── Caddyfile
 ├── docker-compose.yml   # Оркестрация всех сервисов
 ├── .gitignore           # Исключения Git
 └── POST_CLONE_SETUP.md  # ⭐ НАЧАТЬ ЗДЕСЬ
 
-# JAR файлы и миры в .gitignore (скачивать вручную)
+# Paper/Velocity JAR автоматически загружаются через itzg образ
+# Миры в .gitignore
 ```
 
 ---
@@ -126,4 +127,37 @@ NetTyanMC/
   - PostgreSQL: 512MB
   - Backend: 512MB
 - **Диск:** 10GB+ свободно (без учета миров)
+- **nettyanweb:** Развернутый репозиторий с Caddy
+
+---
+
+## 🔗 Интеграция с nettyanweb
+
+Проект использует Caddy из репозитория [nettyanweb](https://github.com/kragger-ra/nettyanweb) для HTTPS и reverse proxy.
+
+### Требования:
+1. Репозиторий nettyanweb должен быть развернут
+2. Caddy в nettyanweb должен быть запущен
+3. Сеть `nettyan_ssl` должна быть создана
+
+### Конфигурация Caddy (добавить в nettyanweb/Caddyfile):
+```caddyfile
+mc.nettyan.ru {
+    handle /api/* {
+        reverse_proxy backend:3000
+    }
+    handle /* {
+        reverse_proxy frontend:80
+    }
+}
+```
+
+### Проверка подключения:
+```bash
+# Убедиться что сеть создана
+docker network ls | grep nettyan_ssl
+
+# Должен вывести:
+# nettyan_ssl       bridge    local
+```
 

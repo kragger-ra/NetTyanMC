@@ -112,11 +112,8 @@ out/
 # ==========================================
 # WEB SERVER & REVERSE PROXY
 # ==========================================
-# Caddy reverse proxy
-caddy/data/
-caddy/config/
-caddy/logs/
-caddy/certs/
+# Используется Caddy из nettyanweb репозитория
+# Локальный Caddy удален, проект подключается к nettyan_ssl сети
 
 # ==========================================
 # OS & SYSTEM FILES

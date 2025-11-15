@@ -1,6 +1,6 @@
-# Статус проекта AgiCraft
+# Статус проекта NettyanMC
 
-Дата обновления: 10 ноября 2025
+Дата обновления: 15 ноября 2025
 
 ## ✅ Завершено
 
@@ -24,8 +24,16 @@
 
 ### Minecraft серверы
 
-- [x] **Lobby сервер**
+- [x] **Миграция на itzg/minecraft-server**
+  - Все серверы используют образ itzg/minecraft-server
+  - Автоматическая загрузка Paper 1.21.1 и Velocity
+  - Встроенные Aikar's flags для оптимизации JVM
+  - Упрощенная конфигурация через переменные окружения
+  - Удалены кастомные Dockerfile
+
+- [x] **Lobby сервер (itzg/minecraft-server)**
   - Docker контейнер (2GB RAM)
+  - TYPE=PAPER, VERSION=1.21.1
   - LuckPerms с PostgreSQL
   - **AuthMe авторизация** (перенесена с Survival)
     - Bypass для AI групп (ai_research, ai_person, netfather)
@@ -37,10 +45,21 @@
     - Защите WorldGuard
     - TAB списку игроков
 
-- [x] **AI Research сервер**
+- [x] **Survival сервер (itzg/minecraft-server)**
+  - TYPE=PAPER, VERSION=1.21.1, MEMORY=10G
+  - USE_AIKAR_FLAGS=TRUE
+  - Автомонтирование плагинов из ./survival/data
+
+- [x] **AI Research сервер (itzg/minecraft-server)**
+  - TYPE=PAPER, VERSION=1.21.1, MEMORY=10G
+  - Прямой доступ на порту 25570
   - Защита Нижнего мира (50x50 блоков)
   - End - полная анархия (без защиты)
   - Документация AI_RESEARCH_SETUP.md
+
+- [x] **Velocity прокси (itzg/minecraft-server)**
+  - TYPE=VELOCITY, VERSION=LATEST, MEMORY=1G
+  - Проксирование между Lobby, Survival и AI Research
 
 - [x] **Survival+ заглушка**
   - Минимальная конфигурация
@@ -132,22 +151,21 @@
 
 ### HTTPS и SSL
 
-- [x] **Caddy reverse proxy**
+- [x] **Интеграция с nettyanweb Caddy**
+  - Используется Caddy из репозитория nettyanweb
   - Автоматические SSL сертификаты от Let's Encrypt
   - HTTP → HTTPS редирект
-  - Proxy для frontend и backend
-  - Конфигурация через переменные окружения
+  - Reverse proxy для mc.nettyan.ru
+  - Backend и Frontend подключены к сети nettyan_ssl
 
-- [x] **Docker интеграция**
-  - Caddy контейнер (порты 80, 443, 8080)
-  - Frontend и Backend через internal network
-  - Volume для сертификатов
+- [x] **Удален локальный Caddy**
+  - Локальный Caddy сервис удален из docker-compose.yml
+  - Директория caddy/ удалена
+  - Упрощенная архитектура
 
-- [x] **.env конфигурация**
-  - DOMAIN (домен для SSL)
-  - LETSENCRYPT_EMAIL (для уведомлений)
-  - FRONTEND_URL (с https://)
-  - YOOKASSA webhooks (с https://)
+- [x] **Docker сети**
+  - minecraft_network (внутренняя сеть)
+  - nettyan_ssl (внешняя сеть, подключение к nettyanweb Caddy)
 
 ---
 

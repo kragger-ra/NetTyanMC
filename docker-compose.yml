@@ -21,14 +21,18 @@ services:
       retries: 5
 
   velocity:
-    build: ./velocity
+    image: itzg/minecraft-server
     container_name: minecraft_velocity
     restart: unless-stopped
+    environment:
+      TYPE: VELOCITY
+      VERSION: LATEST
+      MEMORY: ${VELOCITY_MEMORY:-1G}
+      EULA: "TRUE"
     ports:
-      - "25565:25565"  # Minecraft standard port
-      - "25566:25566"  # Query port
+      - "25565:25577"  # Minecraft standard port
     volumes:
-      - ./velocity:/server
+      - ./velocity:/data
     networks:
       - minecraft_network
     depends_on:
@@ -38,60 +42,80 @@ services:
         condition: service_started
       airesearch:
         condition: service_started
+      lobby:
+        condition: service_started
     stdin_open: true
     tty: true
 
   survival:
-    build: ./survival
+    image: itzg/minecraft-server
     container_name: minecraft_survival
     restart: unless-stopped
+    environment:
+      TYPE: PAPER
+      VERSION: 1.21.1
+      MEMORY: ${SURVIVAL_MEMORY:-10G}
+      EULA: "TRUE"
+      ONLINE_MODE: "FALSE"
+      SERVER_PORT: 25565
+      USE_AIKAR_FLAGS: "TRUE"
     expose:
-      - "25571"  # Internal port
+      - "25565"  # Internal port
     volumes:
-      - ./survival:/server
+      - ./survival:/data
     networks:
       - minecraft_network
     depends_on:
       postgres:
         condition: service_healthy
-    environment:
-      JAVA_MEMORY: ${SURVIVAL_MEMORY:-10G}
     stdin_open: true
     tty: true
 
   airesearch:
-    build: ./ai_research
+    image: itzg/minecraft-server
     container_name: minecraft_airesearch
     restart: unless-stopped
+    environment:
+      TYPE: PAPER
+      VERSION: 1.21.1
+      MEMORY: ${AI_RESEARCH_MEMORY:-10G}
+      EULA: "TRUE"
+      ONLINE_MODE: "FALSE"
+      SERVER_PORT: 25565
+      USE_AIKAR_FLAGS: "TRUE"
     ports:
-      - "25570:25570"  # Direct access for AI Research
+      - "25570:25565"  # Direct access for AI Research
     volumes:
-      - ./ai_research:/server
+      - ./ai_research:/data
     networks:
       - minecraft_network
     depends_on:
       postgres:
         condition: service_healthy
-    environment:
-      JAVA_MEMORY: ${AI_RESEARCH_MEMORY:-10G}
     stdin_open: true
     tty: true
 
   lobby:
-    build: ./lobby
+    image: itzg/minecraft-server
     container_name: minecraft_lobby
     restart: unless-stopped
+    environment:
+      TYPE: PAPER
+      VERSION: 1.21.1
+      MEMORY: ${LOBBY_MEMORY:-2G}
+      EULA: "TRUE"
+      ONLINE_MODE: "FALSE"
+      SERVER_PORT: 25565
+      USE_AIKAR_FLAGS: "TRUE"
     expose:
-      - "25569"  # Internal port
+      - "25565"  # Internal port
     volumes:
-      - ./lobby:/server
+      - ./lobby:/data
     networks:
       - minecraft_network
     depends_on:
       postgres:
         condition: service_healthy
-    environment:
-      JAVA_MEMORY: ${LOBBY_MEMORY:-2G}
     stdin_open: true
     tty: true
 
@@ -105,6 +129,7 @@ services:
       - ./backend/src:/app/src
     networks:
       - minecraft_network
+      - nettyan_ssl
     depends_on:
       postgres:
         condition: service_healthy
@@ -131,39 +156,21 @@ services:
     container_name: agicraft_frontend
     restart: unless-stopped
     expose:
-      - "80"  # Internal port (accessible via Caddy)
+      - "80"  # Internal port (accessible via nettyanweb Caddy)
     networks:
       - minecraft_network
+      - nettyan_ssl
     depends_on:
       - backend
     environment:
       VITE_API_URL: ${VITE_API_URL:-/api}
 
-  caddy:
-    image: caddy:2-alpine
-    container_name: agicraft_caddy
-    restart: unless-stopped
-    ports:
-      - "80:80"      # HTTP
-      - "443:443"    # HTTPS
-      - "8080:8080"  # HTTP альтернативный (опционально)
-    volumes:
-      - ./caddy/Caddyfile:/etc/caddy/Caddyfile:ro
-      - ./caddy/data:/data
-      - ./caddy/config:/config
-      - ./caddy/logs:/var/log/caddy
-    networks:
-      - minecraft_network
-    depends_on:
-      - frontend
-      - backend
-    environment:
-      DOMAIN: ${DOMAIN:-localhost}
-      EMAIL: ${LETSENCRYPT_EMAIL:-admin@example.com}
-
 networks:
   minecraft_network:
     driver: bridge
+  nettyan_ssl:
+    external: true
+    name: nettyan_ssl
 
 volumes:
   postgres_data:
