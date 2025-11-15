@@ -1,4 +1,24 @@
 # ==========================================
+# MINECRAFT SERVER DATA (use Docker volumes)
+# ==========================================
+# Exclude runtime server directories, keep only config/ for version control
+survival/*
+!survival/config/
+lobby/*
+!lobby/config/
+ai_research/*
+!ai_research/config/
+velocity/*
+!velocity/config/
+
+# Within config/ directories, the following are also excluded:
+# - *.jar files (plugin binaries)
+# - userdata/, playerdata/ directories
+# - cache/, data/ directories
+# - logs and temporary files
+# (See rules below for details)
+
+# ==========================================
 # MINECRAFT WORLDS & GAME DATA
 # ==========================================
 # Game worlds
@@ -139,6 +159,10 @@ dist/
 # ==========================================
 # Docker volumes (data is persisted in Docker)
 postgres_data/
+velocity_data/
+survival_data/
+lobby_data/
+airesearch_data/
 
 # ==========================================
 # LOCAL FILES (not for Git)

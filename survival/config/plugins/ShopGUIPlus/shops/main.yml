@@ -1,0 +1,51 @@
+# Главный магазин AgiCraft
+
+shop-name: "&6&lМагазин AgiCraft"
+shop-rows: 3
+
+items:
+  ranks:
+    type: shop
+    shop-name: "ranks"
+    item:
+      material: DIAMOND
+      name: "&6&lМагазин рангов"
+      lore:
+        - "&7Купить донатный ранг"
+        - "&7за AgiCoins"
+        - ""
+        - "&eНажми, чтобы открыть"
+    slot: 11
+
+  agicoins_info:
+    type: dummy
+    item:
+      material: SUNFLOWER
+      name: "&e&lЧто такое AgiCoins?"
+      lore:
+        - "&7AgiCoins (⚡) - донатная валюта сервера"
+        - ""
+        - "&7Как получить:"
+        - "&a✓ &fКупить за реальные деньги на сайте"
+        - "&a✓ &fГолосовать за сервер (/vote)"
+        - "&a✓ &fОбменять игровую валюту (&c1000$ = 1⚡&7)"
+        - "&a✓ &fПобедить в ивентах"
+        - "&a✓ &fПопасть в топ игроков месяца"
+        - ""
+        - "&7Твой баланс: &e%playerpoints_points% ⚡"
+    slot: 13
+
+  website:
+    type: command
+    item:
+      material: BOOK
+      name: "&b&lОфициальный сайт"
+      lore:
+        - "&7Купить AgiCoins"
+        - "&7Управлять аккаунтом"
+        - "&7Новости сервера"
+        - ""
+        - "&ehttps://agicraft.ru"
+    commands:
+      - "tell %player% &7Сайт: &bhttps://agicraft.ru"
+    slot: 15

@@ -1,0 +1,7 @@
+spawn-on-join: false
+newbies:
+  kit: false
+  spawnpoint: world
+
+teleport-cooldown: 0
+teleport-delay: 0

@@ -1,0 +1,60 @@
+# ShopGUIPlus Configuration
+# Магазин для покупки рангов за AgiCoins
+
+# Основные настройки
+settings:
+  # Название валюты
+  currency-symbol: "⚡"
+
+  # Интеграция с PlayerPoints
+  economy-provider: "PlayerPoints"
+
+  # Команда для открытия магазина
+  command: "shop"
+
+  # Звуки
+  sounds:
+    shop-open: "BLOCK_CHEST_OPEN"
+    purchase-success: "ENTITY_PLAYER_LEVELUP"
+    purchase-fail: "ENTITY_VILLAGER_NO"
+    not-enough-money: "BLOCK_ANVIL_LAND"
+
+# Настройки GUI
+gui:
+  # Размер инвентаря (строки)
+  rows: 6
+
+  # Название магазина
+  title: "&6&lМагазин AgiCraft"
+
+  # Заполнитель пустых слотов
+  fill-item:
+    material: "GRAY_STAINED_GLASS_PANE"
+    name: " "
+
+# Кнопка возврата
+back-button:
+  enabled: true
+  item:
+    material: "ARROW"
+    name: "&cНазад"
+  slot: 49
+
+# Подтверждение покупки
+purchase-confirmation:
+  enabled: true
+  title: "&6Подтвердить покупку?"
+  confirm-button:
+    material: "GREEN_WOOL"
+    name: "&aПодтвердить"
+    slot: 11
+  cancel-button:
+    material: "RED_WOOL"
+    name: "&cОтменить"
+    slot: 15
+
+# Магазины (основной список)
+shops:
+  - "main"
+  - "ranks"
+  - "agicoins"

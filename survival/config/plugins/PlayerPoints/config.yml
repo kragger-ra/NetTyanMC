@@ -1,0 +1,69 @@
+# PlayerPoints Configuration
+# Валюта: AgiCoins (донатная валюта сервера AgiCraft)
+
+# Название валюты
+currency-name: "AgiCoins"
+currency-symbol: "⚡"
+
+# Формат отображения
+format:
+  thousands: ","
+  decimals: 0
+
+# Интеграция с PlaceholderAPI
+placeholderapi:
+  enabled: true
+
+# Команды
+commands:
+  # Игроки могут проверять свой баланс
+  balance:
+    enabled: true
+    aliases: ["agicoins", "coins", "ac"]
+
+  # Игроки могут передавать AgiCoins друг другу
+  pay:
+    enabled: true
+    min-amount: 1
+    max-amount: 10000
+
+  # Только администраторы могут выдавать
+  give:
+    enabled: true
+    permission: "playerpoints.give"
+
+  # Только администраторы могут забирать
+  take:
+    enabled: true
+    permission: "playerpoints.take"
+
+  # Только администраторы могут устанавливать баланс
+  set:
+    enabled: true
+    permission: "playerpoints.set"
+
+  # Проверка баланса других игроков
+  look:
+    enabled: true
+    permission: "playerpoints.look"
+
+# Стартовый баланс для новых игроков
+starting-balance: 0
+
+# Логирование транзакций
+logging:
+  enabled: true
+  file: "transactions.log"
+
+# Интеграция с базой данных (PostgreSQL)
+storage:
+  type: "postgresql"
+  host: "postgres"
+  port: 5432
+  database: "minecraft_server"
+  username: "mcserver"
+  password: "StrongPass123!"
+  table-prefix: "playerpoints_"
+
+# Обновление базы автоматически
+auto-update: true

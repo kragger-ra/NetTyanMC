@@ -29,10 +29,15 @@ services:
       VERSION: LATEST
       MEMORY: ${VELOCITY_MEMORY:-1G}
       EULA: "TRUE"
+      # Config sync settings
+      SYNC_SKIP_NEWER_IN_DESTINATION: "true"
+      COPY_CONFIG_DEST: /data
+      REPLACE_ENV_DURING_SYNC: "true"
     ports:
       - "25565:25577"  # Minecraft standard port
     volumes:
-      - ./velocity:/data
+      - velocity_data:/data                    # Persistent data (JAR, worlds, userdata)
+      - ./velocity/config:/config:ro           # Configs from Git (read-only)
     networks:
       - minecraft_network
     depends_on:
@@ -59,10 +64,15 @@ services:
       ONLINE_MODE: "FALSE"
       SERVER_PORT: 25565
       USE_AIKAR_FLAGS: "TRUE"
+      # Config sync settings
+      SYNC_SKIP_NEWER_IN_DESTINATION: "true"
+      COPY_CONFIG_DEST: /data
+      REPLACE_ENV_DURING_SYNC: "true"
     expose:
       - "25565"  # Internal port
     volumes:
-      - ./survival:/data
+      - survival_data:/data                    # Persistent data (JAR, worlds, userdata)
+      - ./survival/config:/config:ro           # Configs from Git (read-only)
     networks:
       - minecraft_network
     depends_on:
@@ -83,10 +93,15 @@ services:
       ONLINE_MODE: "FALSE"
       SERVER_PORT: 25565
       USE_AIKAR_FLAGS: "TRUE"
+      # Config sync settings
+      SYNC_SKIP_NEWER_IN_DESTINATION: "true"
+      COPY_CONFIG_DEST: /data
+      REPLACE_ENV_DURING_SYNC: "true"
     ports:
       - "25570:25565"  # Direct access for AI Research
     volumes:
-      - ./ai_research:/data
+      - airesearch_data:/data                  # Persistent data (JAR, worlds, userdata)
+      - ./ai_research/config:/config:ro        # Configs from Git (read-only)
     networks:
       - minecraft_network
     depends_on:
@@ -107,10 +122,15 @@ services:
       ONLINE_MODE: "FALSE"
       SERVER_PORT: 25565
       USE_AIKAR_FLAGS: "TRUE"
+      # Config sync settings
+      SYNC_SKIP_NEWER_IN_DESTINATION: "true"
+      COPY_CONFIG_DEST: /data
+      REPLACE_ENV_DURING_SYNC: "true"
     expose:
       - "25565"  # Internal port
     volumes:
-      - ./lobby:/data
+      - lobby_data:/data                       # Persistent data (JAR, worlds, userdata)
+      - ./lobby/config:/config:ro              # Configs from Git (read-only)
     networks:
       - minecraft_network
     depends_on:
@@ -174,3 +194,8 @@ networks:
 
 volumes:
   postgres_data:
+  # Minecraft server data volumes
+  velocity_data:
+  survival_data:
+  lobby_data:
+  airesearch_data:

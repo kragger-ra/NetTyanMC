@@ -1,0 +1,26 @@
+config-version = "2.7"
+bind = "0.0.0.0:25565"
+motd = "&6&lAgiCraft &8| &7Survival + AI Research + Lobby"
+show-max-players = 100
+online-mode = false
+force-key-authentication = false
+player-info-forwarding-mode = "legacy"
+
+[servers]
+lobby = "lobby:25569"
+survival = "survival:25571"
+ai_research = "airesearch:25570"
+# survival_plus = "survivalplus:25572"  # Coming soon
+
+try = ["lobby"]
+
+[forced-hosts]
+
+[advanced]
+compression-threshold = 256
+compression-level = -1
+login-ratelimit = 3000
+connection-timeout = 5000
+
+[query]
+enabled = false
