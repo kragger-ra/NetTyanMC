@@ -1,0 +1,143 @@
+# Multiverse-Core Worlds Configuration
+# 5 прогрессивных миров для Survival+ режима
+
+worlds:
+  # ============================================
+  # CLEAN WORLD - Чистый мир для строительства
+  # ============================================
+  # Обычная генерация, но БЕЗ руд
+  # Только для строительства баз
+  sp_clean:
+    ==: MVWorld
+    hidden: false
+    alias: 'Clean'
+    color: WHITE
+    pvp: false
+    scale: 1.0
+    respawnWorld: ''
+    allowWeather: true
+    difficulty: EASY
+    spawning:
+      animals: true
+      monsters: true
+    autoHeal: true
+    adjustSpawn: true
+    autoLoad: true
+    bedRespawn: true
+    hunger: true
+    generator: 'NORMAL'
+    environment: NORMAL
+    seed: ''
+    keepSpawnInMemory: true
+
+  # ============================================
+  # BASIC WORLD - Базовый мир добычи
+  # ============================================
+  # 3x базовые руды: уголь, железо, медь, редстоун, лазурит
+  sp_basic:
+    ==: MVWorld
+    hidden: false
+    alias: 'Basic'
+    color: GREEN
+    pvp: true
+    scale: 1.0
+    respawnWorld: 'sp_clean'
+    allowWeather: true
+    difficulty: NORMAL
+    spawning:
+      animals: true
+      monsters: true
+    autoHeal: false
+    adjustSpawn: true
+    autoLoad: true
+    bedRespawn: true
+    hunger: true
+    generator: 'NORMAL'
+    environment: NORMAL
+    seed: ''
+    keepSpawnInMemory: true
+
+  # ============================================
+  # DANGER WORLD - Опасный мир
+  # ============================================
+  # Только редкие руды: золото, алмазы, изумруды
+  # + кастомные материалы 2 тира (mythril)
+  sp_danger:
+    ==: MVWorld
+    hidden: false
+    alias: 'Danger'
+    color: YELLOW
+    pvp: true
+    scale: 1.0
+    respawnWorld: 'sp_clean'
+    allowWeather: true
+    difficulty: HARD
+    spawning:
+      animals: false
+      monsters: true
+    autoHeal: false
+    adjustSpawn: true
+    autoLoad: true
+    bedRespawn: false
+    hunger: true
+    generator: 'NORMAL'
+    environment: NORMAL
+    seed: ''
+    keepSpawnInMemory: true
+
+  # ============================================
+  # CURSED WORLD - Проклятый мир
+  # ============================================
+  # Ancient debris + кастомные материалы 3 тира (obsidian shard)
+  # Похож на Nether, но в Overworld
+  sp_cursed:
+    ==: MVWorld
+    hidden: false
+    alias: 'Cursed'
+    color: DARK_RED
+    pvp: true
+    scale: 1.0
+    respawnWorld: 'sp_clean'
+    allowWeather: false
+    difficulty: HARD
+    spawning:
+      animals: false
+      monsters: true
+    autoHeal: false
+    adjustSpawn: true
+    autoLoad: true
+    bedRespawn: false
+    hunger: true
+    generator: 'NORMAL'
+    environment: NORMAL
+    seed: ''
+    keepSpawnInMemory: true
+
+  # ============================================
+  # CHAOS WORLD - Хаотичный мир (губка-структура)
+  # ============================================
+  # Все руды + легендарные материалы (chaos crystal)
+  # Floating islands, void, sessions only
+  # EpicWorldGenerator для кастомной генерации
+  sp_chaos:
+    ==: MVWorld
+    hidden: false
+    alias: 'Chaos'
+    color: DARK_PURPLE
+    pvp: true
+    scale: 1.0
+    respawnWorld: 'sp_clean'
+    allowWeather: false
+    difficulty: HARD
+    spawning:
+      animals: false
+      monsters: true
+    autoHeal: false
+    adjustSpawn: false
+    autoLoad: true
+    bedRespawn: false
+    hunger: true
+    generator: 'EpicWorldGenerator:Chaos'
+    environment: NORMAL
+    seed: ''
+    keepSpawnInMemory: false

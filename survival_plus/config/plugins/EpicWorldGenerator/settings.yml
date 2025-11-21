@@ -1,0 +1,125 @@
+# EpicWorldGenerator Settings
+# Настройки генератора миров для Survival+
+
+# Версия конфига
+version: 8
+
+# Основные настройки
+settings:
+  # Дебаг отключен для production
+  debug: false
+
+  # Производительность
+  performance:
+    chunk-generation-threads: 4
+    cache-size: 2048
+    async-chunk-loading: true
+
+  # Обновления
+  check-updates: true
+  download-updates: false
+
+# Миры с кастомной генерацией
+worlds:
+  # Chaos world - швейцарский сыр со floating islands
+  Chaos:
+    enabled: true
+    world-name: sp_chaos
+    generator-settings:
+      # Кастомная генерация
+      use-vanilla-caves: false
+      use-vanilla-decorations: false
+
+      # Основные параметры генерации
+      base-height: 64
+      height-variation: 128
+
+      # Void generation (30-40% пустоты)
+      void-generation:
+        enabled: true
+        threshold: 0.35  # 35% блоков = void
+        min-y: 0
+        max-y: 256
+
+      # Слои высот для floating islands
+      island-layers:
+        # Нижний слой (0-80) - крупные острова
+        layer-1:
+          enabled: true
+          min-y: 10
+          max-y: 80
+          density: 0.4  # 40% заполнения
+          size-min: 30
+          size-max: 100
+
+        # Средний слой (80-160) - средние острова
+        layer-2:
+          enabled: true
+          min-y: 80
+          max-y: 160
+          density: 0.3  # 30% заполнения
+          size-min: 20
+          size-max: 60
+
+        # Верхний слой (160-256) - мелкие острова
+        layer-3:
+          enabled: true
+          min-y: 160
+          max-y: 240
+          density: 0.2  # 20% заполнения
+          size-min: 10
+          size-max: 40
+
+      # Биомы для Chaos мира
+      biomes:
+        # Используем vanilla биомы, но в случайных комбинациях
+        biome-blend: true
+        biome-blend-radius: 4
+
+        # Список возможных биомов на островах
+        allowed-biomes:
+          - PLAINS
+          - DESERT
+          - SAVANNA
+          - TAIGA
+          - SNOWY_PLAINS
+          - CRIMSON_FOREST
+          - WARPED_FOREST
+          - BASALT_DELTAS
+          - SOUL_SAND_VALLEY
+
+        # Случайное распределение
+        random-distribution: true
+        biome-size: 2  # Маленькие зоны биомов
+
+      # Декорации
+      decorations:
+        # Кастомные структуры отключены (будут в CustomStructures)
+        custom-structures: false
+
+        # Деревья и растительность на островах
+        vegetation:
+          enabled: true
+          density: 0.3
+
+        # Руды генерируются через OreControl
+        ores: false
+
+      # Эффекты Хаоса
+      chaos-effects:
+        # Частицы как в Basalt Deltas
+        particles:
+          enabled: true
+          type: ASH
+          density: HIGH
+
+        # Случайные блоки на островах
+        random-blocks:
+          enabled: true
+          chance: 0.05  # 5% случайных блоков
+          blocks:
+            - CRYING_OBSIDIAN
+            - ANCIENT_DEBRIS
+            - GILDED_BLACKSTONE
+            - SHROOMLIGHT
+            - GLOWSTONE
