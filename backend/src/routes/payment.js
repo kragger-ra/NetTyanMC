@@ -1,5 +1,6 @@
 const express = require('express');
 const axios = require('axios');
+const crypto = require('crypto');
 const { v4: uuidv4 } = require('uuid');
 const { authenticateToken } = require('../middleware/auth');
 const db = require('../models/db');
@@ -105,15 +106,45 @@ router.post('/create', authenticateToken, async (req, res) => {
 
   } catch (error) {
     console.error('Payment creation error:', error);
-    res.status(500).json({
-      error: 'Ошибка создания платежа',
-      details: error.response?.data || error.message
-    });
+
+    // SECURITY: Не возвращаем детали в production
+    const response = {
+      error: 'Ошибка создания платежа'
+    };
+
+    if (process.env.NODE_ENV === 'development') {
+      response.details = error.message;
+    }
+
+    res.status(500).json(response);
   }
 });
 
 // Webhook от YooKassa (обработка платежа)
 router.post('/webhook', async (req, res) => {
+  // SECURITY: Проверяем подпись от YooKassa
+  const receivedSignature = req.headers['x-yookassa-signature'];
+
+  if (!receivedSignature) {
+    console.error('Missing YooKassa signature');
+    return res.status(403).send('Forbidden');
+  }
+
+  // Вычисляем ожидаемую подпись
+  const body = JSON.stringify(req.body);
+  const expectedSignature = crypto
+    .createHmac('sha256', SECRET_KEY)
+    .update(body)
+    .digest('hex');
+
+  if (receivedSignature !== expectedSignature) {
+    console.error('Invalid YooKassa signature', {
+      received: receivedSignature,
+      expected: expectedSignature
+    });
+    return res.status(403).send('Forbidden');
+  }
+
   const { event, object } = req.body;
 
   if (event !== 'payment.succeeded') {
@@ -123,15 +154,25 @@ router.post('/webhook', async (req, res) => {
   const paymentId = object.id;
   const metadata = object.metadata;
 
+  // SECURITY: Валидация metadata
+  const donationId = parseInt(metadata.donation_id, 10);
+  const userId = parseInt(metadata.user_id, 10);
+  const productId = parseInt(metadata.product_id, 10);
+
+  if (!donationId || !userId || !productId) {
+    console.error('Invalid metadata in webhook', metadata);
+    return res.status(400).send('Invalid metadata');
+  }
+
   try {
     // Получаем информацию о донате
     const donationResult = await db.query(
       'SELECT * FROM web_donations WHERE id = $1',
-      [metadata.donation_id]
+      [donationId]
     );
 
     if (donationResult.rows.length === 0) {
-      console.error('Donation not found:', metadata.donation_id);
+      console.error('Donation not found:', donationId);
       return res.status(404).send('Donation not found');
     }
 
@@ -140,6 +181,15 @@ router.post('/webhook', async (req, res) => {
     // Проверяем, не обработан ли уже платёж
     if (donation.payment_status === 'completed') {
       return res.status(200).send('Already processed');
+    }
+
+    // SECURITY: Проверяем что donation принадлежит правильному пользователю
+    if (donation.user_id !== userId) {
+      console.error('User ID mismatch', {
+        donation_user: donation.user_id,
+        webhook_user: userId
+      });
+      return res.status(403).send('User mismatch');
     }
 
     // Получаем продукт
@@ -168,7 +218,7 @@ router.post('/webhook', async (req, res) => {
       // Обновляем статус доната
       await client.query(
         'UPDATE web_donations SET payment_status = $1, completed_at = CURRENT_TIMESTAMP WHERE id = $2',
-        ['completed', metadata.donation_id]
+        ['completed', donationId]
       );
 
       // Если это покупка AgiCoins пакета
@@ -192,10 +242,6 @@ router.post('/webhook', async (req, res) => {
       // Если это покупка ранга
       if (product.product_type === 'rank' && product.luckperms_group) {
         // TODO: Выдать ранг через docker exec или другой механизм
-        // Команда для ручной выдачи:
-        // docker exec -it minecraft_velocity rcon-cli
-        // lp user ${minecraftNickname} parent addtemp ${product.luckperms_group} ${product.duration_days}d
-
         console.log(`ВНИМАНИЕ: Необходимо вручную выдать ранг ${product.luckperms_group} игроку ${minecraftNickname} на ${product.duration_days} дней`);
       }
     });

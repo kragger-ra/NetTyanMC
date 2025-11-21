@@ -5,15 +5,29 @@
 }
 
 :root {
-  --primary-color: #f59e0b;
+  /* Gaming Orange/Black palette (musteryworld style) */
+  --primary-color: #FF6A00;
+  --primary-hover: #FF8C20;
+  --primary-light: #FFA500;
   --secondary-color: #3b82f6;
   --success-color: #10b981;
   --danger-color: #ef4444;
   --warning-color: #f59e0b;
-  --bg-dark: #1a1a1a;
+
+  /* Dark backgrounds */
   --bg-darker: #0f0f0f;
-  --text-light: #f5f5f5;
+  --bg-dark: #1e1e1e;
+  --bg-card: #252525;
+  --bg-card-hover: #2a2a2a;
+
+  /* Text colors */
+  --text-light: #ffffff;
   --text-gray: #a0a0a0;
+  --text-dark: #333333;
+
+  /* Borders */
+  --border-color: #333333;
+  --border-accent: var(--primary-color);
 }
 
 body {
@@ -29,9 +43,10 @@ body {
 
 code {
   font-family: 'Courier New', monospace;
-  background-color: var(--bg-dark);
+  background-color: var(--bg-card);
   padding: 2px 6px;
   border-radius: 4px;
+  color: var(--primary-light);
 }
 
 .container {
@@ -40,34 +55,41 @@ code {
   padding: 0 20px;
 }
 
+/* Buttons */
 .btn {
-  padding: 10px 20px;
+  padding: 12px 28px;
   border: none;
   border-radius: 6px;
   font-size: 16px;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.3s ease;
   text-decoration: none;
   display: inline-block;
+  text-align: center;
 }
 
 .btn-primary {
-  background-color: var(--primary-color);
-  color: #000;
+  background: linear-gradient(135deg, var(--primary-color) 0%, #FF8C20 100%);
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(255, 106, 0, 0.3);
 }
 
 .btn-primary:hover {
-  background-color: #d97706;
+  background: linear-gradient(135deg, #FF8C20 0%, var(--primary-color) 100%);
+  box-shadow: 0 6px 20px rgba(255, 106, 0, 0.5);
+  transform: translateY(-2px);
 }
 
 .btn-secondary {
-  background-color: var(--secondary-color);
-  color: #fff;
+  background-color: var(--bg-card);
+  color: var(--text-light);
+  border: 2px solid var(--border-color);
 }
 
 .btn-secondary:hover {
-  background-color: #2563eb;
+  border-color: var(--primary-color);
+  background-color: var(--bg-card-hover);
 }
 
 .btn-success {
@@ -88,8 +110,10 @@ code {
 .btn:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+  transform: none;
 }
 
+/* Loading spinner */
 .loading {
   text-align: center;
   padding: 40px;
@@ -97,18 +121,191 @@ code {
   color: var(--text-gray);
 }
 
+.spinner {
+  border: 3px solid rgba(255, 255, 255, 0.1);
+  border-top-color: var(--primary-color);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Error message */
 .error-message {
-  background-color: rgba(239, 68, 68, 0.1);
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(239, 68, 68, 0.2));
   border: 1px solid var(--danger-color);
   color: var(--danger-color);
-  padding: 12px;
-  border-radius: 6px;
+  padding: 14px 18px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  animation: shake 0.5s;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-8px); }
+  20%, 40%, 60%, 80% { transform: translateX(8px); }
+}
+
+.success-message {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(16, 185, 129, 0.2));
+  border: 1px solid var(--success-color);
+  color: var(--success-color);
+  padding: 14px 18px;
+  border-radius: 8px;
   margin-bottom: 20px;
 }
 
 .empty-message {
   text-align: center;
   color: var(--text-gray);
-  padding: 40px;
+  padding: 60px 20px;
+  font-size: 18px;
+}
+
+/* Cards */
+.card {
+  background: linear-gradient(135deg, var(--bg-dark) 0%, var(--bg-card) 100%);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 24px;
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  border-color: var(--primary-color);
+  background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-card-hover) 100%);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(255, 106, 0, 0.2);
+}
+
+/* Form inputs */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+textarea,
+select {
+  width: 100%;
+  padding: 12px 16px;
+  background-color: rgba(255, 106, 0, 0.05);
+  border: 2px solid var(--border-color);
+  border-radius: 6px;
+  color: var(--text-light);
   font-size: 16px;
+  transition: all 0.3s ease;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  background-color: rgba(255, 106, 0, 0.1);
+  box-shadow: 0 0 0 3px rgba(255, 106, 0, 0.1);
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--text-gray);
+}
+
+/* Status badges */
+.status {
+  display: inline-block;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.status.online {
+  background-color: rgba(16, 185, 129, 0.2);
+  color: var(--success-color);
+  border: 1px solid var(--success-color);
+}
+
+.status.offline {
+  background-color: rgba(156, 163, 175, 0.2);
+  color: var(--text-gray);
+  border: 1px solid var(--text-gray);
+}
+
+.status.premium {
+  background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+  color: #000;
+  font-weight: 800;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .container {
+    padding: 0 15px;
+  }
+
+  .btn {
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+
+  .card {
+    padding: 16px;
+  }
+}
+
+@media (max-width: 576px) {
+  body {
+    font-size: 14px;
+  }
+
+  .btn {
+    width: 100%;
+  }
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-out;
+}
+
+/* Screen reader only */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Focus visible for accessibility */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+}
+
+button:focus:not(:focus-visible),
+a:focus:not(:focus-visible) {
+  outline: none;
 }

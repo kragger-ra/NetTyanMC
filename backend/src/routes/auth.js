@@ -5,6 +5,11 @@ const db = require('../models/db');
 
 const router = express.Router();
 
+// SECURITY: Validation helpers
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const minecraftNicknameRegex = /^[A-Za-z0-9_]{3,16}$/;
+const usernameRegex = /^[A-Za-z0-9_]{3,16}$/;
+
 // Регистрация нового пользователя
 router.post('/register', async (req, res) => {
   const { username, email, password, minecraft_nickname } = req.body;
@@ -14,8 +19,43 @@ router.post('/register', async (req, res) => {
     return res.status(400).json({ error: 'Все поля обязательны' });
   }
 
+  // SECURITY: Валидация username
+  if (!usernameRegex.test(username)) {
+    return res.status(400).json({
+      error: 'Логин должен содержать только буквы, цифры и _ (3-16 символов)'
+    });
+  }
+
+  // SECURITY: Валидация email
+  if (!emailRegex.test(email)) {
+    return res.status(400).json({
+      error: 'Некорректный формат email'
+    });
+  }
+
+  // SECURITY: Валидация Minecraft nickname
+  if (!minecraftNicknameRegex.test(minecraft_nickname)) {
+    return res.status(400).json({
+      error: 'Minecraft ник должен содержать только A-Z, 0-9, _ (3-16 символов)'
+    });
+  }
+
+  // SECURITY: Валидация пароля
   if (password.length < 8) {
-    return res.status(400).json({ error: 'Пароль должен содержать минимум 8 символов' });
+    return res.status(400).json({
+      error: 'Пароль должен содержать минимум 8 символов'
+    });
+  }
+
+  // Проверка сложности пароля
+  const passwordHasUpper = /[A-Z]/.test(password);
+  const passwordHasLower = /[a-z]/.test(password);
+  const passwordHasNumber = /[0-9]/.test(password);
+
+  if (!passwordHasUpper || !passwordHasLower || !passwordHasNumber) {
+    return res.status(400).json({
+      error: 'Пароль должен содержать заглавные буквы, строчные буквы и цифры'
+    });
   }
 
   try {
