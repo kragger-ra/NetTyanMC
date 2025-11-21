@@ -49,6 +49,8 @@ services:
         condition: service_started
       lobby:
         condition: service_started
+      survivalplus:
+        condition: service_started
     stdin_open: true
     tty: true
 
@@ -139,6 +141,35 @@ services:
     stdin_open: true
     tty: true
 
+  survivalplus:
+    image: itzg/minecraft-server
+    container_name: minecraft_survivalplus
+    restart: unless-stopped
+    environment:
+      TYPE: PAPER
+      VERSION: 1.21.1
+      MEMORY: ${SURVIVALPLUS_MEMORY:-12G}
+      EULA: "TRUE"
+      ONLINE_MODE: "FALSE"
+      SERVER_PORT: 25565
+      USE_AIKAR_FLAGS: "TRUE"
+      # Config sync settings
+      SYNC_SKIP_NEWER_IN_DESTINATION: "true"
+      COPY_CONFIG_DEST: /data
+      REPLACE_ENV_DURING_SYNC: "true"
+    ports:
+      - "25573:25565"  # Direct access for Survival+
+    volumes:
+      - survivalplus_data:/data                # Persistent data (JAR, worlds, userdata)
+      - ./survival_plus/config:/config:ro      # Configs from Git (read-only)
+    networks:
+      - minecraft_network
+    depends_on:
+      postgres:
+        condition: service_healthy
+    stdin_open: true
+    tty: true
+
   backend:
     build: ./backend
     container_name: agicraft_backend
@@ -170,6 +201,12 @@ services:
       MINECRAFT_HOST: airesearch
       MINECRAFT_PORT: 25570
       MINECRAFT_VERSION: 1.21.1
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
 
   frontend:
     build: ./frontend
@@ -181,9 +218,43 @@ services:
       - minecraft_network
       - nettyan_ssl
     depends_on:
-      - backend
+      backend:
+        condition: service_healthy
     environment:
       VITE_API_URL: ${VITE_API_URL:-/api}
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:80"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
+
+  # ============================================
+  # CRAFTY CONTROLLER - Web UI для управления серверами
+  # ============================================
+  # Опционально: Веб-панель управления Minecraft серверами
+  # Доступ: https://localhost:8443 (по умолчанию admin/crafty)
+  # Документация: https://craftycontrol.com/
+  crafty:
+    image: registry.gitlab.com/crafty-controller/crafty-4:latest
+    container_name: crafty_controller
+    restart: unless-stopped
+    ports:
+      - "8443:8443"   # HTTPS Web UI
+      - "8123:8123"   # Websocket
+    volumes:
+      - crafty_data:/crafty/app/config
+      - crafty_backups:/crafty/backups
+      - crafty_logs:/crafty/logs
+      - crafty_servers:/crafty/servers
+      - /var/run/docker.sock:/var/run/docker.sock:ro  # Docker socket для управления контейнерами
+    networks:
+      - minecraft_network
+      - nettyan_ssl
+    environment:
+      TZ: ${TZ:-Europe/Moscow}
+    # Комментируйте этот сервис если не нужен Crafty Controller
+    # profiles: ["management"]  # Раскомментируйте чтобы запускать только с --profile management
 
 networks:
   minecraft_network:
@@ -193,9 +264,28 @@ networks:
     name: nettyan_ssl
 
 volumes:
+  # PostgreSQL data
   postgres_data:
-  # Minecraft server data volumes
+    name: nettyanmc_postgres_data
+
+  # Minecraft server data volumes (persistent across rebuilds)
   velocity_data:
+    name: nettyanmc_velocity_data
   survival_data:
+    name: nettyanmc_survival_data
   lobby_data:
+    name: nettyanmc_lobby_data
   airesearch_data:
+    name: nettyanmc_airesearch_data
+  survivalplus_data:
+    name: nettyanmc_survivalplus_data
+
+  # Crafty Controller data (опционально)
+  crafty_data:
+    name: nettyanmc_crafty_data
+  crafty_backups:
+    name: nettyanmc_crafty_backups
+  crafty_logs:
+    name: nettyanmc_crafty_logs
+  crafty_servers:
+    name: nettyanmc_crafty_servers
