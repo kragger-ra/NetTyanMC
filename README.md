@@ -35,12 +35,12 @@ cd NetTyanMC
 
 ### 2. Следовать инструкции
 
-**📖 Подробная инструкция:** [POST_CLONE_SETUP.md](POST_CLONE_SETUP.md)
+**📖 Подробная инструкция:** [docs/POST_CLONE_SETUP.md](docs/POST_CLONE_SETUP.md)
 
 Кратко:
 1. Скачать Java 21+ и Docker
 2. **Не нужно** скачивать Paper/Velocity JAR - автоматически через itzg/minecraft-server
-3. Скачать плагины (список в POST_CLONE_SETUP.md)
+3. Скачать плагины (список в docs/POST_CLONE_SETUP.md)
 4. Создать `.env` из `.env.example`
 5. Убедиться что nettyanweb развернут и сеть `nettyan_ssl` создана
 6. Запустить: `docker-compose up -d`
@@ -49,14 +49,22 @@ cd NetTyanMC
 
 ## 📚 Документация
 
+**Вся документация находится в папке [docs/](docs/)**
+
 | Документ | Описание |
 |----------|----------|
-| **[POST_CLONE_SETUP.md](POST_CLONE_SETUP.md)** | ⭐ Полная инструкция развертывания после клонирования |
-| [STATUS.md](STATUS.md) | Текущий статус проекта и выполненные задачи |
-| [DEPLOYMENT_GUIDE.md](DEPLOYMENT_GUIDE.md) | Детальное руководство по развертыванию |
-| [LUCKPERMS_SETUP.md](LUCKPERMS_SETUP.md) | Система ролей и прав (команды для настройки) |
-| [HTTPS_SETUP.md](HTTPS_SETUP.md) | Настройка HTTPS с Let's Encrypt |
-| [QUICK_START_HTTPS.md](QUICK_START_HTTPS.md) | Быстрая настройка HTTPS |
+| **[docs/POST_CLONE_SETUP.md](docs/POST_CLONE_SETUP.md)** | ⭐ Полная инструкция развертывания после клонирования |
+| [docs/STATUS.md](docs/STATUS.md) | Текущий статус проекта и выполненные задачи |
+| [docs/DEPLOYMENT_GUIDE.md](docs/DEPLOYMENT_GUIDE.md) | Детальное руководство по развертыванию |
+| [docs/LUCKPERMS_SETUP.md](docs/LUCKPERMS_SETUP.md) | Система ролей и прав (команды для настройки) |
+| [docs/HTTPS_SETUP.md](docs/HTTPS_SETUP.md) | Настройка HTTPS с Let's Encrypt |
+| [docs/RUNNER_SETUP.md](docs/RUNNER_SETUP.md) | Настройка GitHub Actions Self-Hosted Runner |
+| [docs/CRAFTY_CONTROLLER.md](docs/CRAFTY_CONTROLLER.md) | Веб-панель управления серверами |
+| [docs/BACKUP_GUIDE.md](docs/BACKUP_GUIDE.md) | Стратегия резервного копирования |
+| [docs/MONITORING_GUIDE.md](docs/MONITORING_GUIDE.md) | Мониторинг и алерты |
+| [docs/SECURITY_GUIDE.md](docs/SECURITY_GUIDE.md) | Безопасность и secrets management |
+
+**Полный список документации:** [docs/README.md](docs/README.md)
 
 ---
 
@@ -90,13 +98,13 @@ cd NetTyanMC
 ```
 NetTyanMC/
 ├── lobby/               # Lobby сервер (itzg/minecraft-server)
-│   └── plugins/         # Конфиги плагинов (AuthMe, LuckPerms, и т.д.)
+│   └── config/          # Конфиги плагинов (AuthMe, LuckPerms, и т.д.)
 ├── survival/            # Survival сервер (itzg/minecraft-server)
-│   └── plugins/         # Конфиги плагинов
+│   └── config/          # Конфиги плагинов
 ├── ai_research/         # AI Research сервер (itzg/minecraft-server)
-│   └── plugins/
+│   └── config/
 ├── velocity/            # Velocity прокси (itzg/minecraft-server)
-│   └── velocity.toml
+│   └── config/
 ├── backend/             # Backend API
 │   ├── src/
 │   └── package.json
@@ -105,12 +113,19 @@ NetTyanMC/
 │   └── package.json
 ├── postgres/            # PostgreSQL схемы
 │   └── init.sql
+├── scripts/             # Утилиты и скрипты
+│   ├── backup.sh
+│   └── generate-secrets.sh
+├── docs/                # Документация
+│   ├── README.md        # Оглавление документации
+│   └── *.md             # Руководства
+├── .github/             # CI/CD workflows
+│   └── workflows/
 ├── docker-compose.yml   # Оркестрация всех сервисов
-├── .gitignore           # Исключения Git
-└── POST_CLONE_SETUP.md  # ⭐ НАЧАТЬ ЗДЕСЬ
+└── .gitignore           # Исключения Git
 
 # Paper/Velocity JAR автоматически загружаются через itzg образ
-# Миры в .gitignore
+# Миры и данные хранятся в именованных Docker volumes
 ```
 
 ---

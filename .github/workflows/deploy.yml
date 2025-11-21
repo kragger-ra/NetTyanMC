@@ -1,0 +1,70 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:  # Manual trigger
+
+jobs:
+  deploy:
+    runs-on: [self-hosted, linux, production]
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Create .env from secrets
+        run: |
+          cat > .env << EOF
+          POSTGRES_DB=${{ secrets.POSTGRES_DB }}
+          POSTGRES_USER=${{ secrets.POSTGRES_USER }}
+          POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}
+          JWT_SECRET=${{ secrets.JWT_SECRET }}
+          RCON_PASSWORD=${{ secrets.RCON_PASSWORD }}
+          YOOKASSA_SHOP_ID=${{ secrets.YOOKASSA_SHOP_ID }}
+          YOOKASSA_SECRET_KEY=${{ secrets.YOOKASSA_SECRET_KEY }}
+          YOOKASSA_RETURN_URL=${{ secrets.YOOKASSA_RETURN_URL }}
+          YOOKASSA_WEBHOOK_URL=${{ secrets.YOOKASSA_WEBHOOK_URL }}
+          FRONTEND_URL=${{ secrets.FRONTEND_URL }}
+          VITE_API_URL=${{ secrets.VITE_API_URL }}
+          NODE_ENV=production
+          SURVIVAL_MEMORY=10G
+          AI_RESEARCH_MEMORY=10G
+          LOBBY_MEMORY=2G
+          VELOCITY_MEMORY=1G
+          TZ=Europe/Moscow
+          EOF
+
+      - name: Backup database before deploy
+        run: |
+          mkdir -p backups
+          if docker ps | grep -q minecraft_postgres; then
+            docker exec minecraft_postgres pg_dump -U ${{ secrets.POSTGRES_USER }} ${{ secrets.POSTGRES_DB }} > backups/pre_deploy_$(date +%Y%m%d_%H%M%S).sql
+          fi
+
+      - name: Pull latest images
+        run: docker-compose pull
+
+      - name: Build custom images
+        run: docker-compose build --no-cache backend frontend
+
+      - name: Deploy services
+        run: |
+          docker-compose up -d --remove-orphans
+          echo "Waiting for services to be healthy..."
+          sleep 45
+
+      - name: Health check
+        run: |
+          ./scripts/health-check.sh || echo "Some services may still be starting..."
+
+      - name: Cleanup old images
+        run: docker image prune -f
+
+      - name: Deployment summary
+        run: |
+          echo "✅ Deployment completed"
+          echo "Commit: ${{ github.sha }}"
+          echo "Author: ${{ github.actor }}"
+          docker-compose ps
