@@ -36,7 +36,18 @@
       "Bash(git branch:*)",
       "Bash(git push:*)",
       "Bash(git reset:*)",
-      "Bash(git rm:*)"
+      "Bash(git rm:*)",
+      "WebSearch",
+      "WebFetch(domain:docker-minecraft-server.readthedocs.io)",
+      "WebFetch(domain:github.com)",
+      "Bash(docker run:*)",
+      "Bash(git fetch:*)",
+      "Bash(git show:*)",
+      "Bash(git checkout:*)",
+      "Bash(rm:*)",
+      "Bash(mkdir:*)",
+      "Bash(git update-index:*)",
+      "Bash(git pull:*)"
     ],
     "deny": [],
     "ask": []

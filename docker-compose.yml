@@ -21,23 +21,14 @@ services:
       retries: 5
 
   velocity:
-    image: itzg/minecraft-server
+    build: ./velocity
     container_name: minecraft_velocity
     restart: unless-stopped
-    environment:
-      TYPE: VELOCITY
-      VERSION: LATEST
-      MEMORY: ${VELOCITY_MEMORY:-1G}
-      EULA: "TRUE"
-      # Config sync settings
-      SYNC_SKIP_NEWER_IN_DESTINATION: "true"
-      COPY_CONFIG_DEST: /data
-      REPLACE_ENV_DURING_SYNC: "true"
     ports:
-      - "25565:25577"  # Minecraft standard port
+      - "25565:25565"
+      - "25577:25577/udp"
     volumes:
-      - velocity_data:/data                    # Persistent data (JAR, worlds, userdata)
-      - ./velocity/config:/config:ro           # Configs from Git (read-only)
+      - ./velocity:/server
     networks:
       - minecraft_network
     depends_on:
@@ -195,7 +186,6 @@ networks:
 volumes:
   postgres_data:
   # Minecraft server data volumes
-  velocity_data:
   survival_data:
   lobby_data:
   airesearch_data:

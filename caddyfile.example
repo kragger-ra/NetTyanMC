@@ -1,0 +1,100 @@
+# Пример конфигурации Caddyfile для добавления в nettyanweb
+# Добавьте эти строки в /opt/nettyan/nettyanweb/Caddyfile на вашем сервере
+
+# ============================================
+# NetTyanMC - Minecraft Server Web Interface
+# ============================================
+
+mc.nettyan.ru {
+    # Главная страница и статические файлы (React Frontend)
+    handle {
+        reverse_proxy agicraft_frontend:80
+    }
+
+    # Backend API endpoints
+    handle /api/* {
+        reverse_proxy agicraft_backend:3000
+    }
+}
+
+# ============================================
+# Альтернативная конфигурация с поддоменами
+# ============================================
+
+# Если хотите разделить frontend и API на разные поддомены:
+#
+# mc.nettyan.ru {
+#     reverse_proxy agicraft_frontend:80
+# }
+#
+# api.mc.nettyan.ru {
+#     reverse_proxy agicraft_backend:3000
+# }
+
+# ============================================
+# Конфигурация с дополнительными настройками
+# ============================================
+
+# Если нужны дополнительные настройки (cors, rate limiting, etc):
+#
+# mc.nettyan.ru {
+#     # CORS headers (если фронтенд на другом домене)
+#     header {
+#         Access-Control-Allow-Origin "*"
+#         Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS"
+#         Access-Control-Allow-Headers "Content-Type, Authorization"
+#     }
+#
+#     # Frontend
+#     handle {
+#         reverse_proxy agicraft_frontend:80
+#     }
+#
+#     # Backend API
+#     handle /api/* {
+#         reverse_proxy agicraft_backend:3000
+#     }
+#
+#     # Rate limiting (опционально, требует caddy-ext)
+#     # rate_limit {
+#     #     zone static_zone {
+#     #         key {remote_host}
+#     #         events 100
+#     #         window 1m
+#     #     }
+#     # }
+# }
+
+# ============================================
+# Инструкция по применению
+# ============================================
+
+# 1. Подключитесь к серверу:
+#    ssh user@your-server-ip
+#
+# 2. Откройте Caddyfile:
+#    cd /opt/nettyan/nettyanweb
+#    nano Caddyfile
+#
+# 3. Добавьте конфигурацию для mc.nettyan.ru (замените на ваш домен)
+#
+# 4. Сохраните файл (Ctrl+O, Enter, Ctrl+X)
+#
+# 5. Перезапустите Caddy:
+#    docker compose restart caddy
+#
+# 6. Проверьте логи:
+#    docker compose logs -f caddy
+#
+# 7. Проверьте что SSL сертификат получен:
+#    curl -I https://mc.nettyan.ru
+#    Должен вернуть: HTTP/2 200
+
+# ============================================
+# Примечания
+# ============================================
+
+# - Caddy автоматически получит SSL сертификат от Let's Encrypt
+# - Убедитесь что домен mc.nettyan.ru указывает на IP вашего сервера
+# - Порты 80 и 443 должны быть открыты в firewall
+# - Контейнеры agicraft_backend и agicraft_frontend должны быть в сети nettyan_ssl

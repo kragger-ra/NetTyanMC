@@ -5,4 +5,4 @@ data:
   username: mcserver
   password: StrongPass123!
 
-messaging-service: sql
+messaging-service: pluginmsg
