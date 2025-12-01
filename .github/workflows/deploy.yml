@@ -12,12 +12,18 @@ jobs:
     runs-on: self-hosted
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Create .env from secrets
+      - name: Deploy to server
         shell: powershell
         run: |
+          Write-Host "======================================" -ForegroundColor Cyan
+          Write-Host "Starting deployment..." -ForegroundColor Cyan
+          Write-Host "======================================" -ForegroundColor Cyan
+
+          Set-Location N:\Minecraftserver
+          Write-Host "Working directory: $(Get-Location)"
+
+          # Create .env from secrets
+          Write-Host "Creating .env file..."
           "POSTGRES_DB=${{ secrets.POSTGRES_DB }}" | Out-File -FilePath .env -Encoding utf8
           "POSTGRES_USER=${{ secrets.POSTGRES_USER }}" | Out-File -FilePath .env -Encoding utf8 -Append
           "POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}" | Out-File -FilePath .env -Encoding utf8 -Append
@@ -35,15 +41,6 @@ jobs:
           "LOBBY_MEMORY=2G" | Out-File -FilePath .env -Encoding utf8 -Append
           "VELOCITY_MEMORY=1G" | Out-File -FilePath .env -Encoding utf8 -Append
           "TZ=Europe/Moscow" | Out-File -FilePath .env -Encoding utf8 -Append
-
-      - name: Deploy to server
-        shell: powershell
-        run: |
-          Write-Host "======================================" -ForegroundColor Cyan
-          Write-Host "Starting deployment..." -ForegroundColor Cyan
-          Write-Host "======================================" -ForegroundColor Cyan
-
-          cd N:\Minecraftserver
 
           Write-Host "Current commit:"
           git log -1 --oneline
