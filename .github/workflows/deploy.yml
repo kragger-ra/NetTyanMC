@@ -48,15 +48,9 @@ jobs:
           Write-Host "Current commit:"
           git log -1 --oneline
 
-          $hasChanges = git diff-index --quiet HEAD --
-          if ($LASTEXITCODE -ne 0) {
-            Write-Host "Stashing local changes..."
-            git stash
-          }
-
-          Write-Host "Pulling latest changes..."
+          Write-Host "Fetching latest changes..."
           git fetch origin
-          git pull origin main
+          git reset --hard origin/main
 
           Write-Host "New commit:"
           git log -1 --oneline
