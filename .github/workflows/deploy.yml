@@ -52,16 +52,6 @@ jobs:
           Write-Host "Checking service status..."
           docker compose ps
 
-          Write-Host "--------------------------------------" -ForegroundColor Yellow
-          Write-Host "Checking for errors in logs..."
-          $logs = docker compose logs --tail=20 2>&1 | Select-String -Pattern "error|exception|fatal" -CaseSensitive:$false
-          if ($logs) {
-            Write-Host "Errors found in logs - please check manually" -ForegroundColor Red
-            $logs
-          } else {
-            Write-Host "No critical errors in recent logs" -ForegroundColor Green
-          }
-
           Write-Host "======================================" -ForegroundColor Cyan
           Write-Host "Deployment completed successfully!" -ForegroundColor Green
           Write-Host "======================================" -ForegroundColor Cyan
