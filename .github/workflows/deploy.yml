@@ -19,7 +19,7 @@ jobs:
           Write-Host "Starting deployment..." -ForegroundColor Cyan
           Write-Host "======================================" -ForegroundColor Cyan
 
-          Set-Location N:\Minecraftserver
+          Set-Location D:\Repos\NettyanMC
           Write-Host "Working directory: $(Get-Location)"
 
           # Create .env from secrets
