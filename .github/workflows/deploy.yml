@@ -22,6 +22,27 @@ jobs:
           Set-Location D:\Repos\NettyanMC
           Write-Host "Working directory: $(Get-Location)"
 
+          # Fix git ownership
+          git config --global --add safe.directory D:/Repos/NettyanMC
+
+          # Update code from GitHub with timeout
+          Write-Host "Updating code from GitHub..."
+          $gitJob = Start-Job -ScriptBlock {
+            Set-Location D:\Repos\NettyanMC
+            git fetch origin main
+            git reset --hard origin/main
+          }
+
+          if (Wait-Job $gitJob -Timeout 30) {
+            $result = Receive-Job $gitJob
+            Write-Host $result
+            Write-Host "Code updated successfully" -ForegroundColor Green
+          } else {
+            Stop-Job $gitJob
+            Write-Host "Git update timed out, using existing code" -ForegroundColor Yellow
+          }
+          Remove-Job $gitJob -Force
+
           # Create .env from secrets
           Write-Host "Creating .env file..."
           "POSTGRES_DB=${{ secrets.POSTGRES_DB }}" | Out-File -FilePath .env -Encoding utf8
