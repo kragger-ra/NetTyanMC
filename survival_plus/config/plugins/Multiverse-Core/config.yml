@@ -1,0 +1,36 @@
+# Multiverse-Core Configuration
+# Глобальные настройки для Survival+ миров
+
+# Основные параметры
+enforceaccess: false
+teleportintercept: true
+firstspawnoverride: true
+displaypermerrors: true
+globaldebug: 0
+messagecooldown: 5000
+teleportcooldown: 1000
+defaultportalsearch: false
+portalsearchradius: 128
+
+# Настройки спавна
+silentstart: false
+automaticpurge: false
+useSpawnWorld: false
+
+# Префиксы и цвета чата
+prefixchat: true
+prefixchatformat: '[%world%&f]%chat%'
+
+# Уровни для доступа к мирам
+# Clean - доступен всем
+# Basic - уровень 5
+# Danger - уровень 20
+# Cursed - уровень 40
+# Chaos - уровень 60 + сессия активна
+
+# Настройки телепортации
+teleportsafety: true
+safeteleport: true
+
+# Прогресс игрока
+firstspawnworld: 'sp_clean'

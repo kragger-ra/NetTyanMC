@@ -1,0 +1,262 @@
+# Chaos World Configuration - Губка/Swiss Cheese Structure
+# Floating islands с void пространством
+
+world-settings:
+  version: 8
+  world-name: "Chaos"
+
+  # Основные параметры мира
+  world:
+    # Высота мира
+    min-height: 0
+    max-height: 256
+    sea-level: 0  # Нет "моря", только void
+
+    # Спавн
+    spawn:
+      x: 0
+      y: 120
+      z: 0
+      find-safe-spawn: true
+
+  # Генератор terrain
+  terrain:
+    # Используем custom noise для создания губчатой структуры
+    noise:
+      # 3D Perlin noise для floating islands
+      island-noise:
+        type: PERLIN_3D
+        frequency: 0.02  # Низкая частота = крупные острова
+        octaves: 4
+        persistence: 0.5
+        lacunarity: 2.0
+        # Threshold для определения solid/void
+        threshold: 0.35  # < 0.35 = void, >= 0.35 = solid
+
+      # Дополнительный noise для вариации
+      detail-noise:
+        type: SIMPLEX
+        frequency: 0.08  # Высокая частота = детали
+        octaves: 2
+        amplitude: 8
+
+    # Слои island generation
+    layers:
+      # Y 0-80: крупные острова
+      lower:
+        y-min: 10
+        y-max: 80
+        density-multiplier: 1.2  # Плотнее
+        blocks:
+          primary: STONE
+          secondary: DEEPSLATE
+          surface: GRASS_BLOCK
+
+      # Y 80-160: средние острова
+      middle:
+        y-min: 80
+        y-max: 160
+        density-multiplier: 1.0
+        blocks:
+          primary: STONE
+          secondary: ANDESITE
+          surface: DIRT
+
+      # Y 160-240: мелкие острова
+      upper:
+        y-min: 160
+        y-max: 240
+        density-multiplier: 0.8  # Реже
+        blocks:
+          primary: END_STONE
+          secondary: BLACKSTONE
+          surface: MYCELIUM
+
+    # Caves внутри островов (дополнительная "дырявость")
+    caves:
+      enabled: true
+      frequency: 0.03
+      min-y: 10
+      max-y: 240
+
+  # Биомы
+  biomes:
+    # Множественные биомы на одном острове
+    multi-biome-islands: true
+    biome-size: 4  # Размер зоны биома (в чанках)
+
+    # Список биомов с весами
+    biome-list:
+      PLAINS:
+        weight: 10
+        blocks:
+          surface: GRASS_BLOCK
+          ground: DIRT
+      DESERT:
+        weight: 8
+        blocks:
+          surface: SAND
+          ground: SANDSTONE
+      SAVANNA:
+        weight: 8
+        blocks:
+          surface: GRASS_BLOCK
+          ground: COARSE_DIRT
+      TAIGA:
+        weight: 6
+        blocks:
+          surface: GRASS_BLOCK
+          ground: PODZOL
+      SNOWY_PLAINS:
+        weight: 5
+        blocks:
+          surface: SNOW_BLOCK
+          ground: ICE
+      CRIMSON_FOREST:
+        weight: 7
+        blocks:
+          surface: CRIMSON_NYLIUM
+          ground: NETHERRACK
+      WARPED_FOREST:
+        weight: 7
+        blocks:
+          surface: WARPED_NYLIUM
+          ground: NETHERRACK
+      BASALT_DELTAS:
+        weight: 6
+        blocks:
+          surface: BASALT
+          ground: BLACKSTONE
+      SOUL_SAND_VALLEY:
+        weight: 5
+        blocks:
+          surface: SOUL_SAND
+          ground: SOUL_SOIL
+
+  # Декорации
+  decorations:
+    # Деревья
+    trees:
+      enabled: true
+      density: MEDIUM
+      types:
+        - OAK
+        - BIRCH
+        - DARK_OAK
+        - CRIMSON
+        - WARPED
+
+    # Цветы и трава
+    vegetation:
+      enabled: true
+      density: LOW
+
+    # Грибы
+    mushrooms:
+      enabled: true
+      density: MEDIUM
+      giant-mushrooms: true
+
+    # Кристаллы и светящиеся блоки
+    crystals:
+      enabled: true
+      blocks:
+        - GLOWSTONE
+        - SHROOMLIGHT
+        - CRYING_OBSIDIAN
+      density: LOW
+      cluster-size: 1-3
+
+  # Chaos-эффекты
+  chaos-features:
+    # Случайные блоки хаоса
+    random-chaos-blocks:
+      enabled: true
+      chance: 0.03  # 3% блоков
+      blocks:
+        ANCIENT_DEBRIS:
+          weight: 5
+          y-min: 10
+          y-max: 120
+        CRYING_OBSIDIAN:
+          weight: 10
+          y-min: 0
+          y-max: 256
+        GILDED_BLACKSTONE:
+          weight: 8
+          y-min: 10
+          y-max: 120
+        GLOWSTONE:
+          weight: 15
+          y-min: 0
+          y-max: 256
+        MAGMA_BLOCK:
+          weight: 10
+          y-min: 0
+          y-max: 100
+
+    # Карманы void внутри островов
+    void-pockets:
+      enabled: true
+      chance: 0.15  # 15% шанс void кармана
+      size-min: 3
+      size-max: 12
+
+    # Gravity-defying блоки (песок/гравий не падают на островах)
+    anti-gravity:
+      enabled: true
+      blocks:
+        - SAND
+        - RED_SAND
+        - GRAVEL
+        - ANVIL
+
+  # Ambient эффекты
+  ambient:
+    # Частицы (как Basalt Deltas)
+    particles:
+      enabled: true
+      types:
+        - type: ASH
+          density: 0.8
+          y-min: 0
+          y-max: 256
+        - type: WHITE_ASH
+          density: 0.3
+          y-min: 120
+          y-max: 256
+        - type: WARPED_SPORE
+          density: 0.2
+          y-min: 0
+          y-max: 256
+
+    # Звуки
+    sounds:
+      enabled: true
+      ambient-sounds:
+        - AMBIENT_NETHER_WASTES
+        - AMBIENT_BASALT_DELTAS
+        - AMBIENT_SOUL_SAND_VALLEY
+
+  # Структуры (мосты между островами, руины)
+  structures:
+    # Естественные мосты из камня
+    natural-bridges:
+      enabled: true
+      chance: 0.05  # 5% шанс между близкими островами
+      material: STONE
+      width: 2-4
+
+    # Руины на островах
+    ruins:
+      enabled: true
+      density: LOW
+      types:
+        - NETHER_FORTRESS_PIECES
+        - END_CITY_PIECES
+        - ANCIENT_DEBRIS_PILES
+
+# Примечания:
+# - Для полной работы требуется EpicWorldGenerator Premium
+# - Альтернатива: Terra или Iris для аналогичной генерации
+# - OreControl управляет рудами, EWG только terrain

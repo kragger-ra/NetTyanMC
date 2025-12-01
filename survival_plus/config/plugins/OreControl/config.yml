@@ -1,0 +1,326 @@
+# OreControl Configuration - Survival+ Ore Generation
+# Контроль генерации руд для каждого мира
+
+# Глобальные настройки
+config-version: 3
+language: en_US
+check-updates: true
+
+# ============================================
+# CLEAN WORLD - БЕЗ РУД
+# ============================================
+worlds:
+  sp_clean:
+    COAL_ORE:
+      activated: false
+      replacements: STONE
+    DEEPSLATE_COAL_ORE:
+      activated: false
+      replacements: DEEPSLATE
+    IRON_ORE:
+      activated: false
+      replacements: STONE
+    DEEPSLATE_IRON_ORE:
+      activated: false
+      replacements: DEEPSLATE
+    COPPER_ORE:
+      activated: false
+      replacements: STONE
+    DEEPSLATE_COPPER_ORE:
+      activated: false
+      replacements: DEEPSLATE
+    GOLD_ORE:
+      activated: false
+      replacements: STONE
+    DEEPSLATE_GOLD_ORE:
+      activated: false
+      replacements: DEEPSLATE
+    REDSTONE_ORE:
+      activated: false
+      replacements: STONE
+    DEEPSLATE_REDSTONE_ORE:
+      activated: false
+      replacements: DEEPSLATE
+    LAPIS_ORE:
+      activated: false
+      replacements: STONE
+    DEEPSLATE_LAPIS_ORE:
+      activated: false
+      replacements: DEEPSLATE
+    DIAMOND_ORE:
+      activated: false
+      replacements: STONE
+    DEEPSLATE_DIAMOND_ORE:
+      activated: false
+      replacements: DEEPSLATE
+    EMERALD_ORE:
+      activated: false
+      replacements: STONE
+    DEEPSLATE_EMERALD_ORE:
+      activated: false
+      replacements: DEEPSLATE
+
+  # ============================================
+  # BASIC WORLD - 3x БАЗОВЫЕ РУДЫ
+  # ============================================
+  sp_basic:
+    # Базовые руды - 3x
+    COAL_ORE:
+      activated: true
+      vein-size: 48  # ванильный 17 -> 3x = ~51
+      veins-per-chunk: 60  # ванильный 20 -> 3x = 60
+    DEEPSLATE_COAL_ORE:
+      activated: true
+      vein-size: 48
+      veins-per-chunk: 60
+    IRON_ORE:
+      activated: true
+      vein-size: 27  # ванильный 9 -> 3x = 27
+      veins-per-chunk: 60
+    DEEPSLATE_IRON_ORE:
+      activated: true
+      vein-size: 27
+      veins-per-chunk: 60
+    COPPER_ORE:
+      activated: true
+      vein-size: 48  # ванильный 16 -> 3x = 48
+      veins-per-chunk: 48
+    DEEPSLATE_COPPER_ORE:
+      activated: true
+      vein-size: 48
+      veins-per-chunk: 48
+    REDSTONE_ORE:
+      activated: true
+      vein-size: 24  # ванильный 8 -> 3x = 24
+      veins-per-chunk: 24
+    DEEPSLATE_REDSTONE_ORE:
+      activated: true
+      vein-size: 24
+      veins-per-chunk: 24
+    LAPIS_ORE:
+      activated: true
+      vein-size: 21  # ванильный 7 -> 3x = 21
+      veins-per-chunk: 12
+    DEEPSLATE_LAPIS_ORE:
+      activated: true
+      vein-size: 21
+      veins-per-chunk: 12
+    # Редкие руды - отключены
+    GOLD_ORE:
+      activated: false
+      replacements: STONE
+    DEEPSLATE_GOLD_ORE:
+      activated: false
+      replacements: DEEPSLATE
+    DIAMOND_ORE:
+      activated: false
+      replacements: STONE
+    DEEPSLATE_DIAMOND_ORE:
+      activated: false
+      replacements: DEEPSLATE
+    EMERALD_ORE:
+      activated: false
+      replacements: STONE
+    DEEPSLATE_EMERALD_ORE:
+      activated: false
+      replacements: DEEPSLATE
+
+  # ============================================
+  # DANGER WORLD - 2x РЕДКИЕ РУДЫ
+  # ============================================
+  sp_danger:
+    # Базовые руды - отключены
+    COAL_ORE:
+      activated: false
+      replacements: STONE
+    DEEPSLATE_COAL_ORE:
+      activated: false
+      replacements: DEEPSLATE
+    IRON_ORE:
+      activated: false
+      replacements: STONE
+    DEEPSLATE_IRON_ORE:
+      activated: false
+      replacements: DEEPSLATE
+    COPPER_ORE:
+      activated: false
+      replacements: STONE
+    DEEPSLATE_COPPER_ORE:
+      activated: false
+      replacements: DEEPSLATE
+    REDSTONE_ORE:
+      activated: false
+      replacements: STONE
+    DEEPSLATE_REDSTONE_ORE:
+      activated: false
+      replacements: DEEPSLATE
+    LAPIS_ORE:
+      activated: false
+      replacements: STONE
+    DEEPSLATE_LAPIS_ORE:
+      activated: false
+      replacements: DEEPSLATE
+    # Редкие руды - 2x
+    GOLD_ORE:
+      activated: true
+      vein-size: 18  # ванильный 9 -> 2x = 18
+      veins-per-chunk: 8
+    DEEPSLATE_GOLD_ORE:
+      activated: true
+      vein-size: 18
+      veins-per-chunk: 8
+    DIAMOND_ORE:
+      activated: true
+      vein-size: 16  # ванильный 8 -> 2x = 16
+      veins-per-chunk: 14
+    DEEPSLATE_DIAMOND_ORE:
+      activated: true
+      vein-size: 16
+      veins-per-chunk: 14
+    EMERALD_ORE:
+      activated: true
+      vein-size: 2  # emerald не встречается жилами, но увеличим шанс
+      veins-per-chunk: 200  # ванильный 100 -> 2x = 200
+
+  # ============================================
+  # CURSED WORLD - ANCIENT DEBRIS 3x
+  # ============================================
+  sp_cursed:
+    # Все overworld руды отключены
+    COAL_ORE:
+      activated: false
+      replacements: STONE
+    DEEPSLATE_COAL_ORE:
+      activated: false
+      replacements: DEEPSLATE
+    IRON_ORE:
+      activated: false
+      replacements: STONE
+    DEEPSLATE_IRON_ORE:
+      activated: false
+      replacements: DEEPSLATE
+    COPPER_ORE:
+      activated: false
+      replacements: STONE
+    DEEPSLATE_COPPER_ORE:
+      activated: false
+      replacements: DEEPSLATE
+    GOLD_ORE:
+      activated: false
+      replacements: STONE
+    DEEPSLATE_GOLD_ORE:
+      activated: false
+      replacements: DEEPSLATE
+    REDSTONE_ORE:
+      activated: false
+      replacements: STONE
+    DEEPSLATE_REDSTONE_ORE:
+      activated: false
+      replacements: DEEPSLATE
+    LAPIS_ORE:
+      activated: false
+      replacements: STONE
+    DEEPSLATE_LAPIS_ORE:
+      activated: false
+      replacements: DEEPSLATE
+    DIAMOND_ORE:
+      activated: false
+      replacements: STONE
+    DEEPSLATE_DIAMOND_ORE:
+      activated: false
+      replacements: DEEPSLATE
+    EMERALD_ORE:
+      activated: false
+      replacements: STONE
+    # Ancient Debris - 3x (имитация Nether в Overworld)
+    ANCIENT_DEBRIS:
+      activated: true
+      vein-size: 3  # ванильный 1-3 -> увеличим до 3
+      veins-per-chunk: 6  # ванильный 2 -> 3x = 6
+    # Nether руды для имитации Nether-подобного мира
+    NETHER_QUARTZ_ORE:
+      activated: true
+      vein-size: 42  # ванильный 14 -> 3x = 42
+      veins-per-chunk: 48
+    NETHER_GOLD_ORE:
+      activated: true
+      vein-size: 30  # ванильный 10 -> 3x = 30
+      veins-per-chunk: 30
+
+  # ============================================
+  # CHAOS WORLD - ВСЕ РУДЫ РАНДОМНО
+  # ============================================
+  sp_chaos:
+    # Все руды включены с повышенным спавном но меньшими жилами
+    COAL_ORE:
+      activated: true
+      vein-size: 10  # маленькие жилы
+      veins-per-chunk: 40  # но часто
+    DEEPSLATE_COAL_ORE:
+      activated: true
+      vein-size: 10
+      veins-per-chunk: 40
+    IRON_ORE:
+      activated: true
+      vein-size: 6
+      veins-per-chunk: 35
+    DEEPSLATE_IRON_ORE:
+      activated: true
+      vein-size: 6
+      veins-per-chunk: 35
+    COPPER_ORE:
+      activated: true
+      vein-size: 10
+      veins-per-chunk: 30
+    DEEPSLATE_COPPER_ORE:
+      activated: true
+      vein-size: 10
+      veins-per-chunk: 30
+    GOLD_ORE:
+      activated: true
+      vein-size: 5
+      veins-per-chunk: 15
+    DEEPSLATE_GOLD_ORE:
+      activated: true
+      vein-size: 5
+      veins-per-chunk: 15
+    REDSTONE_ORE:
+      activated: true
+      vein-size: 5
+      veins-per-chunk: 20
+    DEEPSLATE_REDSTONE_ORE:
+      activated: true
+      vein-size: 5
+      veins-per-chunk: 20
+    LAPIS_ORE:
+      activated: true
+      vein-size: 5
+      veins-per-chunk: 10
+    DEEPSLATE_LAPIS_ORE:
+      activated: true
+      vein-size: 5
+      veins-per-chunk: 10
+    DIAMOND_ORE:
+      activated: true
+      vein-size: 4
+      veins-per-chunk: 12
+    DEEPSLATE_DIAMOND_ORE:
+      activated: true
+      vein-size: 4
+      veins-per-chunk: 12
+    EMERALD_ORE:
+      activated: true
+      vein-size: 2
+      veins-per-chunk: 150
+    ANCIENT_DEBRIS:
+      activated: true
+      vein-size: 2
+      veins-per-chunk: 8
+    NETHER_QUARTZ_ORE:
+      activated: true
+      vein-size: 20
+      veins-per-chunk: 25
+    NETHER_GOLD_ORE:
+      activated: true
+      vein-size: 15
+      veins-per-chunk: 20

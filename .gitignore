@@ -179,3 +179,9 @@ readme_OLD.md
 Инструкции.txt
 AI_RESEARCH_SETUP.md
 LOBBY_SETUP.md
+
+# Backups directory
+backups/
+*.tar.gz
+*.sql
+*.dump
