@@ -22,6 +22,9 @@ jobs:
           Set-Location D:\Repos\NettyanMC
           Write-Host "Working directory: $(Get-Location)"
 
+          # Fix git ownership issue
+          git config --global --add safe.directory D:/Repos/NettyanMC
+
           # Create .env from secrets
           Write-Host "Creating .env file..."
           "POSTGRES_DB=${{ secrets.POSTGRES_DB }}" | Out-File -FilePath .env -Encoding utf8
@@ -60,7 +63,7 @@ jobs:
 
           Write-Host "--------------------------------------" -ForegroundColor Yellow
           Write-Host "Changed files in this update:"
-          $changedFiles = git diff --name-only HEAD@{1} HEAD 2>$null
+          $changedFiles = git diff --name-only 'HEAD@{1}' HEAD 2>$null
           if ($changedFiles) {
             Write-Host $changedFiles
           } else {
