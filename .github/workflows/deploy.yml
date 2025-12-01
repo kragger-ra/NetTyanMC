@@ -22,9 +22,6 @@ jobs:
           Set-Location D:\Repos\NettyanMC
           Write-Host "Working directory: $(Get-Location)"
 
-          # Fix git ownership issue
-          git config --global --add safe.directory D:/Repos/NettyanMC
-
           # Create .env from secrets
           Write-Host "Creating .env file..."
           "POSTGRES_DB=${{ secrets.POSTGRES_DB }}" | Out-File -FilePath .env -Encoding utf8
@@ -45,66 +42,11 @@ jobs:
           "VELOCITY_MEMORY=1G" | Out-File -FilePath .env -Encoding utf8 -Append
           "TZ=Europe/Moscow" | Out-File -FilePath .env -Encoding utf8 -Append
 
-          Write-Host "Current commit:"
-          git log -1 --oneline
-
-          Write-Host "Fetching latest changes..."
-          git fetch origin
-          git reset --hard origin/main
-
-          Write-Host "New commit:"
-          git log -1 --oneline
-
           Write-Host "--------------------------------------" -ForegroundColor Yellow
-          Write-Host "Changed files in this update:"
-          $changedFiles = git diff --name-only 'HEAD@{1}' HEAD 2>$null
-          if ($changedFiles) {
-            Write-Host $changedFiles
-          } else {
-            Write-Host "No previous commit to compare"
-          }
-          Write-Host "--------------------------------------" -ForegroundColor Yellow
-
-          $restartAll = $false
-          $restartServices = @()
-
-          if ($changedFiles -match "^backend/") {
-            Write-Host "Backend changes detected"
-            $restartServices += "backend"
-          }
-
-          if ($changedFiles -match "^frontend/") {
-            Write-Host "Frontend changes detected"
-            $restartServices += "frontend"
-          }
-
-          if ($changedFiles -match "(survival|lobby|ai_research|velocity)/config/") {
-            Write-Host "Minecraft config changes detected"
-            $restartServices += "survival", "lobby", "airesearch", "velocity"
-          }
-
-          if ($changedFiles -match "docker-compose.yml") {
-            Write-Host "docker-compose.yml changed - full restart required"
-            $restartAll = $true
-          }
-
-          Write-Host "--------------------------------------" -ForegroundColor Yellow
-          if ($restartAll) {
-            Write-Host "Restarting all services..."
-            docker compose down
-            docker compose up -d
-          } elseif ($restartServices.Count -gt 0) {
-            Write-Host "Restarting services: $($restartServices -join ', ')"
-
-            if ($restartServices -contains "backend" -or $restartServices -contains "frontend") {
-              Write-Host "Rebuilding changed services..."
-              docker compose build $restartServices
-            }
-
-            docker compose up -d $restartServices
-          } else {
-            Write-Host "No service restart required"
-          }
+          Write-Host "Deploying services (files already updated via git on server)..."
+          Write-Host "Rebuilding and restarting all services..."
+          docker compose build
+          docker compose up -d --remove-orphans
           Write-Host "--------------------------------------" -ForegroundColor Yellow
 
           Write-Host "Checking service status..."
