@@ -22,9 +22,6 @@ jobs:
           Set-Location D:\Repos\NettyanMC
           Write-Host "Working directory: $(Get-Location)"
 
-          # Fix git ownership
-          git config --global --add safe.directory D:/Repos/NettyanMC
-
           # Update code from GitHub
           Write-Host "Updating code from GitHub..."
           Write-Host "Current commit: $(git log --oneline -1)"
