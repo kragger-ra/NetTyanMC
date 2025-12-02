@@ -7,10 +7,10 @@ force-key-authentication = false
 player-info-forwarding-mode = "legacy"
 
 [servers]
-lobby = "lobby:25569"
-survival = "survival:25571"
-ai_research = "airesearch:25570"
-# survival_plus = "survivalplus:25572"  # Coming soon
+lobby = "lobby:25565"
+survival = "survival:25565"
+ai_research = "airesearch:25565"
+# survival_plus = "survivalplus:25565"  # Coming soon
 
 try = ["lobby"]
 
