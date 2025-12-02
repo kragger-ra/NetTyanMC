@@ -12,26 +12,22 @@ jobs:
     runs-on: self-hosted
 
     steps:
-      - name: Checkout code
+      - name: Checkout code directly to production directory
         uses: actions/checkout@v4
+        with:
+          path: D:\Repos\NettyanMC
+          clean: true
 
       - name: Deploy to server
         shell: powershell
+        working-directory: D:\Repos\NettyanMC
         run: |
           Write-Host "======================================" -ForegroundColor Cyan
           Write-Host "Starting deployment..." -ForegroundColor Cyan
           Write-Host "======================================" -ForegroundColor Cyan
 
-          Write-Host "Code checked out to: $(Get-Location)"
-          Write-Host "Current commit: $(git log --oneline -1)"
-
-          # Copy updated files to production directory
-          Write-Host "Syncing files to D:\Repos\NettyanMC..."
-          robocopy . D:\Repos\NettyanMC /MIR /XD .git _work /XF .gitignore /NFL /NDL /NJH /NJS
-
-          # Switch to production directory for Docker operations
-          Set-Location D:\Repos\NettyanMC
           Write-Host "Working directory: $(Get-Location)"
+          Write-Host "Current commit: $(git log --oneline -1)"
 
           # Create .env from secrets
           Write-Host "Creating .env file..."
