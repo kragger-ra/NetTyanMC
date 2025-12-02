@@ -27,14 +27,21 @@ jobs:
 
           # Update code from GitHub
           Write-Host "Updating code from GitHub..."
-          try {
-            git fetch origin main 2>&1 | Out-Null
-            git reset --hard origin/main
-            Write-Host "Code updated successfully" -ForegroundColor Green
-          } catch {
-            Write-Host "Git update failed, using existing code" -ForegroundColor Yellow
-            Write-Host $_.Exception.Message
+          Write-Host "Current commit: $(git log --oneline -1)"
+
+          git fetch origin main
+          if ($LASTEXITCODE -ne 0) {
+            Write-Host "Git fetch failed!" -ForegroundColor Red
+            exit 1
           }
+
+          git reset --hard origin/main
+          if ($LASTEXITCODE -ne 0) {
+            Write-Host "Git reset failed!" -ForegroundColor Red
+            exit 1
+          }
+
+          Write-Host "Updated to: $(git log --oneline -1)" -ForegroundColor Green
 
           # Create .env from secrets
           Write-Host "Creating .env file..."
