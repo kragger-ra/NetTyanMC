@@ -12,6 +12,9 @@ jobs:
     runs-on: self-hosted
 
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
       - name: Deploy to server
         shell: powershell
         run: |
@@ -19,26 +22,16 @@ jobs:
           Write-Host "Starting deployment..." -ForegroundColor Cyan
           Write-Host "======================================" -ForegroundColor Cyan
 
-          Set-Location D:\Repos\NettyanMC
-          Write-Host "Working directory: $(Get-Location)"
-
-          # Update code from GitHub
-          Write-Host "Updating code from GitHub..."
+          Write-Host "Code checked out to: $(Get-Location)"
           Write-Host "Current commit: $(git log --oneline -1)"
 
-          git fetch origin main
-          if ($LASTEXITCODE -ne 0) {
-            Write-Host "Git fetch failed!" -ForegroundColor Red
-            exit 1
-          }
+          # Copy updated files to production directory
+          Write-Host "Syncing files to D:\Repos\NettyanMC..."
+          robocopy . D:\Repos\NettyanMC /MIR /XD .git _work /XF .gitignore /NFL /NDL /NJH /NJS
 
-          git reset --hard origin/main
-          if ($LASTEXITCODE -ne 0) {
-            Write-Host "Git reset failed!" -ForegroundColor Red
-            exit 1
-          }
-
-          Write-Host "Updated to: $(git log --oneline -1)" -ForegroundColor Green
+          # Switch to production directory for Docker operations
+          Set-Location D:\Repos\NettyanMC
+          Write-Host "Working directory: $(Get-Location)"
 
           # Create .env from secrets
           Write-Host "Creating .env file..."
