@@ -25,23 +25,16 @@ jobs:
           # Fix git ownership
           git config --global --add safe.directory D:/Repos/NettyanMC
 
-          # Update code from GitHub with timeout
+          # Update code from GitHub
           Write-Host "Updating code from GitHub..."
-          $gitJob = Start-Job -ScriptBlock {
-            Set-Location D:\Repos\NettyanMC
-            git fetch origin main
+          try {
+            git fetch origin main 2>&1 | Out-Null
             git reset --hard origin/main
-          }
-
-          if (Wait-Job $gitJob -Timeout 30) {
-            $result = Receive-Job $gitJob
-            Write-Host $result
             Write-Host "Code updated successfully" -ForegroundColor Green
-          } else {
-            Stop-Job $gitJob
-            Write-Host "Git update timed out, using existing code" -ForegroundColor Yellow
+          } catch {
+            Write-Host "Git update failed, using existing code" -ForegroundColor Yellow
+            Write-Host $_.Exception.Message
           }
-          Remove-Job $gitJob -Force
 
           # Create .env from secrets
           Write-Host "Creating .env file..."
