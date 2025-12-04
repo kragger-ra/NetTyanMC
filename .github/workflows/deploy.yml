@@ -33,8 +33,9 @@ jobs:
           Copy-Item -Path ".\survival" -Destination "D:\Repos\NettyanMC\" -Recurse -Force
           Copy-Item -Path ".\lobby" -Destination "D:\Repos\NettyanMC\" -Recurse -Force
           Copy-Item -Path ".\ai_research" -Destination "D:\Repos\NettyanMC\" -Recurse -Force
-          Copy-Item -Path ".\backend" -Destination "D:\Repos\NettyanMC\" -Recurse -Force -ErrorAction SilentlyContinue
-          Copy-Item -Path ".\frontend" -Destination "D:\Repos\NettyanMC\" -Recurse -Force -ErrorAction SilentlyContinue
+          Copy-Item -Path ".\backend" -Destination "D:\Repos\NettyanMC\" -Recurse -Force
+          Copy-Item -Path ".\frontend" -Destination "D:\Repos\NettyanMC\" -Recurse -Force
+          Copy-Item -Path ".\survival_plus" -Destination "D:\Repos\NettyanMC\" -Recurse -Force
 
           # Switch to production directory
           Set-Location D:\Repos\NettyanMC
@@ -62,8 +63,11 @@ jobs:
 
           Write-Host "--------------------------------------" -ForegroundColor Yellow
           Write-Host "Deploying services (files already updated via git on server)..."
-          Write-Host "Rebuilding and restarting all services..."
+          Write-Host "Rebuilding frontend and backend without cache..."
+          docker compose build --no-cache frontend backend
+          Write-Host "Rebuilding other services with cache..."
           docker compose build
+          Write-Host "Restarting all services..."
           docker compose up -d --remove-orphans
           Write-Host "--------------------------------------" -ForegroundColor Yellow
 
