@@ -45,7 +45,7 @@ function Home() {
       <section className="info">
         <h2>Как подключиться?</h2>
         <div className="server-info">
-          <code>IP: nettyan.ddns.net:25565</code>
+          <code>IP: 188.242.12.214:25565</code>
           <p>Версия: 1.21.1 (Java Edition)</p>
         </div>
       </section>
