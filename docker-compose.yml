@@ -82,6 +82,8 @@ services:
       SERVER_PORT: 25570
       USE_AIKAR_FLAGS: "TRUE"
       RCON_PASSWORD: ${RCON_PASSWORD:-StrongPass123!}
+      RCON_PORT: 25580
+      ENABLE_RCON: "TRUE"
       # Config sync settings
       SYNC_SKIP_NEWER_IN_DESTINATION: "true"
       COPY_CONFIG_DEST: /data
@@ -89,6 +91,7 @@ services:
       WORLD: /worlds/world
     expose:
       - "25570"
+      - "25580"
       - "24454/udp"  # Внутри Docker сети для Velocity
     volumes:
       - ./ai_research/data:/data
