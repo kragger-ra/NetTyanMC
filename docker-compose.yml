@@ -92,9 +92,9 @@ services:
     volumes:
       - ./ai_research/worlds:/worlds
       # For example, reference a shared directory used by several projects
-      - ../plugins-common:/plugins-common:ro
+      - ./plugins-common:/plugins-common:ro
       # and add plugins unique to this project
-      - ./plugins:/plugins-local:ro
+      - ./ai_research/plugins:/plugins-local:ro
       # Configs from Git (read-only)
       - ./ai_research/config:/config:ro
       - airesearch_data:/data                  # Persistent data (userdata)
