@@ -14,8 +14,6 @@ limbo= "limbo:25573"
 try = ["limbo"]
 # survival_plus = "survivalplus:25565"  # Coming soon
 
-try = ["lobby"]
-
 [forced-hosts]
 
 [advanced]
