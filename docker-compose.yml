@@ -53,8 +53,8 @@ services:
       SYNC_SKIP_NEWER_IN_DESTINATION: "true"
       COPY_CONFIG_DEST: /data
       REPLACE_ENV_DURING_SYNC: "true"
-    expose:
-      - "25565"  # Internal port
+    ports:
+      - "25571:25565"
     volumes:
       - survival_data:/data                    # Persistent data (JAR, worlds, userdata)
       - ./survival/config:/config:ro           # Configs from Git (read-only)
@@ -112,8 +112,8 @@ services:
       SYNC_SKIP_NEWER_IN_DESTINATION: "true"
       COPY_CONFIG_DEST: /data
       REPLACE_ENV_DURING_SYNC: "true"
-    expose:
-      - "25565"  # Internal port
+    ports:
+      - "25575:25565"
     volumes:
       - lobby_data:/data                       # Persistent data (JAR, worlds, userdata)
       - ./lobby/config:/config:ro              # Configs from Git (read-only)
