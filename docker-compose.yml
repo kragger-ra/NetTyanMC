@@ -74,6 +74,7 @@ services:
     environment:
       TYPE: PAPER
       VERSION: 1.21.1
+      COPY_PLUGINS_SRC: /plugins-common,/plugins-local
       MEMORY: ${AI_RESEARCH_MEMORY:-10G}
       EULA: "TRUE"
       ONLINE_MODE: "FALSE"
@@ -83,13 +84,20 @@ services:
       SYNC_SKIP_NEWER_IN_DESTINATION: "true"
       COPY_CONFIG_DEST: /data
       REPLACE_ENV_DURING_SYNC: "true"
+      WORLD: /worlds/world
     ports:
       - "24454:24454/udp"
     expose:
       - "25570"
     volumes:
-      - airesearch_data:/data                  # Persistent data (JAR, worlds, userdata)
-      - ./ai_research/config:/config:ro        # Configs from Git (read-only)
+      - airesearch_data:/data                  # Persistent data (userdata)
+      - ./ai_research/worlds:/worlds
+      # For example, reference a shared directory used by several projects
+      - ../plugins-common:/plugins-common:ro
+      # and add plugins unique to this project
+      - ./plugins:/plugins-local:ro
+      # Configs from Git (read-only)
+      - ./ai_research/config:/config:ro
     networks:
       - minecraft_network
     depends_on:
