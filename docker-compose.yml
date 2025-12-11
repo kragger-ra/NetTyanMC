@@ -232,6 +232,31 @@ services:
   # https://wiki.craftycontrol.com/en/4/Docker%20Setup%20Documentation
   # отключил из-за проблем с windows в crafty docker, говорят юзать portable
 
+  rcon-panel:
+    image: itzg/docker-rcon-web-admin:latest
+    ports:
+      - "34225:80" # Интерфейс панели RCON
+    environment:
+      RWA_USERNAME: admin
+      RWA_PASSWORD: admin
+      RWA_ADMIN: "TRUE"
+      # is referring to the service name 'mc' declared below
+      RWA_RCON_HOST: airesearch
+      # needs to match the password configured for the container, see RCON_PASSWORD below
+      RWA_RCON_PASSWORD: ${RCON_PASSWORD:-StrongPass123!}
+      # Указываем, что будем управлять несколькими серверами через JSON конфиг
+      RCON_MULTIPLE_SERVERS: "true"
+      # RWA_ENV_CONFIG: "false" 
+    volumes:
+      # Монтируем файл server.json с настройками серверов
+      - ./control_panel/servers.json:/app/servers.json 
+    networks:
+      - minecraft_network
+      - nettyan_ssl
+    depends_on:
+      postgres:
+        condition: service_healthy
+
 networks:
   minecraft_network:
     driver: bridge
