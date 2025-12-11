@@ -41,26 +41,6 @@ jobs:
           Set-Location D:\Repos\NettyanMC
           Write-Host "Working in: $(Get-Location)"
 
-          # Create .env from secrets
-          Write-Host "Creating .env file..."
-          "POSTGRES_DB=${{ secrets.POSTGRES_DB }}" | Out-File -FilePath .env -Encoding utf8
-          "POSTGRES_USER=${{ secrets.POSTGRES_USER }}" | Out-File -FilePath .env -Encoding utf8 -Append
-          "POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}" | Out-File -FilePath .env -Encoding utf8 -Append
-          "JWT_SECRET=${{ secrets.JWT_SECRET }}" | Out-File -FilePath .env -Encoding utf8 -Append
-          "RCON_PASSWORD=${{ secrets.RCON_PASSWORD }}" | Out-File -FilePath .env -Encoding utf8 -Append
-          "YOOKASSA_SHOP_ID=${{ secrets.YOOKASSA_SHOP_ID }}" | Out-File -FilePath .env -Encoding utf8 -Append
-          "YOOKASSA_SECRET_KEY=${{ secrets.YOOKASSA_SECRET_KEY }}" | Out-File -FilePath .env -Encoding utf8 -Append
-          "YOOKASSA_RETURN_URL=${{ secrets.YOOKASSA_RETURN_URL }}" | Out-File -FilePath .env -Encoding utf8 -Append
-          "YOOKASSA_WEBHOOK_URL=${{ secrets.YOOKASSA_WEBHOOK_URL }}" | Out-File -FilePath .env -Encoding utf8 -Append
-          "FRONTEND_URL=${{ secrets.FRONTEND_URL }}" | Out-File -FilePath .env -Encoding utf8 -Append
-          "VITE_API_URL=${{ secrets.VITE_API_URL }}" | Out-File -FilePath .env -Encoding utf8 -Append
-          "NODE_ENV=production" | Out-File -FilePath .env -Encoding utf8 -Append
-          "SURVIVAL_MEMORY=10G" | Out-File -FilePath .env -Encoding utf8 -Append
-          "AI_RESEARCH_MEMORY=10G" | Out-File -FilePath .env -Encoding utf8 -Append
-          "LOBBY_MEMORY=2G" | Out-File -FilePath .env -Encoding utf8 -Append
-          "VELOCITY_MEMORY=1G" | Out-File -FilePath .env -Encoding utf8 -Append
-          "TZ=Europe/Moscow" | Out-File -FilePath .env -Encoding utf8 -Append
-
           Write-Host "--------------------------------------" -ForegroundColor Yellow
           Write-Host "Deploying services (files already updated via git on server)..."
           Write-Host "Rebuilding frontend and backend without cache..."

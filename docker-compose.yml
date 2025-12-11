@@ -244,7 +244,7 @@ services:
       - "4327:4327"
     environment:
       RWA_USERNAME: admin
-      RWA_PASSWORD: admin
+      RWA_PASSWORD: ${RCON_PASSWORD:-StrongPass123!}
       RWA_ADMIN: "TRUE"
       # is referring to the service name 'mc' declared below
       RWA_RCON_HOST: airesearch
