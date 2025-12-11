@@ -1,0 +1,163 @@
+NastyaLove:
+  Cooldown: 0.25
+  Conditions:
+  TriggerConditions:
+  - holding{m=BLAZE_ROD} true
+  Skills:
+#  - potion{t=SPEED;d=100000;l=0} @Self
+#  - potion{t=INCREASE_DAMAGE;d=100000;l=0} @Self
+  - effect:sound{s=entity.slime.attack;v=1.7;p=1.2} @Self
+  - effect:particles{particle=heart;amount=15;hS=0.3;vS=0.4;speed=1} @self
+  - message{msg="&d<mob.name> &fаххх"} @PlayersInRadius{r=30} 0.1
+  - heal{amount=3;overheal=true} @self
+  - heal{amount=3;overheal=false} @trigger
+#  - heal{amount=5;overheal=false} @target
+  - signal{s=BumagaTrax} @MIR{r=15;t=Bumaga} 0.03
+  - mount{type=Brawler} 0.01
+  - delay 10
+  - dismount
+NastyaDamaged:
+  Cooldown: 0.25
+  TriggerConditions:
+  - holding{m=BLAZE_ROD} false
+  - holding{m=DIAMOND_SWORD} castinstead NastyaScream
+  Skills: 
+  - effect:sound{s=entity.player.hurt;v=1.0;p=1.0} @Self
+  - dismount
+#  - skill{s=NastyaScream} @trigger
+NastyaScream:
+  Cooldown: 4
+  Skills: 
+  - effect:sound{s=entity.wolf.howl;v=1.2;p=2.0} @Self
+NastyaRevenge:
+  Cooldown: 0.25
+  Skills:
+#  - potion{t=SPEED;d=100000;l=0} @Self
+#  - potion{t=INCREASE_DAMAGE;d=100000;l=0} @Self
+  - setstance{stance=Vengeful} @Self
+  - message{msg="&d<mob.name> &fАааа.. бумага сдоох нееет... лан на самом мне похуй кстати го дружить я настя <3"} @PlayersInRadius{r=30}
+PskaKill:
+  Conditions:
+  - crouching true
+  TriggerConditions:
+  - distance{d=<1} 
+#  - TargetWithin{d=5}
+#  - TargetInLineOfSight true
+#  TriggerConditions:
+#  - distance{d<2} 
+#  - mythicmobtype{t=GRIFER} false
+  Cooldown: 10
+  Skills:
+#  - potion{t=INCREASE_DAMAGE;d=10;l=100} @Self
+  - command{command="say <caster.name> лишил девственности <trigger.name> :)"}
+  - effect:particles{particle=heart;amount=50;hS=0.4;vS=0.8;speed=1} @self
+  - effect:sound{s=item.totem.use;v=2.0;p=0.5} @Self
+  - delay 10
+  - damage{amount=80;ignoreArmor=true;pi=true} @trigger
+BumagaKill:
+  Conditions:
+  - TargetWithin{d=2}
+  TargetConditions:
+  - mythicmobtype{t=Nastya,Brawler} false
+  Cooldown: 5
+  Skills:
+#  - potion{t=INCREASE_DAMAGE;d=10;l=100} @Self
+  - message{msg="<mob.name><&co> &fААХАХХАХАХАХ"} @PlayersInRadius{r=30}
+  - command{command="say <mob.name> лишил девственности <trigger.name>"}
+  - effect:particles{particle=heart;amount=50;hS=0.4;vS=0.8;speed=1} @self
+  - effect:sound{s=item.totem.use;v=2.0;p=0.5} @Self
+  - delay 10
+  - damage{amount=100;ignoreArmor=true;pi=true} @trigger
+BumagaAgro:
+  Cooldown: 8
+  Skills:
+#  - potion{t=SLOW;d=150;l=1} @Self
+  - potion{t=INCREASE_DAMAGE;d=90;l=8} @Self
+  - setstance{stance=Vengeful} @Self
+  - message{msg="<mob.name><&co> &fХули ты мешаешь шпунтик! Я ж тебя щас этой дылдой.."} @PlayersInRadius{r=30}
+  - runaitargetselector{target=clear}
+  - runaitargetselector{target=attacker}
+  - setstance{stance=Vengeful} @Self
+  - delay 100
+  - setstance{stance=Normal} @Self
+  - runaitargetselector{target=clear}
+  - runaitargetselector{target=SpecificFaction lovegirl}
+BumagaSpawn:
+  Cooldown: 0.25
+  Skills:
+  - dismount
+#  - summon{type=Nastya;amount=1;radius=3;if=false} @Self
+BumagaRevenge:
+  Cooldown: 0.25
+  Skills:
+#  - potion{t=SPEED;d=100000;l=0} @Self
+#  - potion{t=INCREASE_DAMAGE;d=100000;l=0} @Self
+#  - setstance{stance=Vengeful} @Self
+  - delay 10
+  - message{msg="<mob.name><&co> &fТы убил настю.... Жди пидор щас я смерть вызову она тебя порвёт нахуи!"} @PlayersInRadius{r=30}
+  - delay 10
+  - effect:particles{p=hugeexplosion;a=30;hs=1.8;vs=1.8} @Self
+  - effect:particlering{particle=sweepAttack;radius=5;points=32;amount=1000;hS=1;vS=0.5;y=0.5} @Self
+  - effect:particlering{particle=largeexplosion;radius=4;points=32;amount=1000} @Self
+#  - effect:sound{s=tankblown;v=5.0;p=1.0;} @Self
+  - delay 10
+  - remove @self
+#  - equip{item=DiamondSword:0} @Self
+JumperRevenge:
+  Cooldown: 0.25
+  Skills:
+  - potion{t=SPEED;d=100000;l=0} @Self
+  - potion{t=INCREASE_DAMAGE;d=100000;l=0} @Self
+  - setstance{stance=Vengeful} @Self
+  - message{msg="<mob.name> &c*шипить*."} @PlayersInRadius{r=30}
+SlackjawRevenge:
+  Cooldown: 0.25
+  Skills:
+  - potion{t=SPEED;d=100000;l=0} @Self
+  - potion{t=INCREASE_DAMAGE;d=100000;l=0} @Self
+  - setstance{stance=Vengeful} @Self
+  - message{msg="<mob.name><&co> &fГде мой крэш?? Отдайте павука высеры! Отпинаю без пота!"} @PlayersInRadius{r=30}
+  - equip{item=DiamondSword:0} @Self
+BumagaAngry:
+  Cooldown: 0.25
+  Conditions:
+  - stance{s=Vengeful}
+  Skills:
+  - effect:particles{p=angryVillager;a=10;vs=0.2;hs=0.2;s=0;y=1} @Self
+SlackjawJumperAngry:
+  Cooldown: 0.25
+  Conditions:
+  - stance{s=Vengeful}
+  Skills:
+  - effect:particles{p=angryVillager;a=10;vs=0.2;hs=0.2;s=0;y=1} @Self
+JumperToxicShot:
+  Cooldown: 2
+  Conditions:
+  - stance{s=Vengeful}
+  TargetConditions:
+  - targetwithin 20
+  - lineofsight true
+  Skills:
+  - projectile{onTick=JumperToxicShotEffect;onHit=JumperToxicShotDamage;i=2;hR=0.75;md=400;vR=0.75;v=10;hnp=true;}
+  - effect:sound{s=entity.slime.squish;v=2.0;p=0.5} @Self
+JumperToxicShot_TICK:
+  Skills:
+  - effect:particlesphere{particle=largesmoke;amount=10;radius=0.2} @origin
+#  - effect:particlesphere{particle=portal;amount=10;radius=0.2} @origin
+#  - effect:particlesphere{particle=witchMagic;amount=10;radius=0.2} @origin
+JumperToxicShot_HIT:
+  Skills:
+  - effect:sound{s=entity.slime.attack;v=1;p=0.8}
+  - effect:particles{p=blockcrack_152_0;amount=1000;speed=0;hS=1;vS=1} @origin
+  - damage{a=15;i=false}
+JumperToxicShotEffect:
+  Cooldown: 0.05
+  Skills:
+  - effect:sound{s=entity.silverfish.ambient;v=0.5;p=1} @Origin
+  - effect:particles{p=slime;a=15;vs=.2;hs=.2;s=0;y=1} @Origin
+  - effect:particles{p=happyVillager;a=15;vs=.2;hs=.2;s=0;y=1} @Origin
+JumperToxicShotDamage:
+  Cooldown: 0.05
+  Skills:
+  - potion{t=POISON;d=200;l=1} @EntitiesNearOrigin{r=3}
+  - damage{a=12;i=false;pkb=true} @EntitiesNearOrigin{r=3}

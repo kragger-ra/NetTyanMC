@@ -1,0 +1,51 @@
+AgressiveTeacher:
+  Type: wolf # Base mob wither skeleton. Keep note that this means that when the mob attacks other entities, they will receive the WITHER effect.
+  Display: '&4&lПрофессор' # The name of the mob.
+  Disguise: Player antitype setCustomName Профессор setCustomNameVisible true
+  Damage: 3
+  Health: 8
+  Modules:
+    ThreatTable: true
+  Faction: VERYBAD # Sets the mob to be in the faction 'bad'
+  AIGoalSelectors: # What's the mob going to do?
+  - clear # Clears the mob's AI
+  - meleeattack # Melee-attacks its targets
+  - lookatplayers # Looks at players.
+  - randomstroll # Randomly walks around when off-combat.
+  AITargetSelectors:
+  - clear # Clears the mob's AI
+  - OwnerAttacker
+  - attacker # Then targets whatever attacks it
+  - OwnerTarget
+  - players # Targets players
+  - otherfaction # Targets whatever is not in the 'bad' faction
+  Options: # Additional mob options
+    UseThreatTable: true
+    AlwaysShowName: false # Prevents the mob from showing its name all the time. (Players will have to look at the mob to show the name)
+    PreventOtherDrops: true # Prevents vanilla wither skeleton drops.
+    PreventMobKillDrops: true # Prevents mobs that the Sentinel kills from dropping loot.
+    MovementSpeed: 0.2
+#    Silent: true # Disables its default sounds. Useful if you are going to use custom sounds.
+  Equipment: # Things that the mob will wear.
+#   - COMMAND_BLOCK HEAD # Wears a Command Block on its head.
+   - TeacherBook HAND # Holds a Netherite Sword in its hand
+  Skills:
+  # - speak{m=ENTERED COMBAT} ~onEnterCombat
+  # SOUNDS
+  - skill{skill=setOwner} @NearestPlayer{r=3} ~onSpawn
+  # - effect:sound{s=entity.enderman.scream;v=1;p=0.2} @self ~onDeath
+  # - effect:sound{s=entity.enderman.hurt;v=1;p=0.2} @self ~onDamaged
+  - speak{m=<target.name>, проходите на экзамен. Проверим, что крепче, гранит науки или ваш лоб} ~onEnterCombat
+  - speak{cooldown=10;m="&f&l<trigger.name>, НЕМЕДЛЕННО ПРЕКРАТИТЕ ! Я вам сейчас двойку поставлю !"} @trigger ~onDamaged
+  - speak{cooldown=10;m="<trigger.name> экзамен окончен, Ваша оценка 2. Ждём вас на пересдаче!"} @PIR{r=20} ~onPlayerKill
+  - effect:sound{s=entity.enderman.stare;v=.2;p=0.2} ~onTimer:150 0.5
+  - skill{s=SlackjawJumperAngry} @Self ~onTimer:20 1
+  - skill{s=TeacherRevenge} @trigger ~onDamaged:20 0.5 <90%
+  - speak{m="Ahahahahah! Die, <trigger.name>!"} @PlayersInRadius{r=20} ~onPlayerKill
+  - speak{m="Вы у меня ещё попляшете, <trigger.name> ! Запомните этого двоечника и больше не допускайте его к экзаменам!"} @target ~onDeath
+  # PARTICLES
+  # - effect:particles{particle=spell;amount=50;hS=1;vS=1;speed=5} @self ~onTimer:2 0.8
+  # ABILITIES
+  - throw{velocity=8;velocityY=4} @EIR{r=4} ~onDamaged 0.2 # When damaged, the mob has a 20% chance to launch nearby players in a radius of 4.
+  Drops:
+  - TeacherBook 1 0.5

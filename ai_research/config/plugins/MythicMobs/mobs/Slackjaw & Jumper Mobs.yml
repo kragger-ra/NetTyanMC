@@ -1,0 +1,283 @@
+FairyWinx:
+  Mobtype: VEX
+  Display: '&dФЕЯ ВИНКС'
+  Health: 5
+  Damage: 19
+  Faction: Brawl
+#  Disguise:
+#    Type: player
+#    Skin: '1_Bumaga_1'
+#    Player: '&cBumagaA4'
+#    Sprinting: true
+#    Player: '&e&lИГРОК &fКоль'
+#    Blocking: true
+#    Invisible: false
+#    ShowName: true
+#    Sneaking: true
+#    ModifyBoundingBox: true
+#  Modules:
+#    ThreatTable: true
+  Skills:
+  - speak{offset=0.6f;radius=30;maxlinelength=22;lineprefix="&5";message=" I just spawned!";chatprefix=<caster.name>&f<&co>;duration=200} @PIR{r=20} ~onSpawn
+  - message{msg="<mob.name><&co> &fВинкс! только вместе мы сильны!!!"} @PIR{r=15} ~onSpawn
+  - message{msg="<mob.name><&co> &fАа нееет девачкиии... МЫ ЕЩЁ ВЕРНЁМСЯЯ!!"} @PIR{r=15} ~onDeath
+  - message{msg="<mob.name><&co> &fАааа! лови по щам! Я фея винкс!";cooldown=1000} @PIR{r=15} ~onCombat
+  - message{msg="<mob.name><&co> &fи всегда устремлены!";cooldown=1000} @PIR{r=15} ~onCombat <70%
+  - message{msg="<mob.name><&co> &fК ПОБЕДЕ";cooldown=1000} @PIR{r=15} ~onCombat <50%
+#  - message{msg="<mob.name><&co> &fс асфальтом кста";cooldown=1000} @PIR{r=15} ~onCombat <30%
+#  - message{msg="<mob.name><&co> &fКд пофикси! нищий без скита!!!";cooldown=1000} @PIR{r=15} ~onCombat <10%
+  - sendactionmessage{m="<mob.name><&sp>&6<mob.hp>&8/&6<mob.mhp>"} @Trigger ~onDamaged
+  Options:
+    MovementSpeed: 0.35
+    PreventItemPickup: true
+    FollowRange: 35
+    PreventOtherDrops: true
+    KnockbackResistance: 0.50
+  Equipment:
+#  - BumagaBolt:0
+#  - BumagaBolt:5
+  - KingsCrown:4
+#  - ChainChestplate:3
+#  - ChainLeggings:2
+#  - ChainBoots:1
+#  Drops:
+#  - SlackjawBow 1 .03
+#  AIGoalSelectors:
+#  - 0 clear
+#  - 1 meleeattack
+#  - 1 spiderattack
+#  - 1 spiderattack
+#  - 2 gotoparent
+#  - 1 meleeattack
+#  - 2 fleesun
+  AITargetSelectors:
+  - 0 clear
+#  - 1 SpecificFaction lovemale
+  - 1 attacker
+  - 2 OtherFaction
+Brawler:
+  Mobtype: BABY_ZOMBIE
+  Display: '&7БРАВЛЕР'
+  Health: 40
+  Damage: 19
+  Faction: Brawl
+#  Disguise:
+#    Type: player
+#    Skin: '1_Bumaga_1'
+#    Player: '&cBumagaA4'
+#    Sprinting: true
+#    Player: '&e&lИГРОК &fКоль'
+#    Blocking: true
+#    Invisible: false
+#    ShowName: true
+#    Sneaking: true
+#    ModifyBoundingBox: true
+#  Modules:
+#    ThreatTable: true
+  Skills:
+  - message{msg="<mob.name><&co> &fБРАВЛ БРАВЛ СТАРС!!!"} @PIR{r=15} ~onSpawn
+  - message{msg="<mob.name><&co> &fДА Я БАГАТЫЙ УЁБАК"} @PIR{r=15} ~onDeath
+  - message{msg="<mob.name><&co> &fСКР СКР СКР СКР";cooldown=1000} @PIR{r=15} ~onCombat
+  - message{msg="<mob.name><&co> &fето новий бравл СТАРС!";cooldown=1000} @PIR{r=15} ~onCombat <70%
+  - message{msg="<mob.name><&co> &fго в бравл ппжжпжп";cooldown=1000} @PIR{r=15} ~onCombat <50%
+#  - message{msg="<mob.name><&co> &fс асфальтом кста";cooldown=1000} @PIR{r=15} ~onCombat <30%
+#  - message{msg="<mob.name><&co> &fКд пофикси! нищий без скита!!!";cooldown=1000} @PIR{r=15} ~onCombat <10%
+  - sendactionmessage{m="<mob.name><&sp>&6<mob.hp>&8/&6<mob.mhp>"} @Trigger ~onDamaged
+  Options:
+    MovementSpeed: 0.35
+    PreventItemPickup: true
+    FollowRange: 35
+    PreventOtherDrops: true
+    KnockbackResistance: 0.50
+  Equipment:
+#  - BumagaBolt:0
+#  - BumagaBolt:5
+  - KingsCrown:4
+#  - ChainChestplate:3
+#  - ChainLeggings:2
+#  - ChainBoots:1
+#  Drops:
+#  - SlackjawBow 1 .03
+  AIGoalSelectors:
+  - 0 clear
+  - 1 meleeattack
+#  - 1 spiderattack
+#  - 1 spiderattack
+#  - 2 gotoparent
+#  - 1 meleeattack
+#  - 2 fleesun
+  AITargetSelectors:
+  - 0 clear
+  - 1 SpecificFaction lovemale
+  - 2 attacker
+  - 3 OtherFaction
+Bumaga:
+  Mobtype: wolf
+  Display: '&7Бумага'
+  Riding: Nastya
+  Health: 40
+  Damage: 0.1
+  Faction: lovemale
+  Disguise:
+    Type: player
+    Skin: '1_Bumaga_1'
+    Player: '&cBumagaA4'
+#    Sprinting: true
+#    Player: '&e&lИГРОК &fКоль'
+#    Blocking: true
+#    Invisible: false
+#    ShowName: true
+#    Sneaking: true
+    ModifyBoundingBox: true
+#  Modules:
+#    ThreatTable: true
+  Skills:
+  - message{msg="<mob.name><&co> &fМмм моя настенька"} @PIR{r=15} ~onSpawn
+#  - skill{s=MaxFireRes} @self ~onSpawn
+  - skill{s=SlackjawJumperAngry} @Self ~onTimer:20 1
+#  - message{msg="<mob.name><&co> &fЭээ! Сблёв помойный ты вообще вкурсе что меня убил только что ?"} @PIR{r=15} ~onDeath
+#  - message{msg="<mob.name><&co> &fКликнешь пмнишь, девочка";cooldown=1000} @PIR{r=15} ~onCombat
+#  - message{msg="<mob.name><&co> &fБездарное существо!";cooldown=1000} @PIR{r=15} ~onCombat <70%
+#  - speak{offset=0.6f;radius=30;maxlinelength=22;lineprefix="&5";message=" I just spawned!";chatprefix=<caster.name>&f<&co>;duration=200} @self ~onSpawn
+#  - message{msg="<mob.name><&co> &fНьюкамер..";cooldown=1000} @PIR{r=15} ~onCombat <50%
+#  - message{msg="<mob.name><&co> &fс асфальтом кста";cooldown=1000} @PIR{r=15} ~onCombat <30%
+#  - message{msg="<mob.name><&co> &fКд пофикси! нищий без скита!!!";cooldown=1000} @PIR{r=15} ~onCombat <10%
+  - skill{s=BumagaAgro} @Trigger ~onDamaged
+  - skill{s=BumagaKill} @Trigger ~onAttack 0.25
+  - sendactionmessage{m="<mob.name><&sp>&6<mob.hp>&8/&6<mob.mhp>"} @Trigger ~onDamaged
+  - signal{s=NastyaRevenge} @MIR{r=15;t=Nastya} ~onDeath
+  - skill{s=BumagaRevenge} @Self ~onSignal:BumagaRevenge 0.1
+  - message{msg="<mob.name><&co> &fИди сюда"} @PIR{r=15} ~onSignal:BumagaTrax
+  - skill{s=BumagaSpawn} ~onSpawn
+  Options:
+    MovementSpeed: 0.35
+    PreventItemPickup: true
+    FollowRange: 35
+    PreventOtherDrops: true
+    KnockbackResistance: 0.50
+  Equipment:
+  - BumagaBolt:0
+  - BumagaBolt:5
+  - ChainHelm:4
+  - ChainChestplate:3
+  - ChainLeggings:2
+  - ChainBoots:1
+#  Drops:
+#  - SlackjawBow 1 .03
+  AIGoalSelectors:
+  - 0 clear
+#  - 1 spiderattack
+  - 1 spiderattack
+#  - 2 gotoparent
+#  - 1 meleeattack
+#  - 2 fleesun
+  AITargetSelectors:
+  - 0 clear
+  - 1 SpecificFaction lovegirl
+  Drops:
+  - BumagaBolt 1 0.08
+Nastya:
+  Mobtype: wolf
+  Display: '&dНастя'
+  Health: 20
+  Damage: 0.1
+  Faction: lovegirl
+  Disguise:
+    Type: player
+    Skin: 'Nastya_K'
+    Player: '&cNastya'
+#    Sprinting: true
+#    Player: '&e&lИГРОК &fКоль'
+#    Blocking: true
+#    Invisible: false
+#    ShowName: true
+    Sneaking: true
+    ModifyBoundingBox: true
+#  Modules:
+#    ThreatTable: true
+  Skills:
+#  - message{msg="<mob.name> &2*шипить*"} @PIR{r=20} ~onSpawn
+  - potion{t=REGENERATION;d=999999;l=1} @Self
+  - signal{s=BumagaRevenge} @MIR{r=3;t=Bumaga} ~onDeath
+#  - skill{s=SlackjawJumperAngry} @Self ~onTimer:20 1
+#  - skill{s=JumperToxicShot} @Target ~onTimer:60
+  - skill{s=NastyaLove} @Self ~onDamaged
+  - skill{s=NastyaDamaged} @Self ~onDamaged
+  - skill{s=NastyaScream} @Self ~onDeath
+  - skill{s=NastyaRevenge} @Self ~onSignal:NastyaRevenge 1
+  - sendactionmessage{m="<mob.name><&sp>&6<mob.hp>&8/&6<mob.mhp>"} @Trigger ~onDamaged
+  Options:
+    Silent: true
+    MovementSpeed: 0.2
+    PreventItemPickup: true
+    FollowRange: 35
+    PreventOtherDrops: true
+    KnockbackResistance: 1
+  AIGoalSelectors:
+  - 0 clear
+  - 1 movetowardstarget
+  - 2 randomstroll
+  - 3 lookatplayers
+  - 4 randomlookaround
+#  - 2 meleeattack
+#  - 2 gotoparent
+#  - 2 fleesun
+  AITargetSelectors:
+  - 0 clear
+  - 1 attacker
+  - 2 SpecificFaction lovemale
+Slackjaw:
+  Mobtype: skeleton
+  Display: '&7Слякожёв'
+  Riding: 0Jumper0
+  Health: 40
+  Damage: 14
+  Faction: Hunters
+  Skills:
+  - message{msg="<mob.name><&co> &fДжампер! Глянь чё нашёл. Похоже будет чё жрать, а ?"} @PIR{r=15} ~onSpawn
+#  - skill{s=MaxFireRes} @self ~onSpawn
+  - skill{s=SlackjawJumperAngry} @Self ~onTimer:20 1
+  - message{msg="<mob.name><&co> &fЭээ! Сблёв помойный ты вообще вкурсе что меня убил только что ?"} @PIR{r=15} ~onDeath
+  - message{msg="<mob.name><&co> &fКликнешь пмнишь, девочка";cooldown=1000} @PIR{r=15} ~onCombat
+  - message{msg="<mob.name><&co> &fБездарное существо!";cooldown=1000} @PIR{r=15} ~onCombat <70%
+#  - speak{offset=0.6f;radius=30;maxlinelength=22;lineprefix="&5";message=" I just spawned!";chatprefix=<caster.name>&f<&co>;duration=200} @self ~onSpawn
+  - message{msg="<mob.name><&co> &fНьюкамер..";cooldown=1000} @PIR{r=15} ~onCombat <50%
+  - message{msg="<mob.name><&co> &fс асфальтом кста";cooldown=1000} @PIR{r=15} ~onCombat <30%
+  - message{msg="<mob.name><&co> &fКд пофикси! нищий без скита!!!";cooldown=1000} @PIR{r=15} ~onCombat <10%
+  - sendactionmessage{m="<mob.name><&sp>&6<mob.hp>&8/&6<mob.mhp>"} @Trigger ~onDamaged
+  - signal{s=JumperRevenge} @MIR{r=5;t=0Jumper0} ~onDeath
+  - skill{s=SlackjawRevenge} @Self ~onSignal:SlackjawRevenge
+  Options:
+    MovementSpeed: 0.3
+    PreventItemPickup: true
+    FollowRange: 35
+    PreventOtherDrops: true
+    KnockbackResistance: 0.50
+  Equipment:
+  - SlackjawBow:0
+  - ChainHelm:4
+  - ChainChestplate:3
+  - ChainLeggings:2
+  - ChainBoots:1
+  Drops:
+  - SlackjawBow 1 0.03
+0Jumper0:
+  Mobtype: spider
+  Display: '&7Джампер'
+  Health: 20
+  Damage: 12
+  Faction: Hunters
+  Skills:
+  - message{msg="<mob.name> &2*шипить*"} @PIR{r=20} ~onSpawn
+  - potion{t=REGENERATION;d=999999;l=1} @Self
+  - signal{s=SlackjawRevenge} @MIR{r=5;t=Slackjaw} ~onDeath
+  - skill{s=SlackjawJumperAngry} @Self ~onTimer:20 1
+  - skill{s=JumperToxicShot} @Target ~onTimer:60
+  - skill{s=JumperRevenge} @Self ~onSignal:JumperRevenge 1
+  - sendactionmessage{m="<mob.name><&sp>&6<mob.hp>&8/&6<mob.mhp>"} @Trigger ~onDamaged
+  Options:
+    MovementSpeed: 0.25
+    PreventItemPickup: true
+    FollowRange: 35
+    PreventOtherDrops: true
+    KnockbackResistance: 1

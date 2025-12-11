@@ -1,0 +1,47 @@
+MenuPhone:
+  Id: DIAMOND_PICKAXE
+  Data: 40
+  Options:
+    Unbreakable: true
+  Display: '&aСмартфон'
+  Lore:
+  - '&8Ррапре'
+  - '&4&oпвапвр'
+SlackjawBow:
+  Id: bow
+  Display: '&ahfghfgh'
+  Lore:
+  - '&8Редкость: &5Эпичное'
+  - '&4&oПинает по-царски'
+  Enchantments:
+  - ARROW_DAMAGE:2
+  - ARROW_KNOCKBACK:4
+  Options:
+    Repairable: false
+BumagaBolt:
+  Id: blaze_rod
+  Display: '&agfhfghgfhи'
+  Lore:
+  - '&8Редкость: &5Эпичное'
+  - '&4&oИдеально сочетается с &4&lhfghfg насти'
+  Skills:
+  - effect:particles{particle=heart;amount=15;hS=0.3;vS=0.4;speed=1} @trigger ~onSwing
+  - skill{s=PskaKill} @trigger ~onInteract 0.4
+  Enchantments:
+  - ALL_DAMAGE:10
+  - ARROW_KNOCKBACK:4
+ChainHelm:
+  Id: chainmail_helmet
+ChainChestplate:
+  Id: chainmail_chestplate
+ChainLeggings:
+  Id: chainmail_leggings
+ChainBoots:
+  Id: chainmail_boots
+DiamondSword:
+  Id: diamond_sword
+TeacherBook:
+  Id: book
+  Display: '&aУчебник по гастроэнтерологии'
+  Enchantments:
+  - SHARPNESS 3

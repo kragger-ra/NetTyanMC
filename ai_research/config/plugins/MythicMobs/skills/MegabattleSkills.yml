@@ -1,0 +1,21 @@
+setOwner:
+  Cooldown: 5
+#  Conditions:
+#  - TargetInLineOfSight true
+#  - targetnotwithin{d=8}
+  Skills:
+  - message{cooldown=0.2;m="&f&lСущность [&a&l<mob.name>&f&l] &f&lотправлена вам для помощи"}
+  - setowner
+TeacherRevenge:
+  Cooldown: 100
+  Skills:
+  - potion{t=SLOW;d=40;l=100} @Self
+  - speak{m="&fТак стоп. Где мой любимый сборник задач?"} @Self
+  - equip{item=AIR:0} @Self
+  - dropitem{i=TeacherBook} @self 0.5
+  - delay 30
+  - potion{t=INCREASE_DAMAGE;d=100000;l=0} @Self
+  - potion{t=SPEED;d=100000;l=4} @Self
+  - setstance{stance=Vengeful} @Self
+  - speak{m="&f<trigger.name> подойдите сюда, пожалуйста..."} @Self
+  - equip{item=DiamondSword:0} @Self
