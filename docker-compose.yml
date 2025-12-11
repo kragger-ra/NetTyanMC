@@ -239,9 +239,9 @@ services:
   rcon-panel:
     image: itzg/rcon
     container_name: rcon_web_admin
-    expose:
-      - "4326"
-      - "4327"
+    ports:
+      - "4326:4326"
+      - "4327:4327"
     environment:
       RWA_USERNAME: admin
       RWA_PASSWORD: admin
@@ -256,7 +256,7 @@ services:
       # RWA_ENV_CONFIG: "false" 
     volumes:
       # Монтируем файл server.json с настройками серверов
-      - ./control_panel/servers.json:/app/servers.json 
+      - rcon_panel_data:/
     networks:
       - minecraft_network
       - nettyan_ssl
@@ -275,7 +275,8 @@ volumes:
   # PostgreSQL data
   postgres_data:
     name: nettyanmc_postgres_data
-
+  rcon_panel_data:
+    name: nettyanmc_rcon_panel_data
   # Minecraft server data volumes (persistent across rebuilds)
   # velocity_data removed - using custom build with local mount
   survival_data:
