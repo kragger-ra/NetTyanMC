@@ -233,7 +233,7 @@ services:
   # отключил из-за проблем с windows в crafty docker, говорят юзать portable
 
   rcon-panel:
-    image: itzg/docker-rcon-web-admin:latest
+    image: itzg/rcon
     container_name: rcon_web_admin
     ports:
       - "34225:80" # Интерфейс панели RCON
