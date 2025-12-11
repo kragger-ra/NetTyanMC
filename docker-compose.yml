@@ -77,14 +77,16 @@ services:
       MEMORY: ${AI_RESEARCH_MEMORY:-10G}
       EULA: "TRUE"
       ONLINE_MODE: "FALSE"
-      SERVER_PORT: 25565
+      SERVER_PORT: 25570
       USE_AIKAR_FLAGS: "TRUE"
       # Config sync settings
       SYNC_SKIP_NEWER_IN_DESTINATION: "true"
       COPY_CONFIG_DEST: /data
       REPLACE_ENV_DURING_SYNC: "true"
     ports:
-      - "25570:25565"  # Direct access for AI Research
+      - "24454:24454/udp"
+    expose:
+      - "25570"
     volumes:
       - airesearch_data:/data                  # Persistent data (JAR, worlds, userdata)
       - ./ai_research/config:/config:ro        # Configs from Git (read-only)
