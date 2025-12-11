@@ -81,6 +81,7 @@ services:
       ONLINE_MODE: "FALSE"
       SERVER_PORT: 25570
       USE_AIKAR_FLAGS: "TRUE"
+      RCON_PASSWORD: ${RCON_PASSWORD:-StrongPass123!}
       # Config sync settings
       SYNC_SKIP_NEWER_IN_DESTINATION: "true"
       COPY_CONFIG_DEST: /data
@@ -235,16 +236,16 @@ services:
   rcon-panel:
     image: itzg/rcon
     container_name: rcon_web_admin
-    ports:
-      - "34225:4326"
-      - "4327:4327"
+    expose:
+      - "4326"
+      - "4327"
     environment:
       RWA_USERNAME: admin
       RWA_PASSWORD: admin
       RWA_ADMIN: "TRUE"
       # is referring to the service name 'mc' declared below
       RWA_RCON_HOST: airesearch
-      RCON_PORT: 25580
+      RWA_RCON_PORT: 25580
       # needs to match the password configured for the container, see RCON_PASSWORD below
       RWA_RCON_PASSWORD: ${RCON_PASSWORD:-StrongPass123!}
       # Указываем, что будем управлять несколькими серверами через JSON конфиг
