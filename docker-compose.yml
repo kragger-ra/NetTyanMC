@@ -227,32 +227,10 @@ services:
       retries: 3
       start_period: 20s
 
-  # ============================================
   # CRAFTY CONTROLLER - Web UI для управления серверами
-  # ============================================
-  # Опционально: Веб-панель управления Minecraft серверами
-  # Доступ: https://localhost:8443 (по умолчанию admin/crafty)
-  # Документация: https://craftycontrol.com/
-  crafty:
-    image: registry.gitlab.com/crafty-controller/crafty-4:latest
-    container_name: crafty_controller
-    restart: unless-stopped
-    ports:
-      - "8443:8443"   # HTTPS Web UI
-      - "8123:8123"   # Websocket
-    volumes:
-      - crafty_data:/crafty/app/config
-      - crafty_backups:/crafty/backups
-      - crafty_logs:/crafty/logs
-      - crafty_servers:/crafty/servers
-      - /var/run/docker.sock:/var/run/docker.sock:ro  # Docker socket для управления контейнерами
-    networks:
-      - minecraft_network
-      - nettyan_ssl
-    environment:
-      TZ: ${TZ:-Europe/Moscow}
-    # Комментируйте этот сервис если не нужен Crafty Controller
-    # profiles: ["management"]  # Раскомментируйте чтобы запускать только с --profile management
+  # https://hub.docker.com/r/arcadiatechnology/crafty-4
+  # https://wiki.craftycontrol.com/en/4/Docker%20Setup%20Documentation
+  # отключил из-за проблем с windows в crafty docker, говорят юзать portable
 
 networks:
   minecraft_network:
@@ -274,13 +252,3 @@ volumes:
     name: nettyanmc_lobby_data
   survivalplus_data:
     name: nettyanmc_survivalplus_data
-
-  # Crafty Controller data (опционально)
-  crafty_data:
-    name: nettyanmc_crafty_data
-  crafty_backups:
-    name: nettyanmc_crafty_backups
-  crafty_logs:
-    name: nettyanmc_crafty_logs
-  crafty_servers:
-    name: nettyanmc_crafty_servers
