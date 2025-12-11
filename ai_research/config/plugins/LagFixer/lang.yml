@@ -1,0 +1,66 @@
+# ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+# ░██╗░░░░░░█████╗░░██████╗░░░███████╗██╗██╗░░██╗███████╗██████╗░░
+# ░██║░░░░░██╔══██╗██╔════╝░░░██╔════╝██║╚██╗██╔╝██╔════╝██╔══██╗░
+# ░██║░░░░░███████║██║░░██╗░░░█████╗░░██║░╚███╔╝░█████╗░░██████╔╝░
+# ░██║░░░░░██╔══██║██║░░╚██╗░░██╔══╝░░██║░██╔██╗░██╔══╝░░██╔══██╗░
+# ░███████╗██║░░██║╚██████╔╝░░██║░░░░░██║██╔╝╚██╗███████╗██║░░██║░
+# ░╚══════╝╚═╝░░╚═╝░╚═════╝░░░╚═╝░░░░░╚═╝╚═╝░░╚═╝╚══════╝╚═╝░░╚═╝░
+# ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+# -----------------> TUTORIALS <-----------------#
+#
+# Hex colors and gradients usage:
+# - https://docs.advntr.dev/minimessage/format.html
+#
+# (SOON) PlaceholderAPI usage:
+# - Format: <papi:[papi_placeholder]>
+# - Example: <papi:luckperms_prefix>
+#
+# -----------------> TUTORIALS <-----------------#
+
+# soon it will be possible to translate all messages
+messages:
+  Main:
+    no_access: '<color:gray>Попал как кур в огород! Нет у тебя прав для этой модули:
+      <color:yellow><permission>'
+    disabled_module: <color:gray>Модуль <color:yellow><module> <color:gray>отключён.
+      Ступай, администраторы включат его сами!'
+    player_only: <color:gray>Эту команду можно использовать только стоя на лоне прекрасного
+      игрового мира как живой человек!
+  
+  RedstoneLimiter:
+    alert: <color:gray>Остановил <color:yellow><ticks> <color:gray>красных камней
+      в чанке <gradient:#c48d00:#fffb00><location></gradient><color:gray>! Не переборщи
+      с красным камнем, как в той детской игре!)
+    cooldown: <color:gray>Пользоваться снова можно через <gradient:#c48d00:#fffb00><cooldown></gradient><color:gray>
+      миллисекунд. Отдохни немного!
+  WorldCleaner:
+    countingdown:
+      # Значения отсчета времени
+      # '60': "<gradient:#ff3c00:#ffff00>Очистка лежащих предметов</gradient> <color:gray>Через <color:yellow><remaining></color:gray> секунд, начинаем уборку! Будет удалено <color:red><items>x <color:gray> предметов и <color:light_purple><creatures>x <color:gray> мобов!"
+      # '45': "<gradient:#ff3c00:#ffff00>Очистка лежащих предметов</gradient> <color:gray>Через <color:orange><remaining></color:gray> секунд начнём уборку! Уже собрали метлы для удаления <color:red><items>x <color:gray> предметов и <color:light_purple><creatures>x <color:gray> мобов!"
+      '30': <gradient:#ff3c00:#ffff00>Очистка лежащих предметов</gradient> <color:gray>Уборщики
+        на марше через <color:red><remaining></color:gray> секунд! <color:yellow><items>x
+        <color:gray> предметов и <light_purple><creatures>x <color:gray> мобов пойдут
+        под метлу!
+    # '15': "<gradient:#ff3c00:#ffff00>Очистка лежащих предметов</gradient> <color:gray>До уборки всего <color:yellow><items>x <color:gray> предметов и <color:light_purple><creatures>x <color:gray> мобов осталось лишь <color:red><remaining></color:gray> секунды!"
+    # '10': "<gradient:#ff3c00:#ffff00>Очистка лежащих предметов</gradient> <color:gray>Всего <color:yellow><items>x <color:gray> предметов и <color:light_purple><creatures>x <color:gray> мобов отправятся на свалку через <color:orange><remaining></color:gray> секунды!"
+    # '5': "<gradient:#ff3c00:#ffff00>Очистка лежащих предметов</gradient> <color:gray>Последняя минута! Всего <color:yellow><items>x <color:gray> предметов и <color:light_purple><creatures>x <color:gray> мобов будут удалены через <color:red><remaining></color:gray> секунды!"
+    # '4': "<gradient:#ff3c00:#ffff00>Очистка лежащих предметов</gradient> <color:gray>Ровно 4 секунды осталось до того, как <color:yellow><items>x <color:gray> предметов и <color:light_purple><creatures>x <color:gray> мобов отправятся в небытие!"
+    # '3': "<gradient:#ff3c00:#ffff00>Очистка лежащих предметов</gradient> <color:gray>3 секунды... Готовьтесь расставшись с вашими предметами и мобами! Это касается как предметов <color:yellow><items>x <color:gray>, так и зловещих созданий <color:light_purple><creatures>x"
+    # '2': "<gradient:#ff3c00:#ffff00>Очистка лежащих предметов</gradient> <color:gray>Две секунды осталось до конца! Предметы и мобы уже чувствуют приближение бездны... <color:red><items>x <color:light_purple><creatures>x"
+    # '1': "<gradient:#ff3c00:#ffff00>Очистка лежащих предметов</gradient> <color:gray>Последняя секунда! Всего лишь один момент и <color:yellow><items>x <color:gray> предметов с <color:light_purple><creatures>x мобами исчезнут навсегда!"
+    # '0': '<color:gray>Уборка завершена! Удалено <color:red><items>x <color:gray> предметов и <color:light_purple><creatures>x <color:gray> мобов.'
+    clearitems:
+      abyss:
+        gui: <color:white>Властелин Бездны!</color:white> (Представленная команда
+          - <color:yellow>LagFixer<color:white>)
+        close: <color:gray>Бездна успешно запечатана! Там теперь будет тихо.
+        open: '<gradient:#ff3c00:#ffff00><color:gray>Властелин Бездны открывает свои
+          двери!</color:gray>  Восстанавливайте утраченные вещи командой: <color:yellow>/abyss'
+        closed: <color:gray>Бездна закрыта, как гробница фараона! Отдохни пока, скоро
+          откроется.
+        opened: <gradient:#ff3c00:#ffff00><color:gray>Властелин Бездны объявляет свои
+          двери открытыми!</color:gray> Приходи за своими предметами, кто знает, может
+          найдёшь что-то уникальное!
+

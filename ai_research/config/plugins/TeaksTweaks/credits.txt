@@ -1,0 +1,15 @@
+Plugin Creator: TeakIvy
+ - https://twitter.com/TeakIvyYT
+ - https://youtube.com/teakivy
+
+Contributors:
+ - evm0
+ - RamrKorda
+ - MCCasper
+
+Thanks to Sachin Gorkar for some of the tweak's ideas
+
+Fast Leaf Decay  By: @StarTux on Github
+
+Vanilla Tweaks Credits:
+https://vanillatweaks.net/
