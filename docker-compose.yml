@@ -26,6 +26,7 @@ services:
     restart: unless-stopped
     ports:
       - "25565:25565"
+      - "24454:24454/udp"
       - "25577:25577/udp"
     volumes:
       - ./velocity:/server
@@ -85,10 +86,9 @@ services:
       COPY_CONFIG_DEST: /data
       REPLACE_ENV_DURING_SYNC: "true"
       WORLD: /worlds/world
-    ports:
-      - "24454:24454/udp"
     expose:
       - "25570"
+      - "24454/udp"  # Внутри Docker сети для Velocity
     volumes:
       - ./ai_research/worlds:/worlds
       # For example, reference a shared directory used by several projects
