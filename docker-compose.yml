@@ -254,9 +254,10 @@ services:
       # Указываем, что будем управлять несколькими серверами через JSON конфиг
       RCON_MULTIPLE_SERVERS: "true"
       # RWA_ENV_CONFIG: "false" 
-    volumes:
-      # Монтируем файл server.json с настройками серверов
-      - rcon_panel_data:/
+    # volumes:
+        # нельзя монтировать на /
+    #   # Монтируем файл server.json с настройками серверов
+    #   - rcon_panel_data:/data
     networks:
       - minecraft_network
       - nettyan_ssl
@@ -275,8 +276,8 @@ volumes:
   # PostgreSQL data
   postgres_data:
     name: nettyanmc_postgres_data
-  rcon_panel_data:
-    name: nettyanmc_rcon_panel_data
+  # rcon_panel_data:
+  #   name: nettyanmc_rcon_panel_data
   # Minecraft server data volumes (persistent across rebuilds)
   # velocity_data removed - using custom build with local mount
   survival_data:
