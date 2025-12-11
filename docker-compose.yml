@@ -90,7 +90,6 @@ services:
     expose:
       - "25570"
     volumes:
-      - airesearch_data:/data                  # Persistent data (userdata)
       - ./ai_research/worlds:/worlds
       # For example, reference a shared directory used by several projects
       - ../plugins-common:/plugins-common:ro
@@ -98,6 +97,7 @@ services:
       - ./plugins:/plugins-local:ro
       # Configs from Git (read-only)
       - ./ai_research/config:/config:ro
+      - airesearch_data:/data                  # Persistent data (userdata)
     networks:
       - minecraft_network
     depends_on:
