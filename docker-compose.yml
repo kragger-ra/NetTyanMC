@@ -265,6 +265,26 @@ services:
       postgres:
         condition: service_healthy
 
+  # Control MC docker images
+  portainer:
+      image: portainer/portainer-ce:latest
+      container_name: portainer
+      restart: unless-stopped
+      security_opt:
+        - no-new-privileges:true
+      expose:
+        - "9000"
+      environment:
+        # Задаем часовой пояс переменной, так как монтировать /etc/localtime на Windows нельзя
+        - TZ=Europe/Moscow  # Поменяйте на свой, если нужно
+      volumes:
+        # На Docker Desktop for Windows это работает, так как он транслирует Windows Pipe в Linux Socket
+        - /var/run/docker.sock:/var/run/docker.sock
+        - portainer_data:/data
+      networks:
+        - minecraft_network
+        - nettyan_ssl
+
 networks:
   minecraft_network:
     driver: bridge
@@ -276,6 +296,8 @@ volumes:
   # PostgreSQL data
   postgres_data:
     name: nettyanmc_postgres_data
+  portainer_data:
+    name: nettyanmc_portainer_data
   # rcon_panel_data:
   #   name: nettyanmc_rcon_panel_data
   # Minecraft server data volumes (persistent across rebuilds)
