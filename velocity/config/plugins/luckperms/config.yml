@@ -1,8 +1,0 @@
-storage-method: postgresql
-data:
-  address: postgres:5432
-  database: minecraft_server
-  username: mcserver
-  password: StrongPass123!
-
-messaging-service: sql
