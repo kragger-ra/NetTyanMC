@@ -90,6 +90,7 @@ services:
       - "25570"
       - "24454/udp"  # Внутри Docker сети для Velocity
     volumes:
+      - ./ai_research/data:/data
       - ./ai_research/worlds:/worlds
       # For example, reference a shared directory used by several projects
       - ./plugins-common:/plugins-common:ro
@@ -97,7 +98,8 @@ services:
       - ./ai_research/plugins:/plugins-local:ro
       # Configs from Git (read-only)
       - ./ai_research/config:/config:ro
-      - airesearch_data:/data                  # Persistent data (userdata)
+
+
     networks:
       - minecraft_network
     depends_on:
@@ -270,8 +272,6 @@ volumes:
     name: nettyanmc_survival_data
   lobby_data:
     name: nettyanmc_lobby_data
-  airesearch_data:
-    name: nettyanmc_airesearch_data
   survivalplus_data:
     name: nettyanmc_survivalplus_data
 
