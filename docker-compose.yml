@@ -34,14 +34,6 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
-      survival:
-        condition: service_started
-      airesearch:
-        condition: service_started
-      lobby:
-        condition: service_started
-      survivalplus:
-        condition: service_started
     stdin_open: true
     tty: true
 
@@ -73,6 +65,7 @@ services:
         condition: service_healthy
     stdin_open: true
     tty: true
+    profiles: ["debug"]
 
   airesearch:
     image: itzg/minecraft-server
@@ -131,6 +124,7 @@ services:
         condition: service_healthy
     stdin_open: true
     tty: true
+    profiles: ["debug"]
 
   survivalplus:
     image: itzg/minecraft-server
@@ -160,6 +154,7 @@ services:
         condition: service_healthy
     stdin_open: true
     tty: true
+    profiles: ["debug"]
 
   backend:
     build: ./backend
