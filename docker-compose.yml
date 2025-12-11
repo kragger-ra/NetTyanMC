@@ -234,6 +234,7 @@ services:
 
   rcon-panel:
     image: itzg/docker-rcon-web-admin:latest
+    container_name: rcon_web_admin
     ports:
       - "34225:80" # Интерфейс панели RCON
     environment:
