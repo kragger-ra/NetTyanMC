@@ -10,8 +10,8 @@ player-info-forwarding-mode = "legacy"
 ai_research = "airesearch:25570"
 lobby = "lobby:25575"
 survival = "survival:25571"
-limbo= "limbo:25573"
-try = ["ai_research"]
+limbo= "limbo:25579"
+try = ["limbo"]
 # survival_plus = "survivalplus:25565"  # Coming soon
 
 [forced-hosts]
