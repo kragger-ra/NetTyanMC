@@ -38,6 +38,22 @@ services:
     stdin_open: true
     tty: true
 
+  limbo:
+    build: ./limbo
+    container_name: minecraft_limbo
+    restart: unless-stopped
+    ports:
+      - "25578:25565"
+    volumes:
+      - ./limbo:/server
+    networks:
+      - minecraft_network
+    depends_on:
+      postgres:
+        condition: service_healthy
+    stdin_open: true
+    tty: true
+
   survival:
     image: itzg/minecraft-server
     container_name: minecraft_survival
