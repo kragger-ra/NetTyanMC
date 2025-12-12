@@ -76,7 +76,10 @@ services:
       TYPE: PAPER
       VERSION: 1.21.1
       COPY_PLUGINS_SRC: /plugins-common,/plugins-local
-      MEMORY: ${AI_RESEARCH_MEMORY:-10G}
+      MEMORY: ${AI_RESEARCH_MEMORY:-8G}
+      MAX_MEMORY: 8G
+      MIN_MEMORY: 2G
+      JVM_OPTS: "-XX:+UseG1GC -XX:MaxGCPauseMillis=200 -XX:+ParallelRefProcEnabled"
       EULA: "TRUE"
       ONLINE_MODE: "FALSE"
       SERVER_PORT: 25570
