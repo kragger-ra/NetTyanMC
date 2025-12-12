@@ -43,7 +43,7 @@ services:
     container_name: minecraft_limbo
     restart: unless-stopped
     ports:
-      - "25578:25565"
+      - "25578:25578"
     volumes:
       - ./limbo:/server
     networks:
@@ -53,7 +53,12 @@ services:
         condition: service_healthy
     stdin_open: true
     tty: true
-
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+        reservations:
+          memory: 100M
   survival:
     image: itzg/minecraft-server
     container_name: minecraft_survival
