@@ -11,6 +11,7 @@ ai_research = "airesearch:25570"
 nanolimbo= "localhost:25579"
 lobby = "lobby:25575"
 survival = "survival:25571"
+limbo = "limbo"
 try = ["ai_research", "nanolimbo", "limbo", "lobby", "survival"]
 # survival_plus = "survivalplus:25565"  # Coming soon
 
