@@ -76,14 +76,20 @@ services:
       TYPE: PAPER
       VERSION: 1.21.1
       COPY_PLUGINS_SRC: /plugins-common,/plugins-local
-      MEMORY: ${AI_RESEARCH_MEMORY:-8G}
-      MAX_MEMORY: 8G
-      MIN_MEMORY: 2G
+      
+      # Standart memory settings. DISABLE if using AIKAR setup
+      MAX_MEMORY: 6G
+      MIN_MEMORY: 1G
       JVM_OPTS: "-XX:+UseG1GC -XX:MaxGCPauseMillis=200 -XX:+ParallelRefProcEnabled"
+      
+      # AIKAR SETUP for BIG servers and 10G+ RAM
+      # but will get ALL memory in use and some plugins may have issues
+      # MEMORY: ${AI_RESEARCH_MEMORY:-8G}
+      # USE_AIKAR_FLAGS: "TRUE"
+      
       EULA: "TRUE"
       ONLINE_MODE: "FALSE"
       SERVER_PORT: 25570
-      USE_AIKAR_FLAGS: "TRUE"
       RCON_PASSWORD: ${RCON_PASSWORD:-StrongPass123!}
       RCON_PORT: 25580
       ENABLE_RCON: "TRUE"
