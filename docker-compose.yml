@@ -73,10 +73,11 @@ services:
       COPY_CONFIG_DEST: /data
       REPLACE_ENV_DURING_SYNC: "true"
       WORLD: /worlds/world
+    ports:
+      - "25610:25610"  # BlueMap webserver port
     expose:
       - "25570"  # Server port
       - "25580"  # RCON port
-      - "25610"  # BlueMap webserver port
       - "24454/udp"  # VoiceChatPort
     volumes:
       - ./ai_research/data:/data
