@@ -74,9 +74,10 @@ services:
       REPLACE_ENV_DURING_SYNC: "true"
       WORLD: /worlds/world
     expose:
-      - "25570"
-      - "25580"
-      - "24454/udp"  # Внутри Docker сети для Velocity
+      - "25570"  # Server port
+      - "25580"  # RCON port
+      - "25610"  # BlueMap webserver port
+      - "24454/udp"  # VoiceChatPort
     volumes:
       - ./ai_research/data:/data
       - ./ai_research/worlds:/worlds
