@@ -89,6 +89,7 @@ services:
       - ./ai_research/config:/config:ro
     networks:
       - minecraft_network
+      - nettyan_ssl
     depends_on:
       postgres:
         condition: service_healthy
