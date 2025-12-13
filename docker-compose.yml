@@ -32,7 +32,7 @@ services:
       # Standart minecraft Java port
       - "25565:25565"
       # Bedrock port
-      - "19132:19132"
+      - "19132:19132/udp"
       # Voice chat port
       - "24454:24454/udp"
       # Voice chat proxy port
