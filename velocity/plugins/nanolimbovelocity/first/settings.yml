@@ -13,7 +13,7 @@ maxPlayers: -1
 
 # Server's data in servers list
 ping:
-  description: '{"text": "&9NanoLimbo"}'
+  description: '{"text": "&9Лобби"}'
   version: 'NanoLimbo'
   # Return static protocol version number in ping result
   # By default, its -1 to return the client version if it supported
@@ -21,7 +21,7 @@ ping:
   protocol: -1
 
 # Available dimensions: OVERWORLD, NETHER, THE_END
-dimension: THE_END
+dimension: OVERWORLD
 
 # Whether to display the player in the player list
 # For 1.16.5 clients, the player list will be sent even if disabled, to avoid crash
@@ -33,8 +33,8 @@ playerList:
 # For 1.8+ clients
 headerAndFooter:
   enable: false
-  header: '{"text": "&eWelcome!"}'
-  footer: '{"text": "&9NanoLimbo"}'
+  header: '{"text": "&eПривет!"}'
+  footer: '{"text": "&9ВыборСервера"}'
 
 # Setup player's game mode
 # 0 - Survival
@@ -53,16 +53,16 @@ brandName:
 # Message sends when player joins to the server
 joinMessage:
   enable: true
-  text: '{"text": "&eWelcome to the Limbo!"}'
+  text: '{"text": "&eВы в лобби. Выберите сервер /server имя"}'
 
 # BossBar displays when player joins to the server
 # For 1.9+ clients
 bossBar:
   enable: true
-  text: '{"text": "Welcome to the Limbo!"}'
+  text: '{"text": "Выберите сервер!"}'
   health: 1.0
   # Available colors: PINK, BLUE, RED, GREEN, YELLOW, PURPLE, WHITE
-  color: PINK
+  color: GREEN
   # Available divisions: SOLID, DASHES_6, DASHES_10, DASHES_12, DASHES_20
   division: SOLID
 
@@ -71,9 +71,9 @@ bossBar:
 title:
   enable: true
   # Set title text value empty, if you need only subtitle
-  title: '{"text": "&9&lWelcome!"}'
+  title: '{"text": "&9&lПривет в лобби!"}'
   # Set subtitle text value empty, if you need only title
-  subtitle: '{"text": "&6NanoLimbo"}'
+  subtitle: '{"text": "&6Выбери сервер!"}'
   # Fade in time in ticks (1 sec = 20 ticks)
   fadeIn: 10
   # Stay time in ticks
@@ -89,8 +89,8 @@ title:
 #  - BUNGEE_GUARD
 # Don't use secret if you do not use MODERN type
 infoForwarding:
-  type: NONE
-  secret: '<YOUR_SECRET_HERE>'
+  type: LEGACY
+  secret: 'oTg4jdiC2rup'
   tokens:
     - '<BUNGEE_GUARD_TOKEN>'
 
