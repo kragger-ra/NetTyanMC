@@ -1,8 +1,11 @@
+server: airesearch
+include-global: true
+use-server-uuid-cache: true
 storage-method: postgresql
 data:
   address: postgres:5432
   database: minecraft_server
   username: mcserver
-  password: StrongPass123!
+  password: 'StrongPass123!'
 
 messaging-service: sql

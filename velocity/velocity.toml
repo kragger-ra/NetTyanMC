@@ -1,8 +1,10 @@
 config-version = "2.7"
 bind = "0.0.0.0:25565"
 motd = "<bold><aqua>Agi<gray>-<light_purple>Craft </light_purple></bold><yellow>⪼</yellow> <gradient:light_purple:#ffffff>Заходи с версии</gradient> <white>1.21</white><gradient:white:aqua><newline>ОКАК <black>/otpor</black>"
-show-max-players = 100
+show-max-players = 5090
+# Online mode like in other servers
 online-mode = false
+# For online mode checking client brand
 force-key-authentication = false
 player-info-forwarding-mode = "legacy"
 
@@ -12,7 +14,16 @@ nanolimbo= "localhost:25579"
 lobby = "lobby:25575"
 survival = "survival:25571"
 limbo = "limbo:25578"
+
+# Sequence of attempts
 try = ["ai_research", "nanolimbo", "lobby", "survival"]
+
+# Main default server for new players
+default = "ai_research"
+
+# Global fallback server
+fallback = ["nanolimbo"]
+
 # survival_plus = "survivalplus:25565"  # Coming soon
 
 [forced-hosts]
