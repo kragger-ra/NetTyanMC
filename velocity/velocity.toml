@@ -14,21 +14,21 @@ nanolimbo= "localhost:25579"
 lobby = "lobby:25575"
 survival = "survival:25571"
 limbo = "limbo:25578"
-
-# Sequence of attempts
-try = ["ai_research", "nanolimbo", "lobby", "survival"]
+# survival_plus = "survivalplus:25565"  # Coming soon
 
 # Main default server for new players
 default = "ai_research"
 
 # Global fallback server
-fallback = ["nanolimbo"]
+fallback = "nanolimbo"
 
-# survival_plus = "survivalplus:25565"  # Coming soon
+# Sequence of attempts
+try = ["ai_research", "nanolimbo", "lobby", "survival"]
 
 [forced-hosts]
 "research.nettyan.ru" = ["ai_research", "nanolimbo"]
 "survival.nettyan.ru" = ["survival", "nanolimbo"]
+"limbo.nettyan.ru" = ["nanolimbo"]
 
 [advanced]
 compression-threshold = 256
