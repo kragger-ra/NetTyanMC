@@ -42,8 +42,8 @@ services:
     build: ./limbo
     container_name: minecraft_limbo
     restart: unless-stopped
-    ports:
-      - "25578:25578"
+    expose:
+      - "25578"
     volumes:
       - ./limbo:/server
     networks:
