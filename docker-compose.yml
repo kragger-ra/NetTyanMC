@@ -29,8 +29,13 @@ services:
     container_name: minecraft_velocity
     restart: unless-stopped
     ports:
+      # Standart minecraft Java port
       - "25565:25565"
+      # Bedrock port
+      - "19132:19132"
+      # Voice chat port
       - "24454:24454/udp"
+      # Voice chat proxy port
       - "25577:25577/udp"
     volumes:
       - ./velocity:/server
