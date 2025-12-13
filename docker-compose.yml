@@ -1,6 +1,8 @@
 version: '3.8'
 
 services:
+  ## UTILITY SECTION
+  ## MANDATORY POSTGRES DATABASE FOR SERVERS
   postgres:
     image: postgres:16-alpine
     container_name: minecraft_postgres
@@ -20,6 +22,8 @@ services:
       timeout: 5s
       retries: 5
 
+  ## SERVER PROXY SECTION
+  ## CONNECTION BETWEEN SERVERS
   velocity:
     build: ./velocity
     container_name: minecraft_velocity
@@ -38,57 +42,7 @@ services:
     stdin_open: true
     tty: true
 
-  limbo:
-    build: ./limbo
-    container_name: minecraft_limbo
-    restart: unless-stopped
-    expose:
-      - "25578"
-    volumes:
-      - ./limbo:/server
-    networks:
-      - minecraft_network
-    depends_on:
-      postgres:
-        condition: service_healthy
-    stdin_open: true
-    tty: true
-    deploy:
-      resources:
-        limits:
-          memory: 1G
-        reservations:
-          memory: 100M
-  survival:
-    image: itzg/minecraft-server
-    container_name: minecraft_survival
-    restart: unless-stopped
-    environment:
-      TYPE: PAPER
-      VERSION: 1.21.1
-      MEMORY: ${SURVIVAL_MEMORY:-10G}
-      EULA: "TRUE"
-      ONLINE_MODE: "FALSE"
-      SERVER_PORT: 25565
-      USE_AIKAR_FLAGS: "TRUE"
-      # Config sync settings
-      SYNC_SKIP_NEWER_IN_DESTINATION: "true"
-      COPY_CONFIG_DEST: /data
-      REPLACE_ENV_DURING_SYNC: "true"
-    ports:
-      - "25571:25565"
-    volumes:
-      - survival_data:/data                    # Persistent data (JAR, worlds, userdata)
-      - ./survival/config:/config:ro           # Configs from Git (read-only)
-    networks:
-      - minecraft_network
-    depends_on:
-      postgres:
-        condition: service_healthy
-    stdin_open: true
-    tty: true
-    profiles: ["debug"]
-
+## MAIN TARGET SERVER FOR NOW
   airesearch:
     image: itzg/minecraft-server
     container_name: minecraft_airesearch
@@ -132,8 +86,6 @@ services:
       - ./ai_research/plugins:/plugins-local:ro
       # Configs from Git (read-only)
       - ./ai_research/config:/config:ro
-
-
     networks:
       - minecraft_network
     depends_on:
@@ -141,6 +93,11 @@ services:
         condition: service_healthy
     stdin_open: true
     tty: true
+
+
+
+## DISABLED NON-READY SERVERS SECTION
+## TO RUN THEM, START CONTAINERS MANUALLY
 
   lobby:
     image: itzg/minecraft-server
@@ -201,6 +158,61 @@ services:
     stdin_open: true
     tty: true
     profiles: ["debug"]
+
+
+  limbo:
+    build: ./limbo
+    container_name: minecraft_limbo
+    restart: unless-stopped
+    expose:
+      - "25578"
+    volumes:
+      - ./limbo:/server
+    networks:
+      - minecraft_network
+    depends_on:
+      postgres:
+        condition: service_healthy
+    stdin_open: true
+    tty: true
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+        reservations:
+          memory: 100M
+    profiles: ["debug"]
+  survival:
+    image: itzg/minecraft-server
+    container_name: minecraft_survival
+    restart: unless-stopped
+    environment:
+      TYPE: PAPER
+      VERSION: 1.21.1
+      MEMORY: ${SURVIVAL_MEMORY:-10G}
+      EULA: "TRUE"
+      ONLINE_MODE: "FALSE"
+      SERVER_PORT: 25565
+      USE_AIKAR_FLAGS: "TRUE"
+      # Config sync settings
+      SYNC_SKIP_NEWER_IN_DESTINATION: "true"
+      COPY_CONFIG_DEST: /data
+      REPLACE_ENV_DURING_SYNC: "true"
+    ports:
+      - "25571:25565"
+    volumes:
+      - survival_data:/data                    # Persistent data (JAR, worlds, userdata)
+      - ./survival/config:/config:ro           # Configs from Git (read-only)
+    networks:
+      - minecraft_network
+    depends_on:
+      postgres:
+        condition: service_healthy
+    stdin_open: true
+    tty: true
+    profiles: ["debug"]
+
+## WEBPACK SECTION
 
   backend:
     build: ./backend
@@ -266,6 +278,8 @@ services:
   # https://wiki.craftycontrol.com/en/4/Docker%20Setup%20Documentation
   # отключил из-за проблем с windows в crafty docker, говорят юзать portable
 
+  ## CONTROL PANELS SECTION
+  ## ADMIN PANELS AND MONITORING
   rcon-panel:
     image: itzg/rcon
     container_name: rcon_web_admin
