@@ -171,3 +171,15 @@ nginx: START: Операция успешно завершена.
 
 
 Это фигня. По итогу делаем через gobetween т.к. nginx не поддерживает udp на windows.
+
+Скачал haproxy, кинул в папку D:/Repos.
+
+D:\Repos\gobetween>nssm install haproxy
+Service "haproxy" installed successfully!
+
+Путь указал gobetween.exe
+
+Аргументы запуска указал -c D:/Repos/NetTyanMC/gobetween.toml
+
+D:\Repos\gobetween>nssm start haproxy
+haproxy: START: Операция успешно завершена.
