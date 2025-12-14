@@ -16,7 +16,7 @@ replace-spaces: true
 # Should the proxy send the bedrock player data to the servers it is connecting to?
 # This requires Floodgate to be installed on the servers.
 # You'll get kicked if you don't use the plugin. The default value is false because of it
-send-floodgate-data: true
+send-floodgate-data: false
 
 
 disconnect:
@@ -31,7 +31,7 @@ disconnect:
 player-link:
   # Whether to enable the linking system. Turning this off will prevent
   # players from using the linking feature even if they are already linked.
-  enabled: true
+  enabled: false
 
   # Whether to require a linked account in order to be able to join the server.
   require-link: false
@@ -48,7 +48,7 @@ player-link:
   # You can also use allow specific people to use the commands using the
   # permissions floodgate.command.linkaccount and floodgate.command.unlinkaccount.
   # This is only for linking, already connected people will stay connected
-  allowed: true
+  allowed: false
   # The amount of time until a link code expires in seconds.
   link-code-timeout: 300
   # The player linking database type you want to use. This option is only used when there
@@ -61,10 +61,10 @@ player-link:
   # -> Your server-specific linking database will have priority over global linking.
   # Global Linking should normally only be disabled when you don't have internet access or when
   # you have limited internet access.
-  enable-global-linking: true
+  enable-global-linking: false
 
 metrics:
-  enabled: true
+  enabled: false
   uuid: edaf65f4-e150-435b-b2a1-355a9ccca0c5
 
 # Do not change this

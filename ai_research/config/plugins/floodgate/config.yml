@@ -26,7 +26,7 @@ disconnect:
 player-link:
   # Whether to enable the linking system. Turning this off will prevent
   # players from using the linking feature even if they are already linked.
-  enabled: true
+  enabled: false
 
   # Whether to require a linked account in order to be able to join the server.
   require-link: false
@@ -43,7 +43,7 @@ player-link:
   # You can also use allow specific people to use the commands using the
   # permissions floodgate.command.linkaccount and floodgate.command.unlinkaccount.
   # This is only for linking, already connected people will stay connected
-  allowed: true
+  allowed: false
   # The amount of time until a link code expires in seconds.
   link-code-timeout: 300
   # The player linking database type you want to use. This option is only used when there
@@ -56,7 +56,7 @@ player-link:
   # -> Your server-specific linking database will have priority over global linking.
   # Global Linking should normally only be disabled when you don't have internet access or when
   # you have limited internet access.
-  enable-global-linking: true
+  enable-global-linking: false
 
 metrics:
   enabled: false
