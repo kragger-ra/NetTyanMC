@@ -35,7 +35,7 @@ services:
       # Minecraft query on UDP (upper was only tcp, no protocol = tcp, docker thinks)
       - "25565:25565/udp"
       # Bedrock port (nginx on 19132)
-      - "19133:19132"
+      # - "19133:19132"
       - "19133:19132/udp"
       # Voice chat port
       - "24454:24454/udp"
