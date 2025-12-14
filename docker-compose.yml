@@ -30,9 +30,13 @@ services:
     restart: unless-stopped
     ports:
       # Standart minecraft Java port
-      - "25565:25565"
-      # Bedrock port
-      - "19132:19132/udp"
+      # UPD: 25500 Docker, WSL -> NGINX Windows -> 25565 (for ip forward)
+      - "25500:25565"
+      # Minecraft query on UDP (upper was only tcp, no protocol = tcp, docker thinks)
+      - "25565:25565/udp"
+      # Bedrock port (nginx on 19132)
+      - "19133:19132"
+      - "19133:19132/udp"
       # Voice chat port
       - "24454:24454/udp"
       # Voice chat proxy port

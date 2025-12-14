@@ -124,3 +124,50 @@ Nginx отправляет это на 127.0.0.1:25500.
 Docker перехватывает трафик на порту 25500 и отдает его Velocity.
 Velocity видит настройку haproxy-protocol = true, читает приписку от Nginx и устанавливает игроку его реальный IP.
 Это единственный надежный способ иметь реальные IP на Windows.
+
+ПРОБРОС IP ЧЕРЕЗ NGINX
+
+Скачать nginx для винды, кинуть куда-нибудь
+
+conf/nginx.conf
+
+    ```nginx
+    worker_processes  1;
+
+    events {
+        worker_connections  1024;
+    }
+
+    stream {
+        server {
+            listen 25565; # Слушаем стандартный порт Minecraft на Windows
+            
+            # Пересылаем трафик на локальный Docker (порт, который мы открыли в Шаге 2)
+            proxy_pass 127.0.0.1:25500;
+            
+            # Самая важная строка: добавляем заголовок с реальным IP
+            proxy_protocol on;
+        }
+    }
+    ```
+
+Установка как сервис
+
+C:\Users\Server>choco install nssm
+Chocolatey v2.5.1
+3 validations performed. 2 success(es), 1 warning(s), and 0 error(s).
+
+Validation Warnings:
+Do you want to run the script?([Y]es/[A]ll scripts/[N]o/[P]rint): Y
+
+C:\Users\Server>nssm install nginx
+
+открылось окно, выбрал путь nginx.exe в path
+
+Service "nginx" installed successfully!
+
+C:\Users\Server>nssm start nginx
+nginx: START: Операция успешно завершена.
+
+
+Это фигня. По итогу делаем через gobetween т.к. nginx не поддерживает udp на windows.
