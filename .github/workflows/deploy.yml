@@ -27,6 +27,7 @@ jobs:
 
           # Copy files to production directory (preserve existing data volumes)
           Write-Host "Syncing files to D:\Repos\NettyanMC..."
+          Copy-Item -Path ".\gobetween.toml" -Destination "D:\Repos\NettyanMC\" -Force
           Copy-Item -Path ".\docker-compose.yml" -Destination "D:\Repos\NettyanMC\" -Force
           Copy-Item -Path ".\.github" -Destination "D:\Repos\NettyanMC\" -Recurse -Force
           Copy-Item -Path ".\velocity" -Destination "D:\Repos\NettyanMC\" -Recurse -Force
