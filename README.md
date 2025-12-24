@@ -35,7 +35,7 @@ cd NetTyanMC
 
 ### 2. Следовать инструкции
 
-**📖 Подробная инструкция:** [docs/POST_CLONE_SETUP.md](docs/POST_CLONE_SETUP.md)
+**Подробная инструкция:** [docs/POST_CLONE_SETUP.md](docs/POST_CLONE_SETUP.md)
 
 Кратко:
 1. Скачать Java 21+ и Docker
