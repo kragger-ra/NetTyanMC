@@ -15,7 +15,7 @@ services:
       - postgres_data:/var/lib/postgresql/data
       - ./postgres/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
     networks:
-      - minecraft_network
+      - mc
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-mcserver} -d ${POSTGRES_DB:-minecraft_server}"]
       interval: 10s
@@ -44,7 +44,7 @@ services:
     volumes:
       - ./velocity:/server
     networks:
-      - minecraft_network
+      - mc
     depends_on:
       postgres:
         condition: service_healthy
@@ -98,7 +98,7 @@ services:
       # Configs from Git (read-only)
       - ./ai_research/config:/config:ro
     networks:
-      - minecraft_network
+      - mc
       - nettyan_ssl
     depends_on:
       postgres:
@@ -133,7 +133,7 @@ services:
       - lobby_data:/data                       # Persistent data (JAR, worlds, userdata)
       - ./lobby/config:/config:ro              # Configs from Git (read-only)
     networks:
-      - minecraft_network
+      - mc
     depends_on:
       postgres:
         condition: service_healthy
@@ -163,7 +163,7 @@ services:
       - survivalplus_data:/data                # Persistent data (JAR, worlds, userdata)
       - ./survival_plus/config:/config:ro      # Configs from Git (read-only)
     networks:
-      - minecraft_network
+      - mc
     depends_on:
       postgres:
         condition: service_healthy
@@ -181,7 +181,7 @@ services:
     volumes:
       - ./limbo:/server
     networks:
-      - minecraft_network
+      - mc
     depends_on:
       postgres:
         condition: service_healthy
@@ -216,7 +216,7 @@ services:
       - survival_data:/data                    # Persistent data (JAR, worlds, userdata)
       - ./survival/config:/config:ro           # Configs from Git (read-only)
     networks:
-      - minecraft_network
+      - mc
     depends_on:
       postgres:
         condition: service_healthy
@@ -235,7 +235,7 @@ services:
     volumes:
       - ./backend/src:/app/src
     networks:
-      - minecraft_network
+      - mc
       - nettyan_ssl
     depends_on:
       postgres:
@@ -271,7 +271,7 @@ services:
     expose:
       - "80"  # Internal port (accessible via nettyanweb Caddy)
     networks:
-      - minecraft_network
+      - mc
       - nettyan_ssl
     depends_on:
       backend:
@@ -315,7 +315,7 @@ services:
     #   # Монтируем файл server.json с настройками серверов
       - rcon_panel_data:/opt/rcon-web-admin/db
     networks:
-      - minecraft_network
+      - mc
       - nettyan_ssl
     depends_on:
       postgres:
@@ -338,12 +338,13 @@ services:
         - /var/run/docker.sock:/var/run/docker.sock
         - portainer_data:/data
       networks:
-        - minecraft_network
+        - mc
         - nettyan_ssl
 
 networks:
-  minecraft_network:
+  mc:
     driver: bridge
+    name: minecraft_network
   nettyan_ssl:
     external: true
     name: nettyan_ssl
