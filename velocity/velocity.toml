@@ -32,9 +32,9 @@ fallback = "nanolimbo"
 try = ["default", "nanolimbo", "lobby", "survival"]
 
 [forced-hosts]
-"research.nettyan.ru" = ["airesearch", "nanolimbo"]
-"survival.nettyan.ru" = ["survival", "nanolimbo"]
-"limbo.nettyan.ru" = ["nanolimbo"]
+"old.research.nettyan.ru" = ["airesearch", "nanolimbo"]
+"old.survival.nettyan.ru" = ["survival", "nanolimbo"]
+"old.limbo.nettyan.ru" = ["nanolimbo"]
 
 [advanced]
 compression-threshold = 256
